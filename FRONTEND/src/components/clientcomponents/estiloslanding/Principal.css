@@ -1,0 +1,163 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    min-height: 100vh; /* Asegura que el cuerpo cubra toda la pantalla */
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+html {
+    scroll-behavior: smooth;
+  }
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 50px 20px;
+    flex: 1; /* Permite que esta sección crezca para ocupar espacio */
+}
+
+/* Features Section */
+.features-section {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    justify-content: center; /* Centra los elementos */
+    padding: 40px 20px;
+    background-color: #fff;
+    gap: 20px; /* Espaciado entre elementos */
+}
+
+.feature {
+    text-align: center;
+    max-width: 300px;
+    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
+}
+
+/* Contact Section */
+
+
+/* Contact Section */
+.contact-section {
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+}
+
+.contact-section h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.contact-section p {
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.contact-section form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-section input,
+.contact-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-section input:focus,
+.contact-section textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.contact-section button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-section button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el contenedor del carrusel */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: auto; /* Ajusta la altura automáticamente según el contenido */
+    overflow: hidden; /* Oculta cualquier contenido que se salga del contenedor */
+}
+
+.carousel {
+    display: flex;
+    flex-direction: row; /* Coloca las imágenes en una fila */
+    justify-content: center; /* Centra las imágenes horizontalmente */
+    gap: 5px; /* Reduce el espaciado entre las imágenes */
+}
+
+.carousel-slide img {
+    width: auto;
+    height: 100vh; /* Asegura que las imágenes tengan la misma altura que la pantalla */
+    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin deformarse */
+}
+
+.features-section {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    justify-content: space-around; /* Espaciado uniforme entre elementos */
+    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+    padding: 40px 20px;
+    background-color: #fff;
+    gap: 20px; /* Espaciado entre elementos */
+}
+
+.feature {
+    text-align: center;
+    max-width: 320px;
+    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega sombra para destacar */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que el contenido no se salga del contenedor */
+    background-color: #f9f9f9; /* Fondo claro para contraste */
+    padding: 15px;
+}
+
+.feature img {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+    height: 400px; /* Establece una altura fija para todas las imágenes */
+    border-radius: 10px 10px 0 0; /* Redondea solo la parte superior */
+    object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+}
+
+.feature h2 {
+    margin: 15px 0 10px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.4;
+}
