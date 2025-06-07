@@ -1,43 +1,77 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaBars, FaShoppingCart, FaUserShield } from 'react-icons/fa';
+import useAuthStore from '../../../store/useAuthStore';
 import '../landingcomponents/estiloslanding/Header.css';
-import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const user = useAuthStore(state => state.user);
+  const logout = useAuthStore(state => state.logout);
+  const navigate = useNavigate();
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!isDropdownOpen);
-    };
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+    setMenuOpen(false);
+    setAdminMenuOpen(false);
+  };
 
-    return (
-        <header>
-            <nav>
-                <ul>
-                    <li className="logo">
-                        <a href="#home">
-                            <img src="src/Resources/logo.jpg" alt="Logo" style={{ width: '50px', height: '50px' }} />   
-                        </a>
-                    </li>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#footer-container">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact-section">Contact</a></li>
-                    <li className='cart-section'>
-                        <strong onClick={toggleDropdown}>
-                            <FaShoppingCart />
-                        </strong>
-                        {isDropdownOpen && (
-                            <div className="dropdown-menu">
-                                <Link to="#cart-section">Carrito</Link>
-                                <Link to="#edit-profile">Editar Perfil</Link>
-                            </div>
-                        )}
-                    </li>
-                </ul>
-            </nav>
-        </header>
-    );
-}
+  return (
+    <header>
+      <nav>
+        <ul>
+          {/* Si es cliente */}
+          {user && user.rol === 'cliente' && (
+            <>
+              <li><Link to="/catalogo">Catálogo</Link></li>
+              <li><button onClick={handleLogout}>Cerrar sesión</button></li>
+              <li>
+                <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+                  <FaBars />
+                </button>
+                {menuOpen && (
+                  <div className="dropdown-menu">
+                    <Link to="/perfil">Editar Perfil</Link>
+                    <div className="cart-section">
+                      <FaShoppingCart /> Carrito
+                    </div>
+                  </div>
+                )}
+              </li>
+            </>
+          )}
+
+          {/* Si es admin */}
+          {user && user.rol === 'admin' && (
+            <>
+              <li>
+                <button className="admin-btn" onClick={() => setAdminMenuOpen(!adminMenuOpen)}>
+                  <FaUserShield style={{ fontSize: 22, color: "#f39c12" }} />
+                </button>
+                {adminMenuOpen && (
+                  <div className="dropdown-menu">
+                    <Link to="/admin/productos">CRUD Productos</Link>
+                    <Link to="/admin/pedidos">CRUD Pedidos</Link>
+                    <Link to="/admin/categorias">CRUD Categorías</Link>
+                    <Link to="/admin/talles">CRUD Talles</Link>
+                    <Link to="/admin/usuarios">CRUD Usuarios</Link>
+                  </div>
+                )}
+              </li>
+              <li><button onClick={handleLogout}>Cerrar sesión</button></li>
+            </>
+          )}
+
+          {/* Si no está logueado */}
+          {!user && (
+            <li><Link to="/login">Iniciar sesión</Link></li>
+          )}
+        </ul>
+      </nav>
+    </header>
+  );
+};
 
 export default Header;

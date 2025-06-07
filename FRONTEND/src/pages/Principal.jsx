@@ -4,7 +4,7 @@ import Footer from '../components/clientcomponents/landingcomponents/Footer.jsx'
 import Carrusel from '../components/clientcomponents/landingcomponents/Carrusel.jsx'
 import ScrollToTopButton from '../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx'
 import Carruselprod from '../components/clientcomponents/landingcomponents/Carruselprod.jsx'
-import  '../components/clientcomponents/landingcomponents/estiloslanding/Principal.css'
+import './styles/Principal.css' // Asegúrate de tener este archivo CSS para los estilos
 
 const Principal = () => {
   // pasar datos al whatsapp

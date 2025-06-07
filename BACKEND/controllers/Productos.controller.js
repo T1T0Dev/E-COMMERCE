@@ -1,7 +1,28 @@
 
 import db from '../config/db.js';
 
-
+export const getProductos = async (req, res) => {
+    try {
+        const [rows] = await db.query(`
+            SELECT
+                p.id_producto,
+                p.nombre_producto,
+                p.precio,
+                p.imagen_producto,
+                c.nombre_categoria,
+                c.descripcion
+            FROM Productos p
+            JOIN Categorias c ON p.id_categoria = c.id_categoria
+        `);
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'No se encontraron productos.' });
+        }
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos.', detalle: error.message });
+    }
+};
+        
 export const getProductosConTalles = async (req, res) => {
     try {
       const [rows] = await db.query(`

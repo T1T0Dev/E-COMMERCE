@@ -128,6 +128,19 @@ nav ul li.logo {
     border-color: #f39c12;
 }
 
+.admin-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.admin-btn:hover {
+  background: #232526;
+}
+
 @media (max-width: 768px) {
     .cart-section {
         padding: 6px 10px;
