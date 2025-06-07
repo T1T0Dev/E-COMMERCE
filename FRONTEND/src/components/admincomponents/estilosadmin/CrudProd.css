@@ -1,0 +1,203 @@
+.crudprod-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra verticalmente si el contenedor tiene altura */
+    padding: 2rem;
+    background-color: #f9fafb;
+    max-width: 960px;
+    margin: 0 auto;
+    min-height: 100vh; /* Opcional: centra verticalmente en toda la pantalla */
+}
+
+.crudprod-flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente las tarjetas en la fila */
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.crudprod-card {
+    flex: 0 1 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+    margin: 0 auto;
+}
+
+.crudprod-flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.crudprod-card {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 480px;
+    width: 300px;
+    margin: 0 auto;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.crudprod-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.crudprod-img-wrapper {
+    width: 100%;
+    height: 16rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+}
+
+.crudprod-img {
+    width: 100%;
+    height: 16rem;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.crudprod-card:hover .crudprod-img {
+    transform: scale(1.05);
+}
+
+.crudprod-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.crudprod-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.crudprod-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1a202c;
+    margin-top: 0.5rem;
+}
+
+.crudprod-desc {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+
+
+.crudprod-edit-btn,
+.crudprod-delete-btn {
+    margin: 0 0.5rem 0.5rem 0.5rem; /* Espaciado horizontal y abajo */
+    background: #f59e42;
+    color: #fff;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+    min-width: 110px; /* Tamaño mínimo para uniformidad */
+    display: inline-block;
+}
+
+.crudprod-edit-btn {
+    background: #f59e42;
+}
+
+.crudprod-edit-btn:hover {
+    background: #d97706;
+}
+
+.crudprod-delete-btn {
+    background: #ef4444;
+}
+
+.crudprod-delete-btn:hover {
+    background: #b91c1c;
+}
+
+/* Opcional: agrupa los botones en un contenedor para mejor alineación */
+.crudprod-btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Espacio entre botones */
+    margin-top: 1rem;
+}
+
+.crudprod-add-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.crudprod-add-btn {
+    background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+    color: #fff;
+    padding: 0.75rem 2.5rem;
+    border-radius: 2rem;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(34,197,94,0.15);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.crudprod-add-btn {
+    background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+    color: #fff;
+    padding: 1rem 3rem;
+    border-radius: 2rem;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(34,197,94,0.15);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.crudprod-add-btn:focus,
+.crudprod-add-btn:hover {
+    background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+    transform: translateY(-4px) scale(1.10);
+    box-shadow: 0 12px 32px rgba(34,197,94,0.28);
+}
+
+.crudprod-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre el texto y el svg */
+}
+
+.crudprod-add-btn svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
