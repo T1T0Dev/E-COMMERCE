@@ -3,8 +3,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cube';
-import '../../Estilos/Carrusel.css'; // Assuming you have a CSS file for styling the carousel
 import { Navigation, Pagination, Autoplay, EffectCube } from 'swiper/modules';
+import '../landingcomponents/estiloslanding/Carrusel.css';
 
 const Carrusel = () => {
   return (

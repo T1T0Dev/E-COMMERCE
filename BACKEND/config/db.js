@@ -5,7 +5,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "", // tu pass de MySQL
-    database: "drekkz_db;"
+    database: "drekkz_db"
   });
 
 console.log("Conexión a la base de datos establecida correctamente");

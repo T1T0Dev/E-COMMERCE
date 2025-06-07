@@ -14,7 +14,7 @@ export const createCategoria = async (req, res) => {
     const { nombre, descripcion } = req.body;
 
     try {
-        const [result] = await db.query('INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)', [nombre, descripcion]);
+        const [result] = await db.query('INSERT INTO categorias (nombre_categoria, descripcion) VALUES (?, ?)', [nombre, descripcion]);
         res.status(201).json({ id_categoria: result.insertId, nombre, descripcion });
     } catch (error) {
         console.error('Error al crear la categoría:', error);

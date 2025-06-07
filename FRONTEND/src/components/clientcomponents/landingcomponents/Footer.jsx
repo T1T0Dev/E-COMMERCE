@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../Estilos/Footer.css' // Assuming you have a CSS file for styling the footer
+import '../landingcomponents/estiloslanding/Footer.css'
 const Footer =() => {
 
     return(

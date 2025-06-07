@@ -1,9 +1,9 @@
-import imgr1 from '../../Resources/prenda1.jpg'; // Asegúrate de que la ruta sea correcta
-import imgr2 from '../../Resources/prenda2.jpg';
-import imgr3 from '../../Resources/prenda3.jpg';
-import imgr4 from '../../Resources/prenda4.jpg'; // Podés cambiar si tenés otra imagen
-import imgr5 from '../../Resources/prenda5.jpg';
-import imgr6 from '../../Resources/prenda6.jpg';
+import imgr1 from '../../../Resources/prenda1.jpg'; // Asegúrate de que la ruta sea correcta
+import imgr2 from '../../../Resources/prenda2.jpg';
+import imgr3 from '../../../Resources/prenda3.jpg';
+import imgr4 from '../../../Resources/prenda4.jpg'; // Podés cambiar si tenés otra imagen
+import imgr5 from '../../../Resources/prenda5.jpg';
+import imgr6 from '../../../Resources/prenda6.jpg';
 
 const Productos = [
   {

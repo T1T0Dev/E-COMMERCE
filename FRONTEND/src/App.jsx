@@ -1,7 +1,6 @@
 import React from 'react'
 import {BrowserRouter, Routes,Route} from 'react-router-dom'
-import Principal from './components/clientcomponents/landingcomponents/Principal.jsx'
-
+import Principal from './pages/Principal.jsx'
 
 
 

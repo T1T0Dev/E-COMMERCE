@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import Header from './Header.jsx'
-import Footer from './Footer.jsx'
-import Carrusel from './Carrusel.jsx'
-import ScrollToTopButton from './ScrollToTopButton.jsx'
-import Carruselprod from './Carruselprod.jsx'
-import '.././/Estilos/Principal.css' // Assuming you have a CSS file for styling
+import Header from '../components/clientcomponents/landingcomponents/Header.jsx'
+import Footer from '../components/clientcomponents/landingcomponents/Footer.jsx'
+import Carrusel from '../components/clientcomponents/landingcomponents/Carrusel.jsx'
+import ScrollToTopButton from '../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx'
+import Carruselprod from '../components/clientcomponents/landingcomponents/Carruselprod.jsx'
+import  '../components/clientcomponents/landingcomponents/estiloslanding/Principal.css'
 
 const Principal = () => {
   // pasar datos al whatsapp

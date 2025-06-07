@@ -8,10 +8,24 @@ POST http://localhost:3000/api/productos
 Content-Type: application/json
 
 {
-  "nombre": "Producto de prueba",
+
+  "nombre_producto": "Producto de prueba",
   "precio": 100,
-  "descripcion": "Descripción del producto de prueba",
-  "categoria": "Categoria de prueba"
+  "id_categoria": 1,
+  "imagen_producto":"https://example.com/imagen.jpg",
+  
+
+
+ 
+}
+
+###
+POST http://localhost:3000/api/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Categoria de prueba",
+  "descripcion": "Descripción de la categoría de prueba"
 }
 
 

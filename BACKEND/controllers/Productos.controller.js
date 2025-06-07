@@ -58,7 +58,6 @@ export const createProductoConTalles = async (req, res) => {
       precio,
       id_categoria,
       imagen_producto,
-      talles // array de objetos: [{id_talle, stock}, ...]
     } = req.body;
   
     const conn = await db.getConnection(); // si usás pool
