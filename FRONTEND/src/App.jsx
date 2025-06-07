@@ -5,6 +5,8 @@ import Principal from './pages/Principal.jsx'
 import FirstRegistro from './pages/FirstRegistro.jsx'
 import SecondRegistro from './pages/SecondRegistro.jsx'
 import CrudProd from './components/admincomponents/CrudProd.jsx'
+import Catalogo from './pages/Catalogo.jsx'
+import './App.css'
 
 const App = () => {
   return (
@@ -14,7 +16,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<FirstRegistro />} />
         <Route path="/second-registro" element={<SecondRegistro />} />
- <Route path="/admin/productos" element={<CrudProd />} />
+        <Route path="/admin/productos" element={<CrudProd />} />
+        <Route path="/catalogo" element={<Catalogo />} />
         {/* Puedes agregar más rutas aquí */}
       </Routes>
     

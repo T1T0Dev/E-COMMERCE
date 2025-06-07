@@ -1,62 +1,108 @@
-/* Estilos generales */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    min-height: 100vh; /* Asegura que el cuerpo cubra toda la pantalla */
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
-html {
-    scroll-behavior: smooth;
-  }
+
 
 /* Hero Section */
 .hero-section {
     text-align: center;
-    background-color: #f4f4f4;
-    padding: 50px 20px;
-    flex: 1; /* Permite que esta sección crezca para ocupar espacio */
+    background: linear-gradient(90deg, #23293a 70%, #181e2a 100%);
+    padding: 60px 20px 40px 20px;
+    color: #e0e7ef;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 18px;
+    color: #a5b4fc;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #e0e7ef;
+}
+
+.cta-button {
+    padding: 12px 32px;
+    background: linear-gradient(90deg, #6366f1 60%, #22d3ee 100%);
+    color: #fff;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s;
+}
+
+.cta-button:hover {
+    background: linear-gradient(90deg, #22d3ee 60%, #6366f1 100%);
+    transform: scale(1.05);
 }
 
 /* Features Section */
 .features-section {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-    justify-content: center; /* Centra los elementos */
-    padding: 40px 20px;
-    background-color: #fff;
-    gap: 20px; /* Espaciado entre elementos */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    padding: 40px 10px 30px 10px;
+    background: #23293a;
 }
 
 .feature {
+    background: #181e2a;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.13);
+    max-width: 320px;
+    min-width: 260px;
+    flex: 1 1 260px;
     text-align: center;
-    max-width: 300px;
-    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
+    padding: 18px 12px 24px 12px;
+    margin: 0 8px;
+    color: #e0e7ef;
+    transition: transform 0.18s, box-shadow 0.18s;
 }
 
-/* Contact Section */
+.feature:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(34,211,238,0.10), 0 2px 8px rgba(99,102,241,0.13);
+}
 
+.feature img {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
+
+.feature h2 {
+    margin: 12px 0 8px;
+    font-size: 1.4rem;
+    color: #22d3ee;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #a5b4fc;
+    line-height: 1.4;
+}
 
 /* Contact Section */
 .contact-section {
     text-align: center;
-    background-color: #f9f9f9;
-    padding: 40px 20px;
+    background: #23293a;
+    padding: 40px 10px 30px 10px;
 }
 
 .contact-section h2 {
     margin-bottom: 20px;
     font-size: 2rem;
-    color: #333;
+    color: #22d3ee;
 }
 
 .contact-section p {
     margin-bottom: 30px;
     font-size: 1.2rem;
-    color: #666;
+    color: #a5b4fc;
 }
 
 .contact-section form {
@@ -71,93 +117,86 @@ html {
 .contact-section textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1.5px solid #6366f1;
+    border-radius: 8px;
     font-size: 1rem;
-    font-family: Arial, sans-serif;
+    background: #181e2a;
+    color: #e0e7ef;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .contact-section input:focus,
 .contact-section textarea:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #22d3ee;
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.3);
     outline: none;
 }
 
 .contact-section button {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background: linear-gradient(90deg, #6366f1 60%, #22d3ee 100%);
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
 .contact-section button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(90deg, #22d3ee 60%, #6366f1 100%);
 }
 
-/* Estilos para el contenedor del carrusel */
+/* Carrusel */
 .carousel-container {
     position: relative;
-    width: 100%;
-    height: auto; /* Ajusta la altura automáticamente según el contenido */
-    overflow: hidden; /* Oculta cualquier contenido que se salga del contenedor */
+    width: 100vw;
+    overflow: hidden;
+    background: #181e2a;
+    margin: 0;
+    padding: 0;
 }
 
 .carousel {
     display: flex;
-    flex-direction: row; /* Coloca las imágenes en una fila */
-    justify-content: center; /* Centra las imágenes horizontalmente */
-    gap: 5px; /* Reduce el espaciado entre las imágenes */
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
 }
 
 .carousel-slide img {
     width: auto;
-    height: 100vh; /* Asegura que las imágenes tengan la misma altura que la pantalla */
-    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin deformarse */
+    height: 60vh;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.features-section {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-    justify-content: space-around; /* Espaciado uniforme entre elementos */
-    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
-    padding: 40px 20px;
-    background-color: #fff;
-    gap: 20px; /* Espaciado entre elementos */
+/* Responsive */
+@media (max-width: 900px) {
+    .features-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+    .feature {
+        max-width: 95vw;
+        min-width: 0;
+    }
+    .carousel-slide img {
+        height: 35vh;
+    }
 }
 
-.feature {
-    text-align: center;
-    max-width: 320px;
-    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega sombra para destacar */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Asegura que el contenido no se salga del contenedor */
-    background-color: #f9f9f9; /* Fondo claro para contraste */
-    padding: 15px;
-}
-
-.feature img {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
-    height: 400px; /* Establece una altura fija para todas las imágenes */
-    border-radius: 10px 10px 0 0; /* Redondea solo la parte superior */
-    object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
-}
-
-.feature h2 {
-    margin: 15px 0 10px;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.feature p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.4;
+@media (max-width: 600px) {
+    .hero-section {
+        padding: 30px 5px 20px 5px;
+    }
+    .features-section, .contact-section {
+        padding: 20px 2px 15px 2px;
+    }
+    .feature img {
+        height: 140px;
+    }
 }

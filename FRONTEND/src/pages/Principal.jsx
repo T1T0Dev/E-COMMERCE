@@ -1,86 +1,102 @@
-import React, { useState } from 'react'
-import Header from '../components/clientcomponents/landingcomponents/Header.jsx'
-import Footer from '../components/clientcomponents/landingcomponents/Footer.jsx'
-import Carrusel from '../components/clientcomponents/landingcomponents/Carrusel.jsx'
-import ScrollToTopButton from '../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx'
-import Carruselprod from '../components/clientcomponents/landingcomponents/Carruselprod.jsx'
-import './styles/Principal.css' // Asegúrate de tener este archivo CSS para los estilos
+import React, { useState } from "react";
+import Header from "../components/clientcomponents/landingcomponents/Header.jsx";
+import Footer from "../components/clientcomponents/landingcomponents/Footer.jsx";
+import ScrollToTopButton from "../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx";
+import Carruselprod from "../components/clientcomponents/landingcomponents/Carruselprod.jsx";
+import "./styles/Principal.css";
 
 const Principal = () => {
-  // pasar datos al whatsapp
-const [nombre, setNombre] = useState('');
-const [correo, setCorreo] = useState('');
-const [asunto, setAsunto] = useState('');
-const [mensaje, setMensaje] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [asunto, setAsunto] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
-const enviarWhatsApp = (e) => {
+  const enviarWhatsApp = (e) => {
     e.preventDefault();
 
     const texto =
       `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n` +
-  `------------------------------------\n` +
-  `👤 Nombre: ${nombre}\n` +
-  `📧 Correo: ${correo}\n` +
-  `📝 Asunto: ${asunto}\n` +
-  `💬 Mensaje:\n${mensaje}\n` +
-  `------------------------------------\n` +
-  `¡Espero su respuesta! 😊`;
+      `------------------------------------\n` +
+      `👤 Nombre: ${nombre}\n` +
+      `📧 Correo: ${correo}\n` +
+      `📝 Asunto: ${asunto}\n` +
+      `💬 Mensaje:\n${mensaje}\n` +
+      `------------------------------------\n` +
+      `¡Espero su respuesta! 😊`;
 
-    const telefono = '543815941635';
+    const telefono = "543815941635";
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
 
-window.open(url, "_blank");
-};
+    window.open(url, "_blank");
+  };
 
   return (
-    <div id='home'>
-        
-        <Header />
-        <Carrusel/>
+    <div id="home">
+      <Header />
+      <main>
         <div className="landing-content" id="services">
-            <section className="hero-section">
-                <h1>Bienvenido a Nuestra Landing Page</h1>
-                <p>Descubre más sobre nuestros servicios y productos.</p>
-                <button className="cta-button">Saber Más</button>
-            </section>
+          <section className="hero-section">
+            <h1>Bienvenido a Nuestra Landing Page</h1>
+            <p>Descubre más sobre nuestros servicios y productos.</p>
+            <button className="cta-button">Saber Más</button>
+          </section>
 
-            <section className="features-section">
-                <div className="feature">
-                    <img src="src\Resources\disenio.jpg" alt="Calidad" />
-                    <h2>Calidad</h2>
-                    <p>Ofrecemos productos de la más alta calidad.</p>
-                </div>
-                <div className="feature">
-                    <img src="src\Resources\medidas'.jpg" alt="Innovación" />
-                    <h2>Medidas</h2>
-                    <p>Nos mantenemos a la vanguardia de la tecnología.</p>
-                </div>
-                <div className="feature">
-                    <img src="src\Resources\ime1.jpg" alt="Soporte" />
-                    <h2>Envios</h2>
-                    <p>Estamos aquí para ayudarte en cada paso.</p>
-                </div>
-            </section>
-           <Carruselprod/>
-            <section className="contact-section" id="contact-section">
-      <h2>Contáctanos</h2>
-      <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
-      <form onSubmit={enviarWhatsApp}>
-        <input type="text" placeholder="Tu Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-        <input type="email" placeholder="Tu Correo Electrónico" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-        <input type="text" placeholder="Asunto" value={asunto} onChange={(e) => setAsunto(e.target.value)} />
-        <textarea placeholder="Tu Mensaje" value={mensaje} onChange={(e) => setMensaje(e.target.value)} />
-        <button type="submit">Enviar</button>
-      </form>
-    </section>
-             
+          <section className="features-section">
+            <div className="feature">
+              <img src="src/Resources/disenio.jpg" alt="Calidad" />
+              <h2>Calidad</h2>
+              <p>Ofrecemos productos de la más alta calidad.</p>
+            </div>
+            <div className="feature">
+              <img src="src/Resources/medidas.jpg" alt="Medidas" />
+              <h2>Medidas</h2>
+              <p>Nos mantenemos a la vanguardia de la tecnología.</p>
+            </div>
+            <div className="feature">
+              <img src="src/Resources/ime1.jpg" alt="Envios" />
+              <h2>Envios</h2>
+              <p>Estamos aquí para ayudarte en cada paso.</p>
+            </div>
+          </section>
+
+          <Carruselprod />
+
+          <section className="contact-section" id="contact-section">
+            <h2>Contáctanos</h2>
+            <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
+            <form onSubmit={enviarWhatsApp}>
+              <input
+                type="text"
+                placeholder="Tu Nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
+              <input
+                type="email"
+                placeholder="Tu Correo Electrónico"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Asunto"
+                value={asunto}
+                onChange={(e) => setAsunto(e.target.value)}
+              />
+              <textarea
+                placeholder="Tu Mensaje"
+                value={mensaje}
+                onChange={(e) => setMensaje(e.target.value)}
+              />
+              <button type="submit">Enviar</button>
+            </form>
+          </section>
         </div>
-        
-        <Footer />
-        <ScrollToTopButton />
-      
-    </div >
+      </main>
+      <Footer />
+      <ScrollToTopButton />
+    </div>
   );
-}
+};
 
-export default Principal
+export default Principal;
