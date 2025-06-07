@@ -26,7 +26,7 @@ const Header = () => {
           {user && user.rol === 'cliente' && (
             <>
               <li><Link to="/catalogo">Catálogo</Link></li>
-              <li><button onClick={handleLogout}>Cerrar sesión</button></li>
+              <li><button className='cerrar-sesion-btn' onClick={handleLogout}>Cerrar sesión</button></li>
               <li>
                 <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
                   <FaBars />
@@ -60,7 +60,7 @@ const Header = () => {
                   </div>
                 )}
               </li>
-              <li><button onClick={handleLogout}>Cerrar sesión</button></li>
+              <li><button className='close-session-button' onClick={handleLogout}>Cerrar sesión</button></li>
             </>
           )}
 
