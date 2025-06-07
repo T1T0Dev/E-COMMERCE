@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  crearPedido,
   crearPedidoDesdeCarrito,
   getPedidosCliente,
   getPedidoById,
@@ -9,6 +10,7 @@ import {
 
 const router = Router();
 
+router.post("/", crearPedido);
 router.post('/', crearPedidoDesdeCarrito);
 router.get('/cliente/:id_cliente', getPedidosCliente);
 router.get('/:id_pedido', getPedidoById);

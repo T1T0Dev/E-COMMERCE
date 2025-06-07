@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaShoppingCart, FaUserShield } from 'react-icons/fa';
+import {useLocation, Link, useNavigate } from 'react-router-dom';
+import { FaBars, FaShoppingCart, FaUserShield,FaHome } from 'react-icons/fa';
 import useAuthStore from '../../../store/useAuthStore';
 import '../landingcomponents/estiloslanding/Header.css';
+import Carrito from "./Carrito.jsx";
 
 const Header = () => {
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
   const user = useAuthStore(state => state.user);
   const logout = useAuthStore(state => state.logout);
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   const handleLogout = () => {
     logout();
@@ -21,6 +25,15 @@ const Header = () => {
   return (
     <header>
       <nav>
+        {location.pathname !== "/" && (
+        <button
+          className="home-btn"
+          title="Volver a inicio"
+          onClick={() => navigate("/")}
+        >
+          <FaHome size={22} />
+        </button>
+      )}
         <ul>
           {/* Si es cliente */}
           {user && user.rol === 'cliente' && (
@@ -36,6 +49,7 @@ const Header = () => {
                     <Link to="/perfil">Editar Perfil</Link>
                     <div className="cart-section">
                       <FaShoppingCart /> Carrito
+                     
                     </div>
                   </div>
                 )}
@@ -60,7 +74,7 @@ const Header = () => {
                   </div>
                 )}
               </li>
-              <li><button className='close-session-button' onClick={handleLogout}>Cerrar sesión</button></li>
+              <li><button className='cerrar-sesion-btn' onClick={handleLogout}>Cerrar sesión</button></li>
             </>
           )}
 

@@ -23,6 +23,23 @@ nav ul li {
   margin: 0 10px;
 }
 
+.home-btn {
+  background:#181e2a ;
+  color: #22d3ee;
+  border: none;
+  padding: 8px;
+  margin-left: 18px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px #181e2a;
+}
+.home-btn:hover {
+  color: #fff;
+  transform: scale(1.08);
+}
+
+
 nav ul li.logo img {
   border-radius: 50%;
   width: 50px;
