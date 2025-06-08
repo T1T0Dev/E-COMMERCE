@@ -12,6 +12,23 @@ export const crearCarrito = async (req, res) => {
     }
 }
 
+export const cambiarEstadoCarrito = async (req, res) => {
+  const { id_carrito } = req.params;
+  const { estado } = req.body;
+  try {
+    const [result] = await db.query(
+      "UPDATE Carritos SET estado = ? WHERE id_carrito = ?",
+      [estado, id_carrito]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Carrito no encontrado" });
+    }
+    res.json({ message: "Estado del carrito actualizado" });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar el estado del carrito" });
+  }
+};
+
 export const agregarProductoACarrito = async (req, res) => {
     const { id_carrito, id_producto,id_talle, cantidad,subtotal } = req.body;
 

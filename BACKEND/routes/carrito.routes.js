@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   crearCarrito,
   agregarProductoACarrito,
-  quitarProductoDelCarrito,
+  quitarProductoDelCarrito,cambiarEstadoCarrito,
   verCarrito,
   vaciarCarrito,
   confirmarCarrito
@@ -17,5 +17,6 @@ router.delete('/item/:id_carrito_detalle', quitarProductoDelCarrito);
 router.get('/:id_carrito', verCarrito);
 router.delete('/:id_carrito', vaciarCarrito);
 router.put('/confirmar/:id_carrito', confirmarCarrito);
+router.put('/:id_carrito/estado', cambiarEstadoCarrito);
 
 export default router;
