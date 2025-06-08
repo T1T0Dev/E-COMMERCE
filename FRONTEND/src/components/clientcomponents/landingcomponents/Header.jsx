@@ -47,6 +47,7 @@ const Header = () => {
             </li>
           )}
         </ul>
+
         {/* DERECHA */}
         <ul className="navbar-right">
           {user && user.rol === "cliente" && (
@@ -88,6 +89,7 @@ const Header = () => {
               </li>
             </>
           )}
+
           {user && user.rol === "admin" && (
             <>
               <li>
@@ -109,6 +111,7 @@ const Header = () => {
               </li>
             </>
           )}
+
           {!user && (
             <li>
               <Link to="/login">Iniciar sesión</Link>
@@ -116,12 +119,18 @@ const Header = () => {
           )}
         </ul>
       </nav>
+
+      {/* OVERLAY desenfocado */}
+      {mostrarCarrito && (
+        <div
+          className="carrito-overlay"
+          onClick={() => setMostrarCarrito(false)}
+        />
+      )}
+
       {/* Panel lateral del carrito */}
       {mostrarCarrito && (
-        <Carrito
-          open={mostrarCarrito}
-          onClose={() => setMostrarCarrito(false)}
-        />
+        <Carrito open={mostrarCarrito} onClose={() => setMostrarCarrito(false)} />
       )}
     </header>
   );

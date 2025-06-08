@@ -7,10 +7,12 @@ import 'swiper/css/pagination';
 import '../landingcomponents/estiloslanding/Carruselprod.css';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { useNavigate } from "react-router-dom";
 
 const Carruselprod = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -66,10 +68,12 @@ const Carruselprod = () => {
                                             <h3 className="carruselprod-title text-lg font-semibold">{producto.nombre_producto}</h3>
                                             <h2 className="carruselprod-price text-xl font-bold text-gray-800 mt-2">${producto.precio}</h2>
                                             <p className="carruselprod-desc text-gray-500 text-sm mt-1">{producto.nombre_categoria}</p>
-                                            <button className="carruselCart">
-                                                <FaShoppingCart />
-                                                LO QUIERO YA
-                                            </button>
+                                          <div className="carrusel-btn-wrapper">
+    <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
+        <span>LO QUIERO YA</span>
+        <span className="flecha">↗</span>
+    </button>
+</div>
                                         </div>
                                         <div className="carruselprod-footer mt-4"></div>
                                     </div>

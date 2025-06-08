@@ -2,6 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #000; /* Fondo negro para navbar */
+  padding: 16px 24px;
 }
 
 .navbar-left,
@@ -15,38 +17,37 @@
 
 .navbar-left li,
 .navbar-right li {
-  margin: 0 16px 0 0;
+  margin: 0 20px 0 0;
 }
 
 .navbar-left li:last-child,
 .navbar-right li:last-child {
   margin-right: 0;
 }
+
 /* Botón home */
 .home-btn {
-  background: #181e2a;
+  background: #000;
   color: #22d3ee;
   border: none;
-  padding: 8px;
-  font-size: 22px;
+  padding: 10px 16px;
+  font-size: 24px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, transform 0.2s;
-  box-shadow: 0 2px 8px #181e2a;
+  box-shadow: 0 2px 8px #000;
 }
 .home-btn:hover {
   color: #fff;
   transform: scale(1.08);
 }
 
-
-
 nav ul li a,
 .catalogo-link {
   text-decoration: none;
-  color: #e0e7ef;
-  font-size: 16px;
+  color: #ffffff;
+  font-size: 18px;
   font-weight: bold;
-  padding: 8px 18px;
+  padding: 10px 20px;
   border-radius: 18px;
   transition: background 0.2s, color 0.2s, transform 0.2s;
   background: none;
@@ -54,8 +55,8 @@ nav ul li a,
 
 nav ul li a:hover,
 .catalogo-link:hover {
-  background: #23293a;
-  color: #22d3ee;
+  background: #ffffff;
+  color: #000000;
   transform: scale(1.07);
 }
 
@@ -64,50 +65,49 @@ nav ul li.logo {
 }
 
 .cerrar-sesion-btn {
-  background: linear-gradient(90deg, #23293a 60%, #6366f1 100%);
+  background: #000000;
   color: #fff;
   border: none;
   border-radius: 18px;
-  padding: 8px 18px;
+  padding: 10px 20px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 8px #23293a33;
+  box-shadow: 0 2px 8px #00000033;
   transition: background 0.2s, transform 0.2s;
 }
 .cerrar-sesion-btn:hover {
-  background: linear-gradient(90deg, #6366f1 60%, #22d3ee 100%);
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
   transform: scale(1.05);
 }
 
 .admin-btn, .menu-btn {
-  background: #23293a;
+  background: #000;
   border: none;
   cursor: pointer;
   margin-left: 10px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 50%;
-  color: #22d3ee;
-  font-size: 22px;
-  box-shadow: 0 2px 8px #23293a33;
+  color: #ffffff;
+  font-size: 24px;
+  box-shadow: 0 2px 8px #00000033;
   transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 .admin-btn:hover, .menu-btn:hover {
-  background: #6366f1;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
   transform: scale(1.08);
 }
 
-/* Opcional: más espacio para el menú desplegable */
 .dropdown-menu {
   position: absolute;
-  top: 45px;
+  top: 55px;
   right: 20px;
-  background: linear-gradient(135deg, #23293a 80%, #181e2a 100%);
+  background: #000;
   border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(34,211,238,0.10), 0 2px 8px rgba(99,102,241,0.13);
-  padding: 18px 22px;
-  min-width: 190px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.13);
+  padding: 20px 24px;
+  min-width: 200px;
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -116,40 +116,40 @@ nav ul li.logo {
 }
 
 .dropdown-menu a {
-  color: #a5b4fc;
+  color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   border-radius: 8px;
-  padding: 7px 12px;
+  padding: 9px 14px;
   transition: background 0.18s, color 0.18s;
 }
 .dropdown-menu a:hover {
-  background: #23293a;
-  color: #22d3ee;
+  background: #111;
+  color: #ffffff;
 }
 
 .cart-section {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #23293a;
-  color: #22d3ee;
+  gap: 12px;
+  background: #000;
+  color: #ffffff;
   font-weight: 600;
-  padding: 7px 16px;
+  padding: 10px 20px;
   border-radius: 14px;
-  box-shadow: 0 2px 8px #23293a33;
+  box-shadow: 0 2px 8px #00000033;
   transition: background 0.18s, color 0.18s, transform 0.18s;
   cursor: pointer;
 }
 .cart-section:hover {
-  background: #181e2a;
+  background: #111;
   color: #fff;
   transform: scale(1.04);
 }
 
 .cart-section .cart-icon {
-  font-size: 20px;
-  color: #22d3ee;
+  font-size: 22px;
+  color: #ffffff;
   margin-right: 4px;
 }
 
@@ -167,8 +167,8 @@ nav ul li.logo {
   }
   .dropdown-menu {
     right: 10px;
-    min-width: 150px;
-    padding: 14px 12px;
+    min-width: 160px;
+    padding: 16px 14px;
   }
 }
 
