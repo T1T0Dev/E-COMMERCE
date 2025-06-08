@@ -144,7 +144,12 @@
   margin-left: 0.5rem;
 }
 
-
+.catalogo-page {
+  transition: margin-right 0.3s cubic-bezier(.4,1.2,.4,1);
+}
+.catalogo-page.carrito-abierto {
+  margin-right: 350px; /* igual al ancho del drawer */
+}
 
 @media (max-width: 1100px) {
   .catalogo-container {
