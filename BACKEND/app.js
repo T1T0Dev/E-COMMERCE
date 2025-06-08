@@ -26,6 +26,11 @@ app.use('/api/categorias', categoriasRoutes);
 app.use('/api/carrito', carritoRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 
+
+
+// Servir archivos estáticos de la carpeta uploads
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // Handler de errores genérico
 app.use((err, req, res, next) => {
   console.error(err.stack);
