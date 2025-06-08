@@ -60,22 +60,28 @@ const Carruselprod = () => {
                                 <div className="carruselprod-card bg-white rounded-xl shadow-md flex flex-col overflow-hidden h-[480px] mx-auto">
                                     <div className="carruselprod-img-wrapper w-full h-64 overflow-hidden flex items-center justify-center">
                                         <img
-                                            src={producto.imagen_producto}
-                                            alt={producto.nombre_producto}
-                                            className="carruselprod-img w-full h-64 object-cover"
-                                            style={{ maxWidth: '100%', maxHeight: '16rem', minHeight: '16rem', objectFit: 'cover' }}
+                                          src={`http://localhost:3000${producto.imagen_producto}`}
+                                          alt={producto.nombre_producto}
+                                          className="carruselprod-img w-full h-64 object-cover"
+                                          style={{
+                                            maxWidth: '100%',
+                                            maxHeight: '16rem',
+                                            minHeight: '16rem',
+                                            objectFit: 'cover',
+                                            borderRadius: '1rem'
+                                          }}
                                         />
                                     </div>
                                     <div className="carruselprod-info p-4 flex flex-col justify-between flex-grow">
                                         <div>
                                             <h3 className="carruselprod-title text-lg font-semibold">{producto.nombre_producto}</h3>
                                             <h2 className="carruselprod-price text-xl font-bold text-gray-800 mt-2">${producto.precio}</h2>
-                                            <p className="carruselprod-desc text-gray-500 text-sm mt-1">{producto.nombre_categoria}</p>
+                                            <p className="carruselprod-desc text-gray-500 text-sm mt-1">{producto.descripcion}</p>
                                           <div className="carrusel-btn-wrapper">
-    <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
-        <span>LO QUIERO YA</span>
-        <span className="flecha">↗</span>
-    </button>
+        <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
+           <span>LO QUIERO YA</span>
+           <span className="flecha">↗</span>
+        </button>
 </div>
                                     
                                         </div>

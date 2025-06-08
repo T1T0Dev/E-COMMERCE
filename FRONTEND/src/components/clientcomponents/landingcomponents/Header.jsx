@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { FaBars, FaShoppingCart, FaUserShield, FaHome } from "react-icons/fa";
+import { FaBars, FaShoppingCart, FaUserShield } from "react-icons/fa";
 import useAuthStore from "../../../store/useAuthStore";
 import "../landingcomponents/estiloslanding/Header.css";
 import Carrito from "./Carrito.jsx";
@@ -35,7 +35,11 @@ const Header = () => {
                 title="Volver a inicio"
                 onClick={() => navigate("/")}
               >
-                <FaHome size={22} />
+                <img
+                  src="src/Resources/logo-drekkz.png"
+                  alt="Inicio"
+                  className="home-logo-img"
+                />
               </button>
             </li>
           )}
@@ -101,11 +105,15 @@ const Header = () => {
                 </button>
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
-                    <Link to="/admin/productos">CRUD Productos</Link>
-                    <Link to="/admin/pedidos">CRUD Pedidos</Link>
-                    <Link to="/admin/categorias">CRUD Categorías</Link>
-                    <Link to="/admin/talles">CRUD Talles</Link>
-                    <Link to="/admin/usuarios">CRUD Usuarios</Link>
+                    <Link to="/admin/productos">Productos</Link>
+                    <Link to="/admin/pedidos">Pedidos</Link>
+                    <Link to="/admin/categorias">Categorías</Link>
+                    <Link to="/admin/talles">Talles</Link>
+                    <Link to="/admin/usuarios">Usuarios</Link>
+                    <Link to="/admin/carritos">Carritos</Link>
+                    <Link to="/admin/ventas">Ventas</Link>
+
+
                   </div>
                 )}
               </li>

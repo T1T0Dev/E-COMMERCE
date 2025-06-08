@@ -44,7 +44,7 @@ const Catalogo = () => {
               <div className="producto-card" key={producto.id_producto}>
                 {producto.imagen_producto && (
                   <img
-                    src={`/imagenes/${producto.imagen_producto}`}
+                    src={`http://localhost:3000${producto.imagen_producto}`}
                     alt={producto.nombre_producto}
                     className="producto-img"
                   />

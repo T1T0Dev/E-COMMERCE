@@ -11,11 +11,13 @@ export const getCategorias = async (req, res) => {
 }
 
 export const createCategoria = async (req, res) => {
-    const { nombre, descripcion } = req.body;
-
+    const { nombre } = req.body;
     try {
-        const [result] = await db.query('INSERT INTO categorias (nombre_categoria, descripcion) VALUES (?, ?)', [nombre, descripcion]);
-        res.status(201).json({ id_categoria: result.insertId, nombre, descripcion });
+        const [result] = await db.query(
+            'INSERT INTO categorias (nombre_categoria) VALUES (?)',
+            [nombre]
+        );
+        res.status(201).json({ id_categoria: result.insertId, nombre });
     } catch (error) {
         console.error('Error al crear la categoría:', error);
         res.status(500).json({ error: 'Error al crear la categoría' });

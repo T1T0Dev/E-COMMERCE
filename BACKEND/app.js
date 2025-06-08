@@ -26,6 +26,7 @@ app.use('/api/talles', tallesRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/carrito', carritoRoutes);
 app.use('/api/pedidos', pedidosRoutes);
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 
 

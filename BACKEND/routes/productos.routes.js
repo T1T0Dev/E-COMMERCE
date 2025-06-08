@@ -1,26 +1,13 @@
 import { Router } from 'express';
-import {
-  getStockProductoTalle,
-  createProductoConTalles,
-  getProductosConTalles,
-  getProductoById,
-  updateProductoConTalles,
-  deleteProducto,
-  getProductosPorCategoria,
-  buscarProductoPorNombre,
-  getProductos
-} from '../controllers/Productos.controller.js';
+import { createProductoConTalles, updateProductoConTalles, getProductosConTalles, deleteProducto,getStockProductoTalle } from '../controllers/Productos.controller.js';
+import upload from '../middlewares/upload.js';
 
 const router = Router();
 
-router.get('/stock/:id_producto/:id_talle', getStockProductoTalle);
+router.post('/con-talles', upload.single('imagen_producto'), createProductoConTalles);
 router.get('/', getProductosConTalles);
-router.get('/productos', getProductos);
-router.get('/categoria/:id_categoria', getProductosPorCategoria);
-router.get('/search', buscarProductoPorNombre); // ?q=nombre
-router.get('/:id', getProductoById);
-router.post('/con-talles', createProductoConTalles);
-router.put('/con-talles/:id', updateProductoConTalles);
-router.delete('/:id', deleteProducto);
+router.get('/stock/:id_producto/:id_talle', getStockProductoTalle);
+router.delete('/:id_producto', deleteProducto);
+router.put('/:id_producto', upload.single('imagen_producto'), updateProductoConTalles);
 
 export default router;

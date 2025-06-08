@@ -1,10 +1,17 @@
 import db from "../config/db.js";
 
-
 export const crearPedido = async (req, res) => {
   const { id_cliente, id_carrito, items } = req.body;
-  if (!id_cliente || !id_carrito || !items || !Array.isArray(items) || items.length === 0) {
-    return res.status(400).json({ error: "Datos incompletos para crear el pedido." });
+  if (
+    !id_cliente ||
+    !id_carrito ||
+    !items ||
+    !Array.isArray(items) ||
+    items.length === 0
+  ) {
+    return res
+      .status(400)
+      .json({ error: "Datos incompletos para crear el pedido." });
   }
   const conn = await db.getConnection();
   try {
@@ -19,7 +26,13 @@ export const crearPedido = async (req, res) => {
     for (const item of items) {
       await conn.query(
         "INSERT INTO Detalle_Pedido (id_pedido, id_producto, id_talle, cantidad, subtotal) VALUES (?, ?, ?, ?, ?)",
-        [id_pedido, item.id_producto, item.id_talle, item.cantidad, item.subtotal]
+        [
+          id_pedido,
+          item.id_producto,
+          item.id_talle,
+          item.cantidad,
+          item.subtotal,
+        ]
       );
     }
     // 3. Cambiar estado del carrito a 'enviado'
@@ -31,42 +44,50 @@ export const crearPedido = async (req, res) => {
     res.status(201).json({ message: "Pedido creado con éxito", id_pedido });
   } catch (error) {
     await conn.rollback();
-    res.status(500).json({ error: "Error al crear el pedido", detalle: error.message });
+    res
+      .status(500)
+      .json({ error: "Error al crear el pedido", detalle: error.message });
   } finally {
     conn.release();
   }
 };
 
-
 export const getPedidosCliente = async (req, res) => {
-    const { id_cliente } = req.params;
+  const { id_cliente } = req.params;
 
-    try {
-        const [rows] = await db.query('SELECT * FROM pedidos WHERE id_cliente = ?', [id_cliente]);
-        if (rows.length === 0) {
-            return res.status(404).json({ error: 'No se encontraron pedidos para este cliente' });
-        }
-        res.json(rows);
-    } catch (error) {
-        console.error('Error al obtener los pedidos del cliente:', error);
-        res.status(500).json({ error: 'Error al obtener los pedidos del cliente' });
+  try {
+    const [rows] = await db.query(
+      "SELECT * FROM pedidos WHERE id_cliente = ?",
+      [id_cliente]
+    );
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No se encontraron pedidos para este cliente" });
     }
-}
+    res.json(rows);
+  } catch (error) {
+    console.error("Error al obtener los pedidos del cliente:", error);
+    res.status(500).json({ error: "Error al obtener los pedidos del cliente" });
+  }
+};
 
 export const getPedidoById = async (req, res) => {
-    const { id_pedido } = req.params;
+  const { id_pedido } = req.params;
 
-    try {
-        const [rows] = await db.query('SELECT * FROM pedidos WHERE id_pedido = ?', [id_pedido]);
-        if (rows.length === 0) {
-            return res.status(404).json({ error: 'Pedido no encontrado' });
-        }
-        res.json(rows[0]);
-    } catch (error) {
-        console.error('Error al obtener el pedido:', error);
-        res.status(500).json({ error: 'Error al obtener el pedido' });
+  try {
+    const [rows] = await db.query("SELECT * FROM pedidos WHERE id_pedido = ?", [
+      id_pedido,
+    ]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Pedido no encontrado" });
     }
-}
+    res.json(rows[0]);
+  } catch (error) {
+    console.error("Error al obtener el pedido:", error);
+    res.status(500).json({ error: "Error al obtener el pedido" });
+  }
+};
 
 export const cambiarEstadoPedido = async (req, res) => {
   const { id_pedido } = req.params;
@@ -87,6 +108,7 @@ export const cambiarEstadoPedido = async (req, res) => {
 
 
 export const getPedidosJoin = async (req, res) => {
+  console.log("Entrando a getPedidosJoin"); // <-- agrega esto
   try {
     const [rows] = await db.query(`
       SELECT 
@@ -123,7 +145,7 @@ export const getPedidosJoin = async (req, res) => {
           nombre_cliente: row.nombre_cliente,
           apellido_cliente: row.apellido_cliente,
           fecha_pedido: row.fecha_pedido,
-          estado_pedido: row.estado_pedido,
+          estado: row.estado_pedido,
           id_carrito: row.id_carrito,
           estado_carrito: row.estado_carrito,
           fecha_carrito: row.fecha_carrito,

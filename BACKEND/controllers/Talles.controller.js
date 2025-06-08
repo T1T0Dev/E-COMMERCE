@@ -11,16 +11,18 @@ export const getTalles = async (req, res) => {
 }
 
 export const createTalle = async (req, res) => {
-    const { nombre, descripcion } = req.body;
-
+    const { nombre } = req.body;
     try {
-        const [result] = await db.query('INSERT INTO talles (nombre, descripcion) VALUES (?, ?)', [nombre, descripcion]);
-        res.status(201).json({ id_talle: result.insertId, nombre, descripcion });
+        const [result] = await db.query(
+            'INSERT INTO talles (nombre_talle) VALUES (?)',
+            [nombre]
+        );
+        res.status(201).json({ id_talle: result.insertId, nombre });
     } catch (error) {
         console.error('Error al crear el talle:', error);
         res.status(500).json({ error: 'Error al crear el talle' });
     }
-}
+};
 
 export const updateTalle = async (req, res) => {
     const { id } = req.params;

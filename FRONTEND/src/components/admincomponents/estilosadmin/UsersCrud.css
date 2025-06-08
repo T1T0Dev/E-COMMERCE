@@ -1,0 +1,116 @@
+.userscrud-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 48px 40px;
+  min-height: 80vh;
+}
+
+.userscrud-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #22223b;
+  text-align: center;
+}
+
+.userscrud-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.userscrud-input {
+  padding: 0.7rem 1rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #000000;
+  background: #f3f4f6;
+  color: #232526;
+  font-size: 1rem;
+  min-width: 180px;
+}
+
+.userscrud-btn-agregar,
+.userscrud-btn-editar,
+.userscrud-btn-eliminar,
+.userscrud-btn-cancelar {
+  background: #232526;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+}
+
+.userscrud-btn-agregar:hover,
+.userscrud-btn-editar:hover {
+  background: #16a34a;
+}
+
+.userscrud-btn-eliminar {
+  background: #b91c1c;
+}
+
+.userscrud-btn-eliminar:hover {
+  background: #ef4444;
+}
+
+.userscrud-btn-cancelar {
+  background: #6b7280;
+}
+
+.userscrud-btn-cancelar:hover {
+  background: #374151;
+}
+
+.userscrud-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f9fafb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.userscrud-table th,
+.userscrud-table td {
+  padding: 16px 12px;
+  text-align: left;
+}
+
+.userscrud-table th {
+  background: #232526;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.userscrud-table tr {
+  border-bottom: 1.5px solid #e5e7eb;
+  transition: background 0.18s;
+}
+
+.userscrud-table tr:hover {
+  background: #f3f4f6;
+}
+
+.userscrud-table td {
+  font-size: 1rem;
+  color: #232526;
+}
+
+.userscrud-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem 0;
+  color: #232526;
+}

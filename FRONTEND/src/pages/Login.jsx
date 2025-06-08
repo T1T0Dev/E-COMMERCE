@@ -65,7 +65,7 @@ export default function Login() {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
-          <button className="login-btn" type="submit">Login</button>
+          <button className="login-btn" type="submit">Login<span className="arrow-icon">↗</span></button>
         </form>
         <div style={{ marginTop: "1rem", textAlign: "center" }}>
           <span className="create-account">No tienes cuenta? </span>
@@ -75,4 +75,3 @@ export default function Login() {
     </div>
   );
 }
-
