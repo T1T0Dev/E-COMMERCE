@@ -1,4 +1,3 @@
-
 import db from '../config/db.js';
 
 export const getProductos = async (req, res) => {
@@ -74,43 +73,22 @@ export const getProductosConTalles = async (req, res) => {
 
 
 export const createProductoConTalles = async (req, res) => {
-    const {
-      nombre_producto,
-      precio,
-      id_categoria,
-      imagen_producto,
-    } = req.body;
-  
-    const conn = await db.getConnection(); // si usás pool
-    try {
-      await conn.beginTransaction();
-  
-      // 1. Insertar el producto
-      const [productoResult] = await conn.query(
-        'INSERT INTO Productos (nombre_producto, precio, id_categoria, imagen_producto) VALUES (?, ?, ?, ?, ?)',
-        [nombre_producto,precio, id_categoria, imagen_producto]
-      );
-  
-      const id_producto = productoResult.insertId;
-  
-      // 2. Insertar talles y stock
-      for (const item of talles) {
-        await conn.query(
-          'INSERT INTO Producto_Talle (id_producto, id_talle, stock) VALUES (?, ?, ?)',
-          [id_producto, item.id_talle, item.stock]
-        );
-      }
-  
-      await conn.commit();
-      res.status(201).json({ message: 'Producto y talles creados con éxito.' });
-  
-    } catch (error) {
-      await conn.rollback();
-      res.status(500).json({ error: 'Error al crear el producto con talles.', detalle: error.message });
-    } finally {
-      conn.release();
-    }
-  };
+  try {
+    const { nombre_producto, precio, descripcion, id_categoria } = req.body;
+    const imagen_producto = `/uploads/${req.file.filename}`;
+
+    // Inserta en la base de datos
+    await db.query(
+      'INSERT INTO Productos (nombre_producto, precio, descripcion, imagen_producto, id_categoria) VALUES (?, ?, ?, ?, ?)',
+      [nombre_producto, precio, descripcion, imagen_producto, id_categoria]
+    );
+
+    res.status(201).json({ message: "Producto creado correctamente" });
+  } catch (error) {
+    console.error("ERROR AL CREAR PRODUCTO:", error); // <--- AGREGA ESTA LÍNEA
+    res.status(500).json({ error: "Error al crear el producto", detalle: error.message });
+  }
+};
 
 export const deleteProducto = async (req, res) => {
     const { id_producto } = req.params;

@@ -8,7 +8,7 @@ import tallesRoutes from './routes/talles.routes.js';
 import categoriasRoutes from './routes/categorias.routes.js';
 import carritoRoutes from './routes/carrito.routes.js';
 import pedidosRoutes from './routes/pedidos.routes.js';
-
+import path from 'path';
 const app = express();
 
 // Middlewares
@@ -25,6 +25,7 @@ app.use('/api/talles', tallesRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/carrito', carritoRoutes);
 app.use('/api/pedidos', pedidosRoutes);
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Handler de errores genérico
 app.use((err, req, res, next) => {
