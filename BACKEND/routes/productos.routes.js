@@ -1,8 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
+import { createProductoConTalles, updateProductoConTalles, getProductosConTalles, deleteProducto } from '../controllers/Productos.controller.js';
 import upload from '../middlewares/upload.js';
-import { createProductoConTalles, getProductosConTalles, deleteProducto, updateProductoConTalles } from '../controllers/Productos.controller.js';
 
-const router = express.Router();
+const router = Router();
 
 router.post('/con-talles', upload.single('imagen_producto'), createProductoConTalles);
 router.get('/', getProductosConTalles);

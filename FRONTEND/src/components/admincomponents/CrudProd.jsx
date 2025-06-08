@@ -21,7 +21,6 @@ const CrudProd = () => {
     try {
       const res = await fetch("http://localhost:3000/api/productos");
       const data = await res.json();
-      console.log(data); // <-- AGREGA ESTO
       setProductos(data);
     } catch (err) {
       setProductos([]);
@@ -66,7 +65,7 @@ const CrudProd = () => {
         method: "DELETE",
       });
       if (res.ok) {
-        toast.success("Producto eliminado");
+        toast.success("Producto eliminado correctamente");
         fetchProductos(); // refresca la lista
       } else {
         toast.error("Error al eliminar el producto");
@@ -74,6 +73,13 @@ const CrudProd = () => {
     } catch (err) {
       toast.error("Error de red");
     }
+  };
+
+  // Cuando se agrega o edita un producto desde el modal
+  const handleProductCreated = () => {
+    fetchProductos();
+    // Quita el toast de aquí para evitar duplicados
+    // toast.success("Producto agregado correctamente");
   };
 
   return (
@@ -95,7 +101,7 @@ const CrudProd = () => {
         <ModalProd
           isOpen={isModelOpen}
           onClose={() => { setIsModelOpen(false); setProductoEdit(null); }}
-          onProductCreated={fetchProductos}
+          onProductCreated={handleProductCreated}
           producto={productoEdit}
           categorias={categorias}
         />

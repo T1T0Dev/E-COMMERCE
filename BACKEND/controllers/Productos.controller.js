@@ -32,6 +32,22 @@ export const getProductos = async (req, res) => {
   }
 };
 
+export const getStockProductoTalle = async (req, res) => {
+  const { id_producto, id_talle } = req.params;
+  try {
+    const [rows] = await db.query(
+      'SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?',
+      [id_producto, id_talle]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'No existe ese producto con ese talle.' });
+    }
+    res.json({ stock: rows[0].stock });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar el stock.' });
+  }
+};
+
 export const getProductosConTalles = async (req, res) => {
   try {
     const [rows] = await db.query(`
@@ -88,11 +104,6 @@ export const createProductoConTalles = async (req, res) => {
   try {
     conn = await db.getConnection();
     await conn.beginTransaction();
-
-    // Validar que req.body y req.file existan
-    if (!req.body || !req.file) {
-      return res.status(400).json({ error: "Faltan datos o imagen" });
-    }
 
     const { nombre_producto, precio, descripcion, id_categoria } = req.body;
     const imagen_producto = `/uploads/${req.file.filename}`;
@@ -186,10 +197,9 @@ export const updateProductoConTalles = async (req, res) => {
     await conn.commit();
     res.json({ message: "Producto actualizado correctamente." });
   } catch (error) {
-    if (conn) await conn.rollback();
-    console.error("ERROR AL ACTUALIZAR PRODUCTO:", error);
+    await conn.rollback();
     res.status(500).json({
-      error: "Error al actualizar el producto.",
+      error: "Error al actualizar el producto con talles.",
       detalle: error.message,
     });
   } finally {
@@ -311,12 +321,10 @@ export const getProductosPorCategoria = async (req, res) => {
 
     res.json(Object.values(productos));
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Error al obtener productos por categoría.",
-        detalle: error.message,
-      });
+    res.status(500).json({
+      error: "Error al obtener productos por categoría.",
+      detalle: error.message,
+    });
   }
 };
 

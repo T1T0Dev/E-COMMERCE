@@ -1,13 +1,12 @@
-import mysql from 'mysql2/promise';
-
 
 const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "", // tu pass de MySQL
-    database: "drekkz_db"
-  });
-
-console.log("Conexión a la base de datos establecida correctamente");
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "drekkz_db",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
 export default db;

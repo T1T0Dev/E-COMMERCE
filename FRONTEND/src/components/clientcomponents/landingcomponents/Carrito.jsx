@@ -1,7 +1,7 @@
 import axios from "axios";
 import useCarritoStore from "../../../store/useCarritoStore";
 import "./estiloslanding/Carrito.css";
-import { toast } from "react-toastify";
+import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Carrito = ({ open, onClose }) => {
@@ -15,14 +15,27 @@ const Carrito = ({ open, onClose }) => {
   );
 
   const handleHacerPedido = async () => {
-    // Validar stock antes de enviar
-    const sinStock = items.find((item) => item.cantidad > item.stock);
-    if (sinStock) {
-      toast.error(
-        `No hay suficiente stock para "${sinStock.nombre_producto}" (Talle: ${sinStock.nombre_talle}). Stock disponible: ${sinStock.stock}. Por favor, ajusta la cantidad.`,
-        { position: "top-center", autoClose: 4000 }
-      );
-      return;
+    // 1. Validar stock real en backend
+    for (const item of items) {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/productos/stock/${item.id_producto}/${item.id_talle}`
+        );
+        const stockReal = res.data.stock;
+        if (item.cantidad > stockReal) {
+          toast.error(
+            `No hay suficiente stock para "${item.nombre_producto}" (Talle: ${item.nombre_talle}). Stock disponible: ${stockReal}. Por favor, ajusta la cantidad.`,
+            { position: "top-center", autoClose: 4000 }
+          );
+          return;
+        }
+      } catch (error) {
+        toast.error(
+          `Error al consultar stock para "${item.nombre_producto}" (Talle: ${item.nombre_talle}).`,
+          { position: "top-center", autoClose: 4000 }
+        );
+        return;
+      }
     }
 
     try {
@@ -42,7 +55,6 @@ const Carrito = ({ open, onClose }) => {
           subtotal: item.precio * item.cantidad,
         });
       }
-
 
       // 4. Crear el pedido
       const itemsPedido = items.map((item) => ({
@@ -155,6 +167,7 @@ const Carrito = ({ open, onClose }) => {
           </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

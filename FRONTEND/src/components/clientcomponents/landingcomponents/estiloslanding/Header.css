@@ -176,3 +176,12 @@ nav ul li.logo {
   from { opacity: 0; transform: translateY(-10px);}
   to { opacity: 1; transform: translateY(0);}
 }
+
+.home-logo-img {
+  max-height: 40px;         /* controla la altura real visible */
+  width: auto;
+  display: block;           /* elimina espacio debajo */
+  object-fit: contain;      /* ajusta sin deformar */
+  margin: 0;
+  padding: 0; /* Zoom visual si querés más fuerza aún */
+}
