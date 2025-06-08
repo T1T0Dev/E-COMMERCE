@@ -6,6 +6,7 @@ import Footer from "../components/clientcomponents/landingcomponents/Footer";
 import "./styles/Catalogo.css";
 
 const Catalogo = () => {
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
   const [productos, setProductos] = useState([]);
   const [talleSeleccionado, setTalleSeleccionado] = useState({});
   const { agregarAlCarrito, items } = useCarritoStore();
@@ -30,8 +31,8 @@ const Catalogo = () => {
   };
 
   return (
-    <div className="catalogo-page">
-      <Header />
+     <div className={`catalogo-page${mostrarCarrito ? " carrito-abierto" : ""}`}>
+      <Header setMostrarCarrito={setMostrarCarrito} />
       <main>
         <h2 className="title-catalogo">Catálogo de Productos</h2>
         <div className="catalogo-container">

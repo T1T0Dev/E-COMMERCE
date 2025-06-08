@@ -36,7 +36,7 @@ const Principal = () => {
       <main>
         <div className="landing-content" id="services">
           <section className="hero-section">
-            <h1>Bienvenido a Nuestra Landing Page</h1>
+            <h1>BIENVENIDO A DREKKZ INDUMENTARIA</h1>
             <p>Descubre más sobre nuestros servicios y productos.</p>
             <button className="cta-button">Saber Más</button>
           </section>

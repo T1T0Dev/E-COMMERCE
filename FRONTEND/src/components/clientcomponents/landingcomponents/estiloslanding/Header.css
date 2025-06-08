@@ -1,34 +1,33 @@
-header {
-  background: linear-gradient(90deg, #181e2a 70%, #23293a 100%);
-  padding: 15px 30px;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 12px rgba(30, 41, 59, 0.18), 0 1px 4px rgba(0,0,0,0.13);
-}
-
-nav ul {
-  list-style: none;
+.navbar-flex {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  margin: 0;
-  margin-right: 25px;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
   padding: 0;
-  gap: 10px;
+  margin: 0;
+  list-style: none;
 }
 
-nav ul li {
-  margin: 0 10px;
+.navbar-left li,
+.navbar-right li {
+  margin: 0 16px 0 0;
 }
 
+.navbar-left li:last-child,
+.navbar-right li:last-child {
+  margin-right: 0;
+}
+/* Botón home */
 .home-btn {
-  background:#181e2a ;
+  background: #181e2a;
   color: #22d3ee;
   border: none;
   padding: 8px;
-  margin-left: 18px;
   font-size: 22px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, transform 0.2s;
@@ -40,13 +39,6 @@ nav ul li {
 }
 
 
-nav ul li.logo img {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #6366f1;
-  box-shadow: 0 2px 8px #23293a55;
-}
 
 nav ul li a,
 .catalogo-link {
@@ -106,10 +98,11 @@ nav ul li.logo {
   transform: scale(1.08);
 }
 
+/* Opcional: más espacio para el menú desplegable */
 .dropdown-menu {
   position: absolute;
   top: 45px;
-  right: 0;
+  right: 20px;
   background: linear-gradient(135deg, #23293a 80%, #181e2a 100%);
   border-radius: 14px;
   box-shadow: 0 8px 32px rgba(34,211,238,0.10), 0 2px 8px rgba(99,102,241,0.13);
