@@ -8,7 +8,6 @@ import "../landingcomponents/estiloslanding/Carruselprod.css";
 import { FaShoppingCart } from "react-icons/fa";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const Carruselprod = () => {
   const [productos, setProductos] = useState([]);
