@@ -37,8 +37,10 @@ const Principal = () => {
         <div className="landing-content" id="services">
           <section className="hero-section">
             <h1>BIENVENIDO A DREKKZ INDUMENTARIA</h1>
+            <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
             <p>Descubre más sobre nuestros servicios y productos.</p>
-            <button className="cta-button">Saber Más</button>
+            <button className="cta-button"> SABER MAS <span className="arrow-icon">↗</span>
+</button>
           </section>
 
           <section className="features-section">
@@ -60,37 +62,43 @@ const Principal = () => {
           </section>
 
           <Carruselprod />
-
-          <section className="contact-section" id="contact-section">
-            <h2>Contáctanos</h2>
-            <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
-            <form onSubmit={enviarWhatsApp}>
-              <input
-                type="text"
-                placeholder="Tu Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-              <input
-                type="email"
-                placeholder="Tu Correo Electrónico"
-                value={correo}
-                onChange={(e) => setCorreo(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Asunto"
-                value={asunto}
-                onChange={(e) => setAsunto(e.target.value)}
-              />
-              <textarea
-                placeholder="Tu Mensaje"
-                value={mensaje}
-                onChange={(e) => setMensaje(e.target.value)}
-              />
-              <button type="submit">Enviar</button>
-            </form>
-          </section>
+<section className="contact-section" id="contact-section">
+  <div className="contact-wrapper">
+    <div className="contact-form">
+      <h2>Contáctanos</h2>
+      <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
+      <form onSubmit={enviarWhatsApp}>
+        <input
+          type="text"
+          placeholder="Tu Nombre"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Tu Correo Electrónico"
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Asunto"
+          value={asunto}
+          onChange={(e) => setAsunto(e.target.value)}
+        />
+        <textarea
+          placeholder="Tu Mensaje"
+          value={mensaje}
+          onChange={(e) => setMensaje(e.target.value)}
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+    <div className="contact-logo">
+      <img src="src/Resources/logo-drekkz1.png" alt="Logo DREKKZ" />
+    </div>
+  </div>
+</section>
         </div>
       </main>
       <Footer />
