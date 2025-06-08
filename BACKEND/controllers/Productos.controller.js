@@ -27,6 +27,22 @@ GROUP BY p.id_producto, p.nombre_producto, p.precio, p.descripcion, p.imagen_pro
   }
 };
 
+export const getStockProductoTalle = async (req, res) => {
+  const { id_producto, id_talle } = req.params;
+  try {
+    const [rows] = await db.query(
+      'SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?',
+      [id_producto, id_talle]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'No existe ese producto con ese talle.' });
+    }
+    res.json({ stock: rows[0].stock });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar el stock.' });
+  }
+};
+
 export const getProductosConTalles = async (req, res) => {
   try {
     const [rows] = await db.query(`
@@ -104,12 +120,10 @@ export const createProductoConTalles = async (req, res) => {
     res.status(201).json({ message: "Producto y talles creados con éxito." });
   } catch (error) {
     await conn.rollback();
-    res
-      .status(500)
-      .json({
-        error: "Error al crear el producto con talles.",
-        detalle: error.message,
-      });
+    res.status(500).json({
+      error: "Error al crear el producto con talles.",
+      detalle: error.message,
+    });
   } finally {
     conn.release();
   }
@@ -136,12 +150,10 @@ export const deleteProducto = async (req, res) => {
 
     res.json({ message: "Producto eliminado con éxito." });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Error al eliminar el producto.",
-        detalle: error.message,
-      });
+    res.status(500).json({
+      error: "Error al eliminar el producto.",
+      detalle: error.message,
+    });
   }
 };
 export const updateProductoConTalles = async (req, res) => {
@@ -181,12 +193,10 @@ export const updateProductoConTalles = async (req, res) => {
     res.json({ message: "Producto y talles actualizados con éxito." });
   } catch (error) {
     await conn.rollback();
-    res
-      .status(500)
-      .json({
-        error: "Error al actualizar el producto con talles.",
-        detalle: error.message,
-      });
+    res.status(500).json({
+      error: "Error al actualizar el producto con talles.",
+      detalle: error.message,
+    });
   } finally {
     conn.release();
   }
@@ -305,12 +315,10 @@ export const getProductosPorCategoria = async (req, res) => {
 
     res.json(Object.values(productos));
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Error al obtener productos por categoría.",
-        detalle: error.message,
-      });
+    res.status(500).json({
+      error: "Error al obtener productos por categoría.",
+      detalle: error.message,
+    });
   }
 };
 
