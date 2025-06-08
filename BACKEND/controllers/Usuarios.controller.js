@@ -11,9 +11,9 @@ export const getUsuarios = async (req, res) => {
     }
 
 export const getUsuarioById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // <-- así coincide con la ruta
     try {
-        const [rows] = await db.query('SELECT * FROM usuarios WHERE id = ?', [id]);
+        const [rows] = await db.query('SELECT * FROM usuarios WHERE id_usuario = ?', [id]);
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
@@ -26,10 +26,10 @@ export const getUsuarioById = async (req, res) => {
 
 export const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { nombre, email } = req.body;
+    const { email,contraseña } = req.body;
 
     try {
-        const [result] = await db.query('UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?', [nombre, email, id]);
+        const [result] = await db.query('UPDATE usuarios SET email = ?, contraseña = ? WHERE id_usuario = ?', [email, contraseña, id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
@@ -44,7 +44,7 @@ export const deleteUsuario = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const [result] = await db.query('DELETE FROM usuarios WHERE id = ?', [id]);
+        const [result] = await db.query('DELETE FROM usuarios WHERE id_usuario = ?', [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
