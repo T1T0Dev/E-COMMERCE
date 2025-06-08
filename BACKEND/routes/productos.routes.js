@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  getStockProductoTalle,
   createProductoConTalles,
   getProductosConTalles,
   getProductoById,
@@ -12,6 +13,7 @@ import {
 
 const router = Router();
 
+router.get('/stock/:id_producto/:id_talle', getStockProductoTalle);
 router.get('/', getProductosConTalles);
 router.get('/productos', getProductos);
 router.get('/categoria/:id_categoria', getProductosPorCategoria);
