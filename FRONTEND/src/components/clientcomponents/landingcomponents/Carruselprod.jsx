@@ -8,10 +8,12 @@ import '../landingcomponents/estiloslanding/Carruselprod.css';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Carruselprod = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,6 +76,10 @@ const Carruselprod = () => {
         <span className="flecha">↗</span>
     </button>
 </div>
+                                            <button  onClick={() => navigate("/Catalogo")}className="carruselCart">
+                                                <FaShoppingCart />
+                                                LO QUIERO YA
+                                            </button>
                                         </div>
                                         <div className="carruselprod-footer mt-4"></div>
                                     </div>
