@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore";
 import "./styles/EditClient.css";
-import defaultProfile from "../assets/default-profile.jpg"; // Usa una imagen por defecto
-import {ToastContainer, toast } from "react-toastify";
+import defaultProfile from "../assets/default-profile.jpg";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditClient = () => {
-  const user = useAuthStore((state) => state.user); // { id_usuario, rol }
+  const user = useAuthStore((state) => state.user);
   const [cliente, setCliente] = useState(null);
   const [usuario, setUsuario] = useState(null);
   const [form, setForm] = useState({
@@ -21,12 +21,10 @@ const EditClient = () => {
   const [foto, setFoto] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  // Cargar datos del cliente y usuario
   useEffect(() => {
     if (!user) return;
-    // 1. Obtener cliente por id_usuario
+
     axios.get(`http://localhost:3000/api/clientes`).then((res) => {
-      // Busca el cliente que corresponde al usuario logueado
       const cli = res.data.find((c) => c.id_usuario === user.id_usuario);
       setCliente(cli);
       if (cli) {
@@ -39,7 +37,7 @@ const EditClient = () => {
         }));
       }
     });
-    // 2. Obtener usuario
+
     axios
       .get(`http://localhost:3000/api/usuarios/${user.id_usuario}`)
       .then((res) => {
@@ -52,7 +50,6 @@ const EditClient = () => {
       });
   }, [user]);
 
-  // Preview de la foto
   useEffect(() => {
     if (!foto) {
       setPreview(null);
@@ -63,12 +60,10 @@ const EditClient = () => {
     reader.readAsDataURL(foto);
   }, [foto]);
 
-  // Manejar cambios en los campos
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Manejar cambio de foto
   const handleFotoChange = (e) => {
     setFoto(e.target.files[0]);
   };
@@ -109,7 +104,6 @@ const EditClient = () => {
     }
   };
 
-  // Subir foto de perfil
   const handleUploadFoto = async (e) => {
     e.preventDefault();
     if (!foto || !cliente) return;
@@ -143,7 +137,11 @@ const EditClient = () => {
           />
         </div>
         <form onSubmit={handleUploadFoto} className="editcliente-foto-form">
+          <label htmlFor="foto" className="editcliente-foto-label">
+            Seleccionar foto
+          </label>
           <input
+            id="foto"
             type="file"
             accept="image/*"
             onChange={handleFotoChange}
@@ -198,7 +196,7 @@ const EditClient = () => {
           </button>
         </form>
       </div>
-        <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

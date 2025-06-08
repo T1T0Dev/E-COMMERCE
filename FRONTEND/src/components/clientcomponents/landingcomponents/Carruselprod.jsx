@@ -72,10 +72,10 @@ const Carruselprod = () => {
                                             <h2 className="carruselprod-price text-xl font-bold text-gray-800 mt-2">${producto.precio}</h2>
                                             <p className="carruselprod-desc text-gray-500 text-sm mt-1">{producto.nombre_categoria}</p>
                                           <div className="carrusel-btn-wrapper">
-    <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
-        <span>LO QUIERO YA</span>
-        <span className="flecha">↗</span>
-    </button>
+        <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
+           <span>LO QUIERO YA</span>
+           <span className="flecha">↗</span>
+        </button>
 </div>
                                     
                                         </div>

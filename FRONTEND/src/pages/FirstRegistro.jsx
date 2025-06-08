@@ -17,7 +17,6 @@ const FirstRegistro = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // Guarda los datos en sessionStorage (o context si prefieres)
     sessionStorage.setItem("registroCliente", JSON.stringify(form));
     navigate("/second-registro");
   };
@@ -67,7 +66,7 @@ const FirstRegistro = () => {
             onChange={handleChange}
             required
           />
-          <button className="registro-btn" type="submit">Siguiente</button>
+          <button className="registro-btn" type="submit">Siguiente<span className="arrow-icon">↗</span></button>
         </form>
       </div>
     </div>

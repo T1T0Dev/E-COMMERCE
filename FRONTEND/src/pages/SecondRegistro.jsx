@@ -62,7 +62,7 @@ const SecondRegistro = () => {
             onChange={handleChange}
             required
           />
-          <button className="registro-btn" type="submit">Registrarme</button>
+          <button className="registro-btn" type="submit">Registrarme<span className="arrow-icon">↗</span></button>
         </form>
       </div>
     </div>
