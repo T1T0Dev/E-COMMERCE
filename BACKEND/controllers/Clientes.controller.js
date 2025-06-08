@@ -78,15 +78,20 @@ export const uploadFotoPerfil = async (req, res) => {
         return res.status(400).json({ error: 'No se ha subido ninguna foto' });
     }
 
+    // Normaliza la ruta para que siempre sea con /
+    const relativePath = fotoPerfil.path.replace(/\\/g, '/');
+
     try {
-        const [result] = await db.query('UPDATE clientes SET foto_perfil = ? WHERE id_cliente = ?', [fotoPerfil.path, id]);
+        const [result] = await db.query(
+            'UPDATE clientes SET foto_perfil = ? WHERE id_cliente = ?',
+            [relativePath, id]
+        );
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
         }
-        res.json({ message: 'Foto de perfil actualizada correctamente', foto_perfil: fotoPerfil.path });
+        res.json({ message: 'Foto de perfil actualizada correctamente', foto_perfil: relativePath });
     } catch (error) {
         console.error('Error al actualizar la foto de perfil:', error);
         res.status(500).json({ error: 'Error al actualizar la foto de perfil' });
     }
 }
-

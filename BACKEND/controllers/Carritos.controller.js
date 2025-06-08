@@ -13,10 +13,10 @@ export const crearCarrito = async (req, res) => {
 }
 
 export const agregarProductoACarrito = async (req, res) => {
-    const { id_carrito, id_producto, cantidad } = req.body;
+    const { id_carrito, id_producto,id_talle, cantidad,subtotal } = req.body;
 
     try {
-        const [result] = await db.query('INSERT INTO Carrito_Detalle (id_carrito, id_producto, cantidad) VALUES (?, ?, ?)', [id_carrito, id_producto, cantidad]);
+        const [result] = await db.query('INSERT INTO Carrito_Detalle (id_carrito, id_producto,id_talle, cantidad,subtotal) VALUES (?, ?, ?, ?, ?)', [id_carrito, id_producto,id_talle, cantidad,subtotal]);
         res.status(201).json({ id_carrito_producto: result.insertId, id_carrito, id_producto, cantidad });
     } catch (error) {
         console.error('Error al agregar el producto al carrito:', error);
@@ -75,7 +75,7 @@ export const confirmarCarrito = async (req, res) => {
     const { id_carrito } = req.params;
 
     try {
-        const [result] = await db.query('UPDATE Carrito SET confirmado = 1 WHERE id_carrito = ?', [id_carrito]);
+        const [result] = await db.query('UPDATE Carritos SET confirmado = 1 WHERE id_carrito = ?', [id_carrito]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Carrito no encontrado o ya confirmado' });
         }

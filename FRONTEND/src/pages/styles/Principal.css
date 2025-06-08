@@ -1,62 +1,169 @@
-/* Estilos generales */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    min-height: 100vh; /* Asegura que el cuerpo cubra toda la pantalla */
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
-html {
-    scroll-behavior: smooth;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 /* Hero Section */
 .hero-section {
     text-align: center;
-    background-color: #f4f4f4;
-    padding: 50px 20px;
-    flex: 1; /* Permite que esta sección crezca para ocupar espacio */
+    background: white;
+    padding: 60px 20px 40px 20px;
+    color: #e0e7ef;
 }
+
+.hero-section h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 80px;
+    margin-bottom: 0px;
+    color: #000000;
+}
+
+.hero-section h2{
+ font-family: "Bebas Neue", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+    font-size: 30px;
+    margin-top: -10px;
+    margin-bottom: 45px;
+    color: #000000;
+
+
+
+}
+.hero-section p {
+   font-family: "Roboto", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     font-variation-settings:
+    "wdth" 100;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #000000;
+}
+
+
+.cta-button {
+     font-family: "Roboto", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     font-variation-settings:
+    "wdth" 100;
+  background-color: #1a1a1a;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.arrow-icon {
+  display: inline-block;
+  font-size: 1rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: white;
+}
+
+.cta-button:hover .arrow-icon {
+  transform: rotate(45deg);
+  color: #ffffff; /* celeste */
+}
+
+.cta-button:hover {
+  background-color: #333;
+}
+
 
 /* Features Section */
 .features-section {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-    justify-content: center; /* Centra los elementos */
-    padding: 40px 20px;
-    background-color: #fff;
-    gap: 20px; /* Espaciado entre elementos */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    background: #2f2f2f;
 }
 
 .feature {
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+    max-width: 920px;
+    min-width: 260px;
+    flex: 1 1 260px;
     text-align: center;
-    max-width: 300px;
-    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
+    padding: 0px 0px 20px;
+    margin: 20px 0px 20px;
+    color: #e0e7ef;
+    transition: transform 0.18s, box-shadow 0.18s;
 }
 
-/* Contact Section */
+.feature:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1), 0 2px 8px rgba(99,102,241,0.13);
+}
 
+.feature img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
+
+.feature h2 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    margin: 12px 0 8px;
+    font-size: 30px;
+    color: #000000;
+}
+
+.feature p {
+    font-family: "Roboto", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     font-variation-settings:
+    "wdth" 100;
+    font-size: 18px;
+    color: #141414;
+    line-height: 1.4;
+}
 
 /* Contact Section */
 .contact-section {
+    padding-bottom: 60px;
     text-align: center;
-    background-color: #f9f9f9;
-    padding: 40px 20px;
+    background: #ffffff;
+    padding: 40px 10px 30px 10px;
 }
 
 .contact-section h2 {
+    font-family: "Bebas Neue", sans-serif;
+  font-weight: 100;
+  font-style: normal;
     margin-bottom: 20px;
-    font-size: 2rem;
-    color: #333;
+    font-size: 50px;
+    color: #131515;
 }
 
 .contact-section p {
+    font-family: "Roboto", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     font-variation-settings:
+    "wdth" 100;
     margin-bottom: 30px;
     font-size: 1.2rem;
-    color: #666;
+    color: #373737;
 }
 
 .contact-section form {
@@ -69,95 +176,140 @@ html {
 
 .contact-section input,
 .contact-section textarea {
+    font-family: "Roboto", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     font-variation-settings:
+    "wdth" 100;
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1.5px solid #ffffff;
+    border-radius: 8px;
     font-size: 1rem;
-    font-family: Arial, sans-serif;
+    background: #000000;
+    color: #e0e7ef;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .contact-section input:focus,
 .contact-section textarea:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #ffffff;
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.3);
     outline: none;
 }
 
 .contact-section button {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background: #333333;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
 .contact-section button:hover {
-    background-color: #0056b3;
+    background: #141414;
 }
 
-/* Estilos para el contenedor del carrusel */
+/* Carrusel */
 .carousel-container {
     position: relative;
-    width: 100%;
-    height: auto; /* Ajusta la altura automáticamente según el contenido */
-    overflow: hidden; /* Oculta cualquier contenido que se salga del contenedor */
+    width: 100vw;
+    overflow: hidden;
+    background: #181e2a;
+    margin: 0;
+    padding: 0;
 }
 
 .carousel {
     display: flex;
-    flex-direction: row; /* Coloca las imágenes en una fila */
-    justify-content: center; /* Centra las imágenes horizontalmente */
-    gap: 5px; /* Reduce el espaciado entre las imágenes */
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
 }
 
 .carousel-slide img {
     width: auto;
-    height: 100vh; /* Asegura que las imágenes tengan la misma altura que la pantalla */
-    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin deformarse */
+    height: 60vh;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.features-section {
+/* Responsive */
+@media (max-width: 900px) {
+    .features-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+    .feature {
+        max-width: 95vw;
+        min-width: 0;
+    }
+    .carousel-slide img {
+        height: 35vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        padding: 30px 5px 20px 5px;
+    }
+    .features-section, .contact-section {
+        padding: 20px 2px 15px 2px;
+    }
+    .feature img {
+        height: 140px;
+    }
+}
+
+.contact-wrapper {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-    justify-content: space-around; /* Espaciado uniforme entre elementos */
-    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
-    padding: 40px 20px;
-    background-color: #fff;
-    gap: 20px; /* Espaciado entre elementos */
+    align-items: center; /* ya lo tenés, bien */
+    min-height: 400px;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
-.feature {
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-logo {
+    flex: 1;
     text-align: center;
-    max-width: 320px;
-    flex: 1 1 300px; /* Ajusta el ancho mínimo y permite que se reduzca */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega sombra para destacar */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Asegura que el contenido no se salga del contenedor */
-    background-color: #f9f9f9; /* Fondo claro para contraste */
-    padding: 15px;
 }
 
-.feature img {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
-    height: 400px; /* Establece una altura fija para todas las imágenes */
-    border-radius: 10px 10px 0 0; /* Redondea solo la parte superior */
-    object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+.contact-logo img {
+    max-width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
 }
 
-.feature h2 {
-    margin: 15px 0 10px;
-    font-size: 1.5rem;
-    color: #333;
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-logo img {
+        max-height: 200px;
+        margin-top: 20px;
+    }
 }
 
-.feature p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.4;
+.contact-form, .contact-logo {
+    padding: 30px;
 }

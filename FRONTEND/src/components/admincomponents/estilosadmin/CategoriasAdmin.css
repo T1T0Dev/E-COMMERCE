@@ -1,0 +1,102 @@
+.categorias-admin-container {
+    max-width: 800px; /* Más ancho */
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    padding: 48px 40px; /* Más espacio interno */
+}
+
+.categorias-admin-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #22223b;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.categorias-admin-form {
+    display: flex;
+    flex-direction: row; /* Inputs y botón en fila */
+    gap: 16px;
+    margin-bottom: 32px;
+    justify-content: center;
+}
+
+.categorias-admin-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #c9c9c9;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.categorias-admin-btn-agregar {
+    min-width: 140px;
+    background: #4f8cff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.categorias-admin-btn-agregar:hover {
+    background: #2563eb;
+}
+
+.categorias-admin-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.categorias-admin-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7f7fa;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s;
+}
+
+.categorias-admin-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.categorias-admin-item-nombre {
+    font-weight: 600;
+    color: #22223b;
+    font-size: 1.1rem;
+}
+
+.categorias-admin-item-descripcion {
+    font-size: 1rem;
+    color: #6c6c80;
+    margin-top: 2px;
+}
+
+.categorias-admin-btn-eliminar {
+    background: #ff4f4f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.categorias-admin-btn-eliminar:hover {
+    background: #d90429;
+}
