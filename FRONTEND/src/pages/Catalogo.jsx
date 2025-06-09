@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useCarritoStore from "../store/useCarritoStore";
 import axios from "axios";
-import Header from "../components/clientcomponents/landingcomponents/Header";
-import Footer from "../components/clientcomponents/landingcomponents/Footer";
+import Header from "../components/clientcomponents/Header";
+import Footer from "../components/clientcomponents/Footer";
 import "./styles/Catalogo.css";
 
 const Catalogo = () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
-import useCarritoStore from "../../../store/useCarritoStore";
-import "./estiloslanding/Carrito.css";
+import useCarritoStore from "../../store/useCarritoStore.js";
+import "./estiloscliente/Carrito.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

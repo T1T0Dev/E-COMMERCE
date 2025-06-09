@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Header from "../components/clientcomponents/landingcomponents/Header.jsx";
-import Footer from "../components/clientcomponents/landingcomponents/Footer.jsx";
-import ScrollToTopButton from "../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx";
-import Carruselprod from "../components/clientcomponents/landingcomponents/Carruselprod.jsx";
+import Header from "../components/clientcomponents/Header.jsx";
+import Footer from "../components/clientcomponents/Footer.jsx";
+import ScrollToTopButton from "../components/clientcomponents/ScrollToTopButton.jsx";
+import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
 import "./styles/Principal.css";
 import useAuthStore from '../store/useAuthStore.js'
 

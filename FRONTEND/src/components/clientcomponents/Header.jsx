@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { FaBars, FaShoppingCart, FaUserShield } from "react-icons/fa";
-import useAuthStore from "../../../store/useAuthStore";
-import "../landingcomponents/estiloslanding/Header.css";
+import useAuthStore from "../../store/useAuthStore";
+import "./estiloscliente/Header.css";
 import Carrito from "./Carrito.jsx";
-import useCarritoStore from "../../../store/useCarritoStore";
+import useCarritoStore from "../../store/useCarritoStore.js";
 
 const Header = () => {
   const [mostrarCarrito, setMostrarCarrito] = useState(false);

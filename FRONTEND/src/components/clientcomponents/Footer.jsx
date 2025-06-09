@@ -1,5 +1,5 @@
 import React from 'react'
-import '../landingcomponents/estiloslanding/Footer.css'
+import './estiloscliente/Footer.css'
 const Footer =() => {
 
     return(

@@ -4,8 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "../landingcomponents/estiloslanding/Carruselprod.css";
-import { FaShoppingCart } from "react-icons/fa";
+import "./estiloscliente/Carruselprod.css";
+
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 
