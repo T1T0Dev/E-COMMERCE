@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import useAuthStore from '../store/useAuthStore'; // Ajusta el path si es necesario
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAuthStore from "../store/useAuthStore"; // Ajusta el path si es necesario
 
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/Login.css";
@@ -10,20 +11,24 @@ import "./styles/Login.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // <--- Nuevo estado
   const navigate = useNavigate();
-  const login = useAuthStore(state => state.setUser);
+  const login = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       if (response.data) {
-        // Guarda el usuario en zustand y localStorage
+        // Guarda el usuario con nombre en zustand y localStorage
         login(response.data);
         toast.success("Login exitoso");
         setTimeout(() => {
@@ -42,7 +47,9 @@ export default function Login() {
         <h1 className="login-title">Iniciar Sesion</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div>
-            <label className="login-label" htmlFor="email">Email</label>
+            <label className="login-label" htmlFor="email">
+              Email
+            </label>
             <input
               className="login-input"
               type="text"
@@ -50,22 +57,37 @@ export default function Login() {
               name="email"
               required
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div>
-            <label className="login-label" htmlFor="password">Password:</label>
+          <div className="password-input-wrapper">
+            <label className="login-label" htmlFor="password">
+              Password:
+            </label>
             <input
               className="login-input"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <button
+              type="button"
+              className="password-eye-btn"
+              onClick={() => setShowPassword((v) => !v)}
+              tabIndex={-1}
+              aria-label={
+                showPassword ? "Ocultar contraseña" : "Ver contraseña"
+              }
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
-          <button className="login-btn" type="submit">Login<span className="arrow-icon">↗</span></button>
+          <button className="login-btn" type="submit">
+            Login<span className="arrow-icon">↗</span>
+          </button>
         </form>
         <div style={{ marginTop: "1rem", textAlign: "center" }}>
           <span className="create-account">No tienes cuenta? </span>

@@ -4,8 +4,10 @@ import Footer from "../components/clientcomponents/landingcomponents/Footer.jsx"
 import ScrollToTopButton from "../components/clientcomponents/landingcomponents/ScrollToTopButton.jsx";
 import Carruselprod from "../components/clientcomponents/landingcomponents/Carruselprod.jsx";
 import "./styles/Principal.css";
+import useAuthStore from '../store/useAuthStore.js'
 
 const Principal = () => {
+  const user = useAuthStore((state) => state.user);
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [asunto, setAsunto] = useState("");
@@ -36,7 +38,7 @@ const Principal = () => {
       <main>
         <div className="landing-content" id="services">
           <section className="hero-section">
-            <h1>BIENVENIDO A DREKKZ INDUMENTARIA</h1>
+            <h1>BIENVENID@ {user?.nombre} A DREKKZ INDUMENTARIA</h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
             <p>Descubre más sobre nuestros servicios y productos.</p>
             <button className="cta-button"> SABER MAS <span className="arrow-icon">↗</span>

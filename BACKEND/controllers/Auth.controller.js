@@ -13,21 +13,31 @@ export const registerUsuario = async (req, res) => {
         res.status(500).json({ error: 'Error al registrar el usuario' });
     }
 }
+
 export const loginUsuario = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ? AND contraseña = ?', [email, password]);
+        // Busca el usuario y su cliente asociado (si existe)
+        const [rows] = await db.query(`
+            SELECT u.id_usuario, u.email, u.rol, c.nombre, c.apellido
+            FROM usuarios u
+            LEFT JOIN clientes c ON u.id_usuario = c.id_usuario
+            WHERE u.email = ? AND u.contraseña = ?
+        `, [email, password]);
+
         if (rows.length === 0) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
-        const usuario = rows[0];
-        res.json({ id_usuario: usuario.id_usuario, nombre: usuario.nombre, rol: usuario.rol });
+
+        // Devuelve también el nombre (si existe)
+        res.json(rows[0]);
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Error al iniciar sesión' });
     }
-}
+};
+
 export const registerClienteYUsuario = async (req, res) => {
     const { email, password, rol, nombre, apellido, direccion, telefono } = req.body;
     const conn = await db.getConnection();
