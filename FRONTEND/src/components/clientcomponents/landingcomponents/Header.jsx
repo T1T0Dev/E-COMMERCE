@@ -106,7 +106,7 @@ const Header = () => {
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
                     <Link to="/admin/productos">Productos</Link>
-                    <Link to="/admin/pedidos">Pedidos</Link>
+                    
                     <Link to="/admin/categorias">Categorías</Link>
                     <Link to="/admin/talles">Talles</Link>
                     <Link to="/admin/usuarios">Usuarios</Link>

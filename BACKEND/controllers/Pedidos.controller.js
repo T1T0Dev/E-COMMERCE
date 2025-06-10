@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 
+// --- Crear Pedido (sin cambios) ---
 export const crearPedido = async (req, res) => {
   const { id_cliente, id_carrito, items } = req.body;
   if (
@@ -52,9 +53,9 @@ export const crearPedido = async (req, res) => {
   }
 };
 
+// --- Pedidos por cliente (sin cambios) ---
 export const getPedidosCliente = async (req, res) => {
   const { id_cliente } = req.params;
-
   try {
     const [rows] = await db.query(
       "SELECT * FROM pedidos WHERE id_cliente = ?",
@@ -72,9 +73,9 @@ export const getPedidosCliente = async (req, res) => {
   }
 };
 
+// --- Pedido por ID (sin cambios) ---
 export const getPedidoById = async (req, res) => {
   const { id_pedido } = req.params;
-
   try {
     const [rows] = await db.query("SELECT * FROM pedidos WHERE id_pedido = ?", [
       id_pedido,
@@ -89,6 +90,7 @@ export const getPedidoById = async (req, res) => {
   }
 };
 
+// --- Cambiar estado de pedido (sin cambios) ---
 export const cambiarEstadoPedido = async (req, res) => {
   const { id_pedido } = req.params;
   const { estado } = req.body;
@@ -106,9 +108,8 @@ export const cambiarEstadoPedido = async (req, res) => {
   }
 };
 
-
+// --- Pedidos con JOIN (sin cambios) ---
 export const getPedidosJoin = async (req, res) => {
-  console.log("Entrando a getPedidosJoin"); // <-- agrega esto
   try {
     const [rows] = await db.query(`
       SELECT 
@@ -167,4 +168,133 @@ export const getPedidosJoin = async (req, res) => {
     console.error("Error en getPedidosJoin:", error);
     res.status(500).json({ error: "Error al obtener los pedidos con JOIN" });
   }
+};
+
+// --- Pedidos para ventas (sin cambios) ---
+export const getPedidosVentas = async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        p.id_pedido,
+        CONCAT(c.nombre, ' ', c.apellido) AS cliente_nombre,
+        p.fecha_pedido,
+        p.estado,
+        dp.id_detalle,
+        pr.nombre_producto,
+        t.nombre_talle,
+        dp.cantidad,
+        dp.subtotal
+      FROM Pedidos p
+      JOIN Clientes c ON p.id_cliente = c.id_cliente
+      LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
+      LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
+      LEFT JOIN Talles t ON dp.id_talle = t.id_talle
+      ORDER BY p.fecha_pedido DESC
+    `);
+
+    // Agrupa los detalles por pedido
+    const pedidosMap = {};
+    for (const row of rows) {
+      if (!pedidosMap[row.id_pedido]) {
+        pedidosMap[row.id_pedido] = {
+          id_pedido: row.id_pedido,
+          cliente_nombre: row.cliente_nombre,
+          fecha_pedido: row.fecha_pedido,
+          estado: row.estado,
+          total: 0,
+          detalle: [],
+        };
+      }
+      if (row.id_detalle) {
+        pedidosMap[row.id_pedido].detalle.push({
+          nombre_producto: row.nombre_producto,
+          nombre_talle: row.nombre_talle,
+          cantidad: row.cantidad,
+          subtotal: row.subtotal,
+        });
+        pedidosMap[row.id_pedido].total += Number(row.subtotal || 0);
+      }
+    }
+    res.json(Object.values(pedidosMap));
+  } catch (error) {
+    console.error("Error en getPedidosVentas:", error);
+    res.status(500).json({ error: "Error al obtener los pedidos para ventas" });
+  }
+};
+
+// --- Ventas agrupadas por día ---
+export const getVentasPorDia = async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        DATE(hv.fecha) AS fecha,
+        COUNT(hv.id_venta) AS cantidad_pedidos,
+        SUM(hv.total) AS total_vendido,
+        (
+          SELECT pr.nombre_producto
+          FROM Detalle_Pedido dp
+          JOIN Productos pr ON dp.id_producto = pr.id_producto
+          JOIN Pedidos p2 ON dp.id_pedido = p2.id_pedido
+          JOIN Historial_Ventas hv2 ON hv2.id_pedido = p2.id_pedido
+          WHERE DATE(hv2.fecha) = DATE(hv.fecha)
+          GROUP BY pr.nombre_producto
+          ORDER BY SUM(dp.cantidad) DESC
+          LIMIT 1
+        ) AS producto_mas_vendido
+      FROM Historial_Ventas hv
+      GROUP BY DATE(hv.fecha)
+      ORDER BY fecha DESC
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error("Error en getVentasPorDia:", error);
+    res.status(500).json({ error: "Error al obtener ventas por día" });
+  }
+};
+
+// --- Detalle de ventas de un día ---
+export const getDetalleVentasPorDia = async (req, res) => {
+  const { fecha } = req.params;
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        p.id_pedido,
+        CONCAT(cl.nombre, ' ', cl.apellido) AS cliente_nombre,
+        pr.nombre_producto,
+        t.nombre_talle,
+        dp.cantidad,
+        dp.subtotal
+      FROM Historial_Ventas hv
+      JOIN Pedidos p ON hv.id_pedido = p.id_pedido
+      JOIN Clientes cl ON p.id_cliente = cl.id_cliente
+      JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
+      JOIN Productos pr ON dp.id_producto = pr.id_producto
+      JOIN Talles t ON dp.id_talle = t.id_talle
+      WHERE DATE(hv.fecha) = ?
+      ORDER BY p.id_pedido
+    `, [fecha]);
+    res.json(rows);
+  } catch (error) {
+    console.error("Error en getDetalleVentasPorDia:", error);
+    res.status(500).json({ error: "Error al obtener detalle de ventas" });
+  }
+};
+
+const verDetalle = (fecha) => {
+  console.log("Consultando detalles para:", fecha);
+  fetch(`/api/pedidos/ventas-por-dia/${fecha}`)
+    .then(res => {
+      console.log("Respuesta fetch detalles:", res);
+      if (!res.ok) throw new Error("No hay datos para ese día");
+      return res.json();
+    })
+    .then(data => {
+      setDetalleDia(data);
+      setModalFecha(fecha);
+    })
+    .catch(err => {
+      setDetalleDia([]);
+      setModalFecha(fecha);
+      alert("No hay ventas para ese día.");
+    });
 };

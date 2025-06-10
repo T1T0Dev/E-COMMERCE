@@ -159,3 +159,65 @@ export const eliminarCarrito = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el carrito' });
     }
 };
+
+export const getCarritosPedidosFusion = async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        ca.id_carrito,
+        ca.estado AS estado_carrito,
+        ca.fecha_creacion,
+        cl.nombre AS cliente_nombre,
+        cl.apellido AS cliente_apellido,
+        p.id_pedido,
+        p.fecha_pedido,
+        hv.fecha AS fecha_venta,
+        hv.total AS total_venta,
+        dp.id_detalle,
+        pr.nombre_producto,
+        pr.imagen_producto, -- <--- AGREGA ESTA LINEA
+        t.nombre_talle,
+        dp.cantidad,
+        dp.subtotal
+      FROM Carritos ca
+      JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
+      LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
+      LEFT JOIN Historial_Ventas hv ON p.id_pedido = hv.id_pedido
+      LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
+      LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
+      LEFT JOIN Talles t ON dp.id_talle = t.id_talle
+      ORDER BY ca.fecha_creacion DESC, p.fecha_pedido DESC
+    `);
+
+    // Agrupa por carrito
+    const carritosMap = {};
+    for (const row of rows) {
+      if (!carritosMap[row.id_carrito]) {
+        carritosMap[row.id_carrito] = {
+          id_carrito: row.id_carrito,
+          estado: row.estado_carrito,
+          fecha_creacion: row.fecha_creacion,
+          cliente: `${row.cliente_nombre} ${row.apellido_cliente}`,
+          id_pedido: row.id_pedido,
+          fecha_pedido: row.fecha_pedido,
+          fecha_venta: row.fecha_venta,
+          total_venta: row.total_venta,
+          productos: [],
+        };
+      }
+      if (row.id_detalle) {
+        carritosMap[row.id_carrito].productos.push({
+          nombre_producto: row.nombre_producto,
+          imagen_producto: row.imagen_producto, // <--- AGREGA ESTA LINEA
+          nombre_talle: row.nombre_talle,
+          cantidad: row.cantidad,
+          subtotal: row.subtotal,
+        });
+      }
+    }
+    res.json(Object.values(carritosMap));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener carritos y pedidos fusionados" });
+  }
+};
