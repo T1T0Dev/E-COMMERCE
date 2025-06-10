@@ -16,13 +16,11 @@ export const registerUsuario = async (req, res) => {
 
 export const loginUsuario = async (req, res) => {
     const { email, password } = req.body;
-
     try {
-        // Busca el usuario y su cliente asociado (si existe)
         const [rows] = await db.query(`
-            SELECT u.id_usuario, u.email, u.rol, c.nombre, c.apellido
-            FROM usuarios u
-            LEFT JOIN clientes c ON u.id_usuario = c.id_usuario
+            SELECT u.id_usuario, u.email, u.rol, c.id_cliente, c.nombre, c.apellido, c.direccion
+            FROM Usuarios u
+            LEFT JOIN Clientes c ON u.id_usuario = c.id_usuario
             WHERE u.email = ? AND u.contraseña = ?
         `, [email, password]);
 
@@ -30,10 +28,8 @@ export const loginUsuario = async (req, res) => {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
-        // Devuelve también el nombre (si existe)
         res.json(rows[0]);
     } catch (error) {
-        console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Error al iniciar sesión' });
     }
 };

@@ -32,6 +32,7 @@ export const getProductos = async (req, res) => {
   }
 };
 
+
 export const getStockProductoTalle = async (req, res) => {
   const { id_producto, id_talle } = req.params;
   try {

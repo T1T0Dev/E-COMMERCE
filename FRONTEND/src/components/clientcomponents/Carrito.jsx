@@ -1,4 +1,7 @@
+import React, { useState } from "react";
 import axios from "axios";
+import ModalEnvio from "./ModalEnvio";
+import useAuthStore from "../../store/useAuthStore";
 import useCarritoStore from "../../store/useCarritoStore.js";
 import "./estiloscliente/Carrito.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,14 +10,22 @@ import "react-toastify/dist/ReactToastify.css";
 const Carrito = ({ open, onClose }) => {
   const { items, limpiarCarrito, eliminarProducto, cambiarCantidad } =
     useCarritoStore();
-  const id_cliente = 1; // ← Usa el id_cliente real del usuario logueado
+  const user = useAuthStore((state) => state.user);
+  const [modalEnvioOpen, setModalEnvioOpen] = useState(false);
+  const [mensajeFinal, setMensajeFinal] = useState("");
 
   const total = items.reduce(
     (acc, item) => acc + item.precio * item.cantidad,
     0
   );
 
-  const handleHacerPedido = async () => {
+  // Paso 1: Al hacer click en "Enviar Pedido", mostrar el modal
+  const handleHacerPedido = () => {
+    setModalEnvioOpen(true);
+  };
+
+  // Paso 2: Cuando el usuario confirma el modal, procesar el pedido
+  const handleConfirmEnvio = async (envio) => {
     // 1. Validar stock real en backend
     for (const item of items) {
       try {
@@ -41,7 +52,7 @@ const Carrito = ({ open, onClose }) => {
     try {
       // 2. Crear el carrito
       const carritoRes = await axios.post("http://localhost:3000/api/carrito", {
-        id_cliente,
+        id_cliente: user.id_cliente,
       });
       const id_carrito = carritoRes.data.id_carrito;
 
@@ -56,7 +67,7 @@ const Carrito = ({ open, onClose }) => {
         });
       }
 
-      // 4. Crear el pedido (¡ahora sí con id_carrito!)
+      // 4. Crear el pedido
       const itemsPedido = items.map((item) => ({
         id_producto: item.id_producto,
         id_talle: item.id_talle,
@@ -64,15 +75,37 @@ const Carrito = ({ open, onClose }) => {
         subtotal: item.precio * item.cantidad,
       }));
 
-      await axios.post("http://localhost:3000/api/pedidos", {
-        id_cliente,
+      console.log({
+        id_cliente: user.id_cliente,
         id_carrito,
         items: itemsPedido,
       });
 
-      toast.success("¡Pedido enviado correctamente!");
+      const pedidoRes = await axios.post("http://localhost:3000/api/pedidos", {
+        id_cliente: user.id_cliente,
+        id_carrito,
+        items: itemsPedido,
+      });
+      const id_pedido = pedidoRes.data.id_pedido;
+
+      // 5. Registrar el envío si corresponde
+      if (envio.requiereEnvio) {
+        await axios.post("http://localhost:3000/api/envios", {
+          id_pedido,
+          requiere_envio: true,
+          direccion_envio: envio.direccionEnvio,
+        });
+      }
+
+      setMensajeFinal(
+        "¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
+      );
       limpiarCarrito();
       onClose();
+      toast.success(
+        "¡Gracias por tu compra! En breve nos contactaremos para coordinar la entrega.",
+        { position: "top-center", autoClose: 5000 }
+      );
     } catch (error) {
       toast.error("Error al enviar el pedido.");
     }
@@ -81,95 +114,112 @@ const Carrito = ({ open, onClose }) => {
   const handleEliminarProducto = (id, id_talle) => {
     eliminarProducto(id, id_talle);
     toast.info("Producto eliminado del carrito");
-    // Si quieres llamar al backend, hazlo aquí con axios
   };
 
   const handleLimpiarCarrito = () => {
     limpiarCarrito();
     toast.info("Carrito vaciado");
-    // Si quieres llamar al backend, hazlo aquí con axios
   };
 
   return (
-    <div className={`carrito-drawer${open ? " open" : ""}`}>
-      <div className="carrito-drawer-content">
-        <h2 className="carrito-title">TU CARRITO 🛒 </h2>
-        <ul className="carrito-productos-lista">
-          {items.length === 0 ? (
-            <li className="carrito-item">El carrito está vacío.</li>
-          ) : (
-            items.map((item, idx) => (
-              <li key={idx} className="carrito-item">
-                <strong>{item.nombre_producto}</strong> - Talle:{" "}
-                {item.nombre_talle} <br />
-                Cantidad:
-                <button
-                  className="carrito-cantidad-btn"
-                  onClick={() =>
-                    cambiarCantidad(
-                      item.id,
-                      item.id_talle,
-                      Math.max(1, item.cantidad - 1)
-                    )
-                  }
-                  disabled={item.cantidad <= 1}
-                  title="Restar"
-                >
-                  -
-                </button>
-                <span style={{ margin: "0 8px" }}>{item.cantidad}</span>
-                <button
-                  className="carrito-cantidad-btn"
-                  onClick={() =>
-                    cambiarCantidad(item.id, item.id_talle, item.cantidad + 1)
-                  }
-                  title="Sumar"
-                >
-                  +
-                </button>
-                <br />
-                Precio: ${item.precio}
-                <br />
-                <button
-                  className="carrito-eliminar-btn"
-                  onClick={() => handleEliminarProducto(item.id, item.id_talle)}
-                >
-                  Eliminar
-                </button>
-              </li>
-            ))
-          )}
-        </ul>
-        <div className="carrito-bottom">
-          <div className="carrito-total">
-            <strong>Total: ${total}</strong>
+    <>
+      <div className={`carrito-drawer${open ? " open" : ""}`}>
+        <div className="carrito-drawer-content">
+          <h2 className="carrito-title">TU CARRITO 🛒 </h2>
+          <ul className="carrito-productos-lista">
+            {items.length === 0 ? (
+              <li className="carrito-item">El carrito está vacío.</li>
+            ) : (
+              items.map((item, idx) => (
+                <li key={idx} className="carrito-item">
+                  <strong>{item.nombre_producto}</strong> - Talle:{" "}
+                  {item.nombre_talle} <br />
+                  Cantidad:
+                  <button
+                    className="carrito-cantidad-btn"
+                    onClick={() =>
+                      cambiarCantidad(
+                        item.id_producto,
+                        item.id_talle,
+                        Math.max(1, item.cantidad - 1)
+                      )
+                    }
+                    disabled={item.cantidad <= 1}
+                    title="Restar"
+                  >
+                    -
+                  </button>
+                  <span style={{ margin: "0 8px" }}>{item.cantidad}</span>
+                  <button
+                    className="carrito-cantidad-btn"
+                    onClick={() =>
+                      cambiarCantidad(
+                        item.id_producto,
+                        item.id_talle,
+                        item.cantidad + 1
+                      )
+                    }
+                    title="Sumar"
+                  >
+                    +
+                  </button>
+                  <br />
+                  Precio: ${item.precio}
+                  <br />
+                  <button
+                    className="carrito-eliminar-btn"
+                    onClick={() =>
+                      handleEliminarProducto(item.id_producto, item.id_talle)
+                    }
+                  >
+                    Eliminar
+                  </button>
+                </li>
+              ))
+            )}
+          </ul>
+          <div className="carrito-bottom">
+            <div className="carrito-total">
+              <strong>Total: ${total}</strong>
+            </div>
+            <button
+              onClick={handleHacerPedido}
+              className="carrito-btn-enviar"
+              disabled={items.length === 0}
+            >
+              Enviar Pedido
+            </button>
+            <button
+              onClick={handleLimpiarCarrito}
+              className="carrito-btn-cerrar"
+              style={{
+                background: "#b91c1c",
+                color: "#fff",
+                marginBottom: "0.5rem",
+              }}
+              disabled={items.length === 0}
+            >
+              Vaciar Carrito
+            </button>
+            <button onClick={onClose} className="carrito-btn-cerrar">
+              Cerrar
+            </button>
           </div>
-          <button
-            onClick={handleHacerPedido}
-            className="carrito-btn-enviar"
-            disabled={items.length === 0}
-          >
-            Enviar Pedido
-          </button>
-          <button
-            onClick={handleLimpiarCarrito}
-            className="carrito-btn-cerrar"
-            style={{
-              background: "#b91c1c",
-              color: "#fff",
-              marginBottom: "0.5rem",
-            }}
-            disabled={items.length === 0}
-          >
-            Vaciar Carrito
-          </button>
-          <button onClick={onClose} className="carrito-btn-cerrar">
-            Cerrar
-          </button>
         </div>
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
-    </div>
+      <ModalEnvio
+        open={modalEnvioOpen}
+        onClose={() => setModalEnvioOpen(false)}
+        onConfirm={handleConfirmEnvio}
+        direccionCliente={user?.direccion || ""}
+      />
+      {mensajeFinal && (
+        <div className="carrito-mensaje-final">
+          <p>{mensajeFinal}</p>
+        </div>
+      )}
+    </>
   );
 };
 

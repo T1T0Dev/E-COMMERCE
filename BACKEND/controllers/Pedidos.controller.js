@@ -35,11 +35,7 @@ export const crearPedido = async (req, res) => {
         ]
       );
     }
-    // 3. Cambiar estado del carrito a 'enviado'
-    await conn.query(
-      "UPDATE Carritos SET estado = 'enviado' WHERE id_carrito = ?",
-      [id_carrito]
-    );
+
     await conn.commit();
     res.status(201).json({ message: "Pedido creado con éxito", id_pedido });
   } catch (error) {
@@ -89,22 +85,6 @@ export const getPedidoById = async (req, res) => {
   }
 };
 
-export const cambiarEstadoPedido = async (req, res) => {
-  const { id_pedido } = req.params;
-  const { estado } = req.body;
-  try {
-    const [result] = await db.query(
-      "UPDATE Pedidos SET estado = ? WHERE id_pedido = ?",
-      [estado, id_pedido]
-    );
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Pedido no encontrado" });
-    }
-    res.json({ message: "Estado del pedido actualizado" });
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar el estado del pedido" });
-  }
-};
 
 
 export const getPedidosJoin = async (req, res) => {
@@ -117,7 +97,6 @@ export const getPedidosJoin = async (req, res) => {
         c.nombre AS nombre_cliente,
         c.apellido AS apellido_cliente,
         p.fecha_pedido,
-        p.estado AS estado_pedido,
         p.id_carrito,
         car.estado AS estado_carrito,
         car.fecha_creacion AS fecha_carrito,
@@ -145,7 +124,6 @@ export const getPedidosJoin = async (req, res) => {
           nombre_cliente: row.nombre_cliente,
           apellido_cliente: row.apellido_cliente,
           fecha_pedido: row.fecha_pedido,
-          estado: row.estado_pedido,
           id_carrito: row.id_carrito,
           estado_carrito: row.estado_carrito,
           fecha_carrito: row.fecha_carrito,

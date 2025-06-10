@@ -27,6 +27,7 @@ export default function Login() {
           password,
         }
       );
+      useAuthStore.getState().setUser(response.data);
 
       if (response.data) {
         // Guarda el usuario con nombre en zustand y localStorage

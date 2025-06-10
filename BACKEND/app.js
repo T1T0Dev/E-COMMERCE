@@ -9,6 +9,7 @@ import tallesRoutes from './routes/talles.routes.js';
 import categoriasRoutes from './routes/categorias.routes.js';
 import carritoRoutes from './routes/carrito.routes.js';
 import pedidosRoutes from './routes/pedidos.routes.js';
+import enviosRoutes from './routes/envios.routes.js'
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
+app.use("/api/envios",enviosRoutes)
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/clientes', clientesRoutes);
