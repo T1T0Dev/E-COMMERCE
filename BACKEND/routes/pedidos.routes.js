@@ -4,15 +4,15 @@ import {
   getPedidosCliente,
   getPedidoById,
   cambiarEstadoPedido,
-  getPedidosAdmin
+  getPedidosJoin,
 } from '../controllers/Pedidos.controller.js';
 
 const router = Router();
 
 router.post("/", crearPedido);
+router.get('/join', getPedidosJoin); // <-- Mueve esta línea arriba
 router.get('/cliente/:id_cliente', getPedidosCliente);
 router.get('/:id_pedido', getPedidoById);
 router.put('/:id_pedido/estado', cambiarEstadoPedido);
-router.get('/', getPedidosAdmin);
 
 export default router;

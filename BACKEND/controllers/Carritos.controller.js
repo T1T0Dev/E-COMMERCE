@@ -12,6 +12,23 @@ export const crearCarrito = async (req, res) => {
     }
 }
 
+export const cambiarEstadoCarrito = async (req, res) => {
+  const { id_carrito } = req.params;
+  const { estado } = req.body;
+  try {
+    const [result] = await db.query(
+      "UPDATE Carritos SET estado = ? WHERE id_carrito = ?",
+      [estado, id_carrito]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Carrito no encontrado" });
+    }
+    res.json({ message: "Estado del carrito actualizado" });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar el estado del carrito" });
+  }
+};
+
 export const agregarProductoACarrito = async (req, res) => {
     const { id_carrito, id_producto,id_talle, cantidad,subtotal } = req.body;
 
@@ -44,16 +61,41 @@ export const verCarrito = async (req, res) => {
     const { id_carrito } = req.params;
 
     try {
-        const [rows] = await db.query('SELECT * FROM Carrito_Detalle WHERE id_carrito = ?', [id_carrito]);
-        if (rows.length === 0) {
-            return res.status(404).json({ error: 'Carrito vacío o no encontrado' });
+        // Trae info del carrito y cliente
+        const [[carrito]] = await db.query(
+            `SELECT ca.*, cl.nombre AS cliente_nombre 
+             FROM Carritos ca 
+             JOIN Clientes cl ON ca.id_cliente = cl.id_cliente 
+             WHERE ca.id_carrito = ?`, [id_carrito]
+        );
+        if (!carrito) {
+            return res.status(404).json({ error: 'Carrito no encontrado' });
         }
-        res.json(rows);
+
+        // Trae detalle de productos
+        const [detalle] = await db.query(
+            `SELECT cd.*, p.nombre_producto, p.imagen_producto, t.nombre_talle, p.precio AS precio_unitario
+             FROM Carrito_Detalle cd
+             JOIN Productos p ON cd.id_producto = p.id_producto
+             JOIN Talles t ON cd.id_talle = t.id_talle
+             WHERE cd.id_carrito = ?`, [id_carrito]
+        );
+
+        // Calcula total
+        const total = detalle.reduce((acc, item) => acc + (item.subtotal || 0), 0);
+
+        res.json({
+            id_carrito: carrito.id_carrito,
+            cliente_nombre: carrito.cliente_nombre,
+            estado: carrito.estado,
+            fecha_creacion: carrito.fecha_creacion,
+            detalle,
+            total
+        });
     } catch (error) {
         console.error('Error al obtener el carrito:', error);
         res.status(500).json({ error: 'Error al obtener el carrito' });
     }
-    
 }
 
 export const vaciarCarrito = async (req, res) => {
@@ -85,3 +127,35 @@ export const confirmarCarrito = async (req, res) => {
         res.status(500).json({ error: 'Error al confirmar el carrito' });
     }
 }
+
+export const listarCarritos = async (req, res) => {
+    try {
+        const [rows] = await db.query(`
+            SELECT ca.*, cl.nombre AS cliente_nombre
+            FROM Carritos ca
+            JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
+            ORDER BY ca.fecha_creacion DESC
+        `);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al listar los carritos:', error);
+        res.status(500).json({ error: 'Error al listar los carritos' });
+    }
+};
+
+export const eliminarCarrito = async (req, res) => {
+    const { id_carrito } = req.params;
+    try {
+        // Elimina los detalles del carrito (si existen)
+        await db.query('DELETE FROM Carrito_Detalle WHERE id_carrito = ?', [id_carrito]);
+        // Luego elimina el carrito
+        const [result] = await db.query('DELETE FROM Carritos WHERE id_carrito = ?', [id_carrito]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Carrito no encontrado.' });
+        }
+        res.json({ message: 'Carrito eliminado correctamente.' });
+    } catch (error) {
+        console.error('Error al eliminar el carrito:', error);
+        res.status(500).json({ error: 'Error al eliminar el carrito' });
+    }
+};

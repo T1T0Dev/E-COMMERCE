@@ -3,9 +3,12 @@ import {
   crearCarrito,
   agregarProductoACarrito,
   quitarProductoDelCarrito,
+  cambiarEstadoCarrito,
   verCarrito,
   vaciarCarrito,
-  confirmarCarrito
+  confirmarCarrito,
+  listarCarritos,
+  eliminarCarrito
 } from '../controllers/Carritos.controller.js';
 
 
@@ -15,7 +18,9 @@ router.post('/', crearCarrito);
 router.post('/item', agregarProductoACarrito);
 router.delete('/item/:id_carrito_detalle', quitarProductoDelCarrito);
 router.get('/:id_carrito', verCarrito);
-router.delete('/:id_carrito', vaciarCarrito);
+router.delete('/:id_carrito', eliminarCarrito);
 router.put('/confirmar/:id_carrito', confirmarCarrito);
+router.put('/:id_carrito/estado', cambiarEstadoCarrito);
+router.get('/', listarCarritos);
 
 export default router;

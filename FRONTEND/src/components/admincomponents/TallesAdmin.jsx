@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import './estilosadmin/CategoriasAdmin.css'; // Puedes crear un estilosadmin/TallesAdmin.css si quieres estilos distintos
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./estilosadmin/TallesAdmin.css";
 const TallesAdmin = () => {
     const [talles, setTalles] = useState([]);
     const [nombre, setNombre] = useState("");
@@ -58,19 +57,19 @@ const TallesAdmin = () => {
     };
 
     return (
-        <div className="categorias-admin-container">
+        <div className="talles-admin-container">
             <ToastContainer position="top-right" autoClose={2000} />
             <button
                 onClick={() => navigate(-1)}
-                className="cta-button"
+                className="talles-admin-back-btn"
             >
-                <AiOutlineArrowLeft size={30} className="drop-shadow" />
+                <AiOutlineArrowLeft size={30} className="talles-admin-back-icon" />
                 Volver atrás
             </button>
-            <h2 className="categorias-admin-title">Administrar Talles</h2>
-            <form onSubmit={handleAgregar} className="categorias-admin-form">
+            <h2 className="talles-admin-title">Administrar Talles</h2>
+            <form onSubmit={handleAgregar} className="talles-admin-form">
                 <input
-                    className="categorias-admin-input"
+                    className="talles-admin-input"
                     placeholder="Nombre del talle"
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
@@ -78,24 +77,24 @@ const TallesAdmin = () => {
                 />
                 <button
                     type="submit"
-                    className="categorias-admin-btn-agregar"
+                    className="talles-admin-btn-agregar"
                 >
                     Agregar Talle
                 </button>
             </form>
-            <h3 className="categorias-admin-subtitle">Talles existentes</h3>
+            <h3 className="talles-admin-subtitle">Talles existentes</h3>
             {loading ? (
-                <p className="categorias-admin-loading">Cargando...</p>
+                <p className="talles-admin-loading">Cargando...</p>
             ) : (
-                <ul className="categorias-admin-list">
+                <ul className="talles-admin-list">
                     {talles.map((talle) => (
-                        <li key={talle.id_talle} className="categorias-admin-item">
-                            <div className="categorias-admin-item-info">
-                                <span className="categorias-admin-item-nombre">{talle.nombre_talle}</span>
+                        <li key={talle.id_talle} className="talles-admin-item">
+                            <div className="talles-admin-item-info">
+                                <span className="talles-admin-item-nombre">{talle.nombre_talle}</span>
                             </div>
                             <button
                                 onClick={() => handleEliminar(talle.id_talle)}
-                                className="categorias-admin-btn-eliminar"
+                                className="talles-admin-btn-eliminar"
                             >
                                 Eliminar
                             </button>
