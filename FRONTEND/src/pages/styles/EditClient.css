@@ -1,26 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-
 .editcliente-main {
   display: flex;
-  gap: 2.5rem;
-  padding: 2.5rem 1rem;
+  min-height: 100vh;
+  width: 100vw;
   background: #0f0f0f;
-  min-height: 80vh;
-  justify-content: center;
+  justify-content: stretch;
+  align-items: stretch;
 }
 
 .editcliente-panel-izq {
+  width: 40vw;
   min-width: 320px;
-  max-width: 350px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #242424;
-  border-radius: 1.5rem;
-  padding: 2rem 1.2rem;
+  padding: 2rem 1.2rem 1.5rem 1.2rem;
   box-shadow: 0 4px 24px #23293a33;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.editcliente-panel-der {
+  width: 60vw;
+  min-width: 320px;
+  max-width: 900px;
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px #23293a33;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
 }
 
 .editcliente-foto-wrapper {
@@ -66,7 +80,7 @@
 }
 
 .editcliente-foto-label:hover {
-  background-color: #ffffff;
+  background-color: #000000;
   color: #fff;
 }
 
@@ -75,7 +89,6 @@
   color: #fff;
   font-weight: 400;
   border: none;
- 
   padding: 0.6rem 1.4rem;
   font-size: 20px;
   cursor: pointer;
@@ -105,19 +118,6 @@
   transform: rotate(45deg);
 }
 
-.editcliente-panel-der {
-  flex: 1 1 0;
-  background: #ffffff;
-  border-radius: 1.5rem;
-  padding: 2rem 2.5rem;
-  box-shadow: 0 4px 24px #23293a33;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  min-width: 320px;
-  max-width: 500px;
-}
-
 .editcliente-form {
   display: flex;
   flex-direction: column;
@@ -127,7 +127,6 @@
 .editcliente-form h2 {
   font-family: "Bebas Neue", sans-serif;
   font-weight: 600;
-  font-style: normal;
   font-size: 40px;
   color: #000000;
   margin-bottom: 0.7rem;
@@ -135,20 +134,12 @@
 
 .editcliente-form label {
   font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
   color: #000000;
   font-weight: 600;
 }
 
 .editcliente-form input {
   font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
   padding: 0.7rem;
   border-radius: 0.7rem;
   border: 1.5px solid #000000;
@@ -158,11 +149,10 @@
 }
 
 .editcliente-btn {
- background: #000000;
+  background: #000000;
   color: #fff;
   font-weight: 400;
   border: none;
-  
   padding: 0.6rem 1.4rem;
   font-size: 20px;
   cursor: pointer;
@@ -191,9 +181,61 @@
 .editcliente-btn:hover::after {
   transform: rotate(45deg);
 }
-@media screen and (max-width: 768px) {
+
+.editcliente-volver-btn {
+  margin-top: 2.5rem;
+  background: #000;
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  padding: 0.7rem 2.2rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px #000a;
+  transition: background 0.2s, color 0.2s, transform 0.18s;
+  width: 100%;
+  max-width: 250px;
+}
+.editcliente-volver-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.04);
+}
+
+/* Tablet: apila paneles y ajusta paddings */
+@media (max-width: 1100px) {
   .editcliente-main {
     flex-direction: column;
-    align-items: center;
+    height: auto;
+    min-height: 100vh;
+  }
+  .editcliente-panel-izq,
+  .editcliente-panel-der {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0;
+    padding: 2rem 1rem;
+  }
+  .editcliente-panel-der {
+    padding-top: 1rem;
+  }
+}
+
+/* Mobile: reduce paddings, imagen y botón */
+@media (max-width: 600px) {
+  .editcliente-panel-izq,
+  .editcliente-panel-der {
+    padding: 1.2rem 0.5rem;
+  }
+  .editcliente-foto-wrapper {
+    width: 90px;
+    height: 90px;
+  }
+  .editcliente-volver-btn {
+    font-size: 1rem;
+    padding: 0.6rem 0;
+    max-width: 100%;
   }
 }

@@ -28,25 +28,23 @@ const Header = () => {
       <nav className="navbar-flex">
         {/* IZQUIERDA */}
         <ul className="navbar-left">
-          {location.pathname !== "/" && (
-            <li>
-              <button
-                className="home-btn"
-                title="Volver a inicio"
-                onClick={() => navigate("/")}
-              >
-                <img
-                  src="src/Resources/logo-drekkz.png"
-                  alt="Inicio"
-                  className="home-logo-img"
-                />
-              </button>
-            </li>
-          )}
+          <li>
+            <button
+              className="home-btn"
+              title="Volver a inicio"
+              onClick={() => navigate("/")}
+            >
+              <img
+                src="src/Resources/logo-drekkz.png"
+                alt="Inicio"
+                className="home-logo-img"
+              />
+            </button>
+          </li>
           {user && (
             <li>
               <button className="cerrar-sesion-btn" onClick={handleLogout}>
-                Cerrar sesión
+                CERRAR SESION
               </button>
             </li>
           )}
@@ -58,7 +56,7 @@ const Header = () => {
             <>
               {location.pathname !== "/catalogo" && (
                 <li>
-                  <Link to="/catalogo">Catálogo</Link>
+                  <Link to="/catalogo">CATALOGO</Link>
                 </li>
               )}
               <li>
@@ -112,8 +110,6 @@ const Header = () => {
                     <Link to="/admin/usuarios">Usuarios</Link>
                     <Link to="/admin/carritos">Carritos</Link>
                     <Link to="/admin/ventas">Ventas</Link>
-
-
                   </div>
                 )}
               </li>
@@ -138,7 +134,10 @@ const Header = () => {
 
       {/* Panel lateral del carrito */}
       {mostrarCarrito && (
-        <Carrito open={mostrarCarrito} onClose={() => setMostrarCarrito(false)} />
+        <Carrito
+          open={mostrarCarrito}
+          onClose={() => setMostrarCarrito(false)}
+        />
       )}
     </header>
   );

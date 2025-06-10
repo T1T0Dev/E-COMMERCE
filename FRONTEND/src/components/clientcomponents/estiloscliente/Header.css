@@ -1,3 +1,10 @@
+
+.navbar-flex,
+.navbar-flex * {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
+  letter-spacing: 0.5px;
+}
+
 .navbar-flex {
   display: flex;
   justify-content: space-between;
@@ -14,6 +21,9 @@
   margin: 0;
   list-style: none;
 }
+
+
+
 
 .navbar-left li,
 .navbar-right li {
@@ -45,7 +55,7 @@ nav ul li a,
 .catalogo-link {
   text-decoration: none;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 18px;

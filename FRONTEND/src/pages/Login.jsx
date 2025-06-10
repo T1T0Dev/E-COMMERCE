@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import useAuthStore from "../store/useAuthStore"; // Ajusta el path si es necesario
+import useAuthStore from "../store/useAuthStore";
+import Ojito from "../components/clientcomponents/Ojito";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/Login.css";
@@ -44,11 +45,11 @@ export default function Login() {
     <div className="login-container">
       <div className="login-card">
         <ToastContainer />
-        <h1 className="login-title">Iniciar Sesion</h1>
+        <h1 className="login-title">INICIA SESION</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div>
             <label className="login-label" htmlFor="email">
-              Email
+              EMAIL
             </label>
             <input
               className="login-input"
@@ -62,7 +63,7 @@ export default function Login() {
           </div>
           <div className="password-input-wrapper">
             <label className="login-label" htmlFor="password">
-              Password:
+              PASSWORD 
             </label>
             <input
               className="login-input"
@@ -73,25 +74,19 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-              type="button"
-              className="password-eye-btn"
+            <Ojito
+              visible={showPassword}
               onClick={() => setShowPassword((v) => !v)}
-              tabIndex={-1}
-              aria-label={
-                showPassword ? "Ocultar contraseña" : "Ver contraseña"
-              }
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+              ariaLabel={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+            />
           </div>
           <button className="login-btn" type="submit">
             Login<span className="arrow-icon">↗</span>
           </button>
         </form>
         <div style={{ marginTop: "1rem", textAlign: "center" }}>
-          <span className="create-account">No tienes cuenta? </span>
-          <Link to="/register">Crea tu cuenta Gratis!</Link>
+          <span className="create-account">NO TIENES CUENTA? </span>
+          <Link to="/register">CREA TU CUENTA GRATIS!</Link>
         </div>
       </div>
     </div>

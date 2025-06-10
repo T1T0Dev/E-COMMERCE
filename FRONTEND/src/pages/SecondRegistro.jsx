@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import Ojito from "../components/clientcomponents/Ojito";
 import "react-toastify/dist/ReactToastify.css";
-import "./styles/Registros.css"
+import "./styles/Registros.css";
 
 const SecondRegistro = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const cliente = JSON.parse(sessionStorage.getItem("registroCliente"));
     if (!cliente) {
@@ -25,7 +28,7 @@ const SecondRegistro = () => {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,
         ...cliente,
-        rol: "cliente"
+        rol: "cliente",
       });
       sessionStorage.removeItem("registroCliente");
       toast.success("Usuario registrado correctamente");
@@ -41,7 +44,9 @@ const SecondRegistro = () => {
       <div className="registro-card">
         <h2 className="registro-title">Registro - Usuario</h2>
         <form className="registro-form" onSubmit={handleSubmit}>
-          <label className="registro-label" htmlFor="email">Email</label>
+          <label className="registro-label" htmlFor="email">
+            Email
+          </label>
           <input
             className="registro-input"
             id="email"
@@ -51,18 +56,30 @@ const SecondRegistro = () => {
             onChange={handleChange}
             required
           />
-          <label className="registro-label" htmlFor="password">Contraseña</label>
-          <input
-            className="registro-input"
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Contraseña"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          <button className="registro-btn" type="submit">Registrarme<span className="arrow-icon">↗</span></button>
+          
+          <div className="password-input-wrapper">
+            <label className="registro-label" htmlFor="password">
+              Contraseña
+            </label>
+            <input
+              className="registro-input"
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <Ojito
+              visible={showPassword}
+              onClick={() => setShowPassword((v) => !v)}
+              ariaLabel={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+            />
+          </div>
+          <button className="registro-btn" type="submit">
+            Registrarme<span className="arrow-icon">↗</span>
+          </button>
         </form>
       </div>
     </div>
