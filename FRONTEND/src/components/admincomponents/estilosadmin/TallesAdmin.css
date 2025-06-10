@@ -1,4 +1,4 @@
-.categorias-admin-container {
+.talles-admin-container {
     width: 100vw;
     min-height: 100vh;
     margin: 0;
@@ -17,7 +17,27 @@
     overflow-y: auto;
 }
 
-.categorias-admin-title {
+.talles-admin-back-btn {
+    background: none;
+    border: none;
+    color: #bfc1e0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 38px 0 18px 0;
+    transition: color 0.2s;
+}
+
+.talles-admin-back-btn:hover {
+    color: #3a86ff;
+}
+
+.talles-admin-back-icon {
+    margin-right: 8px;
+}
+
+.talles-admin-title {
     font-size: 2.4rem;
     font-weight: 700;
     margin-bottom: 18px;
@@ -26,7 +46,7 @@
     letter-spacing: 1.2px;
 }
 
-.categorias-admin-form {
+.talles-admin-form {
     display: flex;
     gap: 16px;
     margin-bottom: 28px;
@@ -35,7 +55,7 @@
     max-width: 420px;
 }
 
-.categorias-admin-input {
+.talles-admin-input {
     flex: 1;
     padding: 14px 18px;
     border: 1px solid #39395a;
@@ -47,12 +67,12 @@
     transition: border 0.2s, background 0.2s;
 }
 
-.categorias-admin-input:focus {
+.talles-admin-input:focus {
     border: 1.5px solid #3a86ff;
     background: #23233a;
 }
 
-.categorias-admin-btn-agregar {
+.talles-admin-btn-agregar {
     background: #3a86ff;
     color: #fff;
     border: none;
@@ -64,12 +84,26 @@
     transition: background 0.2s, color 0.2s;
 }
 
-.categorias-admin-btn-agregar:hover {
+.talles-admin-btn-agregar:hover {
     background: #007aff;
     color: #fff;
 }
 
-.categorias-admin-list {
+.talles-admin-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: #bfc1e0;
+    text-align: center;
+}
+
+.talles-admin-loading {
+    text-align: center;
+    color: #bfc1e0;
+    font-size: 1.15rem;
+}
+
+.talles-admin-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -77,7 +111,7 @@
     max-width: 420px;
 }
 
-.categorias-admin-item {
+.talles-admin-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -89,24 +123,18 @@
     border: 1px solid #39395a;
 }
 
-.categorias-admin-item-info {
+.talles-admin-item-info {
     display: flex;
-    flex-direction: column;
+    align-items: center;
 }
 
-.categorias-admin-item-nombre {
+.talles-admin-item-nombre {
     font-size: 1.13rem;
     font-weight: 500;
     color: #f8f8fa;
 }
 
-.categorias-admin-item-descripcion {
-    font-size: 1rem;
-    color: #bfc1e0;
-    margin-top: 2px;
-}
-
-.categorias-admin-btn-eliminar {
+.talles-admin-btn-eliminar {
     background: #23233a;
     color: #ff006e;
     border: 1px solid #ff006e;
@@ -118,7 +146,7 @@
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
-.categorias-admin-btn-eliminar:hover {
+.talles-admin-btn-eliminar:hover {
     background: #39395a;
     color: #fff;
     border-color: #fff;

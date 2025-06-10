@@ -1,7 +1,7 @@
 import axios from "axios";
 import useCarritoStore from "../../../store/useCarritoStore";
 import "./estiloslanding/Carrito.css";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Carrito = ({ open, onClose }) => {
@@ -39,13 +39,13 @@ const Carrito = ({ open, onClose }) => {
     }
 
     try {
-      // 1. Crear el carrito
+      // 2. Crear el carrito
       const carritoRes = await axios.post("http://localhost:3000/api/carrito", {
         id_cliente,
       });
       const id_carrito = carritoRes.data.id_carrito;
 
-      // 2. Agregar productos al carrito
+      // 3. Agregar productos al carrito
       for (const item of items) {
         await axios.post("http://localhost:3000/api/carrito/item", {
           id_carrito,
@@ -56,7 +56,7 @@ const Carrito = ({ open, onClose }) => {
         });
       }
 
-      // 4. Crear el pedido
+      // 4. Crear el pedido (¡ahora sí con id_carrito!)
       const itemsPedido = items.map((item) => ({
         id_producto: item.id_producto,
         id_talle: item.id_talle,
@@ -66,6 +66,7 @@ const Carrito = ({ open, onClose }) => {
 
       await axios.post("http://localhost:3000/api/pedidos", {
         id_cliente,
+        id_carrito,
         items: itemsPedido,
       });
 

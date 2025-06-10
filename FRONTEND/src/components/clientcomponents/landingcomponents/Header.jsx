@@ -105,11 +105,15 @@ const Header = () => {
                 </button>
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
-                    <Link to="/admin/productos">CRUD Productos</Link>
-                    <Link to="/admin/pedidos">CRUD Pedidos</Link>
-                    <Link to="/admin/categorias">CRUD Categorías</Link>
-                    <Link to="/admin/talles">CRUD Talles</Link>
-                    <Link to="/admin/usuarios">CRUD Usuarios</Link>
+                    <Link to="/admin/productos">Productos</Link>
+                    <Link to="/admin/pedidos">Pedidos</Link>
+                    <Link to="/admin/categorias">Categorías</Link>
+                    <Link to="/admin/talles">Talles</Link>
+                    <Link to="/admin/usuarios">Usuarios</Link>
+                    <Link to="/admin/carritos">Carritos</Link>
+                    <Link to="/admin/ventas">Ventas</Link>
+
+
                   </div>
                 )}
               </li>

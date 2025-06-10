@@ -1,0 +1,150 @@
+.userscrud-container {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0 0 40px 0;
+  background: linear-gradient(120deg, #23233a 0%, #181828 100%);
+  border-radius: 0;
+  box-shadow: none;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.userscrud-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 38px 0 18px 0;
+  color: #f8f8fa;
+  text-align: center;
+  letter-spacing: 1.2px;
+}
+
+.userscrud-form {
+  display: flex;
+  flex-direction: row; /* Asegura disposición horizontal */
+  gap: 16px;
+  margin-bottom: 28px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px; /* Más ancho y simétrico */
+  flex-wrap: nowrap; /* Evita que los inputs salten a otra línea */
+}
+
+.userscrud-input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid #39395a;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  background: #181828;
+  color: #f8f8fa;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+  min-width: 180px;
+}
+
+.userscrud-input:focus {
+  border: 1.5px solid #3a86ff;
+  background: #23233a;
+}
+
+.userscrud-btn-agregar,
+.userscrud-btn-editar,
+.userscrud-btn-eliminar,
+.userscrud-btn-cancelar {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  margin-right: 8px;
+}
+
+.userscrud-btn-agregar,
+.userscrud-btn-editar {
+  background: #3a86ff;
+  color: #fff;
+}
+
+.userscrud-btn-agregar:hover,
+.userscrud-btn-editar:hover {
+  background: #007aff;
+  color: #fff;
+}
+
+.userscrud-btn-eliminar {
+  background: #23233a;
+  color: #ff006e;
+  border: 1px solid #ff006e;
+}
+
+.userscrud-btn-eliminar:hover {
+  background: #39395a;
+  color: #fff;
+  border-color: #fff;
+}
+
+.userscrud-btn-cancelar {
+  background: #6b7280;
+  color: #fff;
+}
+
+.userscrud-btn-cancelar:hover {
+  background: #374151;
+}
+
+.userscrud-table {
+  width: 100%;
+  max-width: 900px;
+  border-collapse: collapse;
+  background: #23233a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0002;
+  margin-top: 18px;
+}
+
+.userscrud-table th,
+.userscrud-table td {
+  padding: 16px 12px;
+  text-align: left;
+}
+
+.userscrud-table th {
+  background: #181828;
+  color: #bfc1e0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.userscrud-table tr {
+  border-bottom: 1.5px solid #39395a;
+  transition: background 0.18s;
+}
+
+.userscrud-table tr:hover {
+  background: #181828;
+}
+
+.userscrud-table td {
+  font-size: 1rem;
+  color: #f8f8fa;
+}
+
+.userscrud-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #bfc1e0;
+  text-align: center;
+}
+
