@@ -44,9 +44,10 @@ const Principal = () => {
               BIENVENID@ <span className="landing-nombre-cliente">{user?.nombre}</span> A DREKKZ INDUMENTARIA
             </h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
+          
             <p>Descubre más sobre nuestros servicios y productos.</p>
             <button
-              className="cta-button"
+              className="cta-button3"
               onClick={() => setModalOpen(true)}
             >
               SABER MAS <span className="arrow-icon">↗</span>

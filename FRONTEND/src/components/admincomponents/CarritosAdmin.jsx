@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import "./estilosadmin/CarritosAdmin.css";
 
 const CarritosAdmin = () => {
@@ -7,6 +9,7 @@ const CarritosAdmin = () => {
   const [filtroEstado, setFiltroEstado] = useState("");
   const [busquedaCliente, setBusquedaCliente] = useState("");
   const [carritoDetalle, setCarritoDetalle] = useState(null);
+  const navigate = useNavigate();
 
   // Traer carritos con pedidos asociados
   useEffect(() => {
@@ -101,29 +104,35 @@ const CarritosAdmin = () => {
   };
 
   return (
-    <div className="carritos-admin-container">
-      <ToastContainer />
-      <h2 className="carritos-admin-title">Carritos</h2>
+    <div className="carritos-admin-bg">
+      <div className="carritos-admin-back-btn-wrapper">
+        <button onClick={() => navigate(-1)} className="cta-button">
+          <AiOutlineArrowLeft size={30} className="drop-shadow" />
+          Volver atrás
+        </button>
+      </div>
+
+      {/* Filtros */}
       <div className="carritos-admin-filtros">
-        <label className="carritos-admin-label">Estado:</label>
-        <select
-          className="carritos-admin-select"
-          value={filtroEstado}
-          onChange={(e) => setFiltroEstado(e.target.value)}
-        >
-          <option value="">Todos</option>
-          <option value="activo">Activo</option>
-          <option value="procesando">Procesando</option>
-          <option value="entregado">Entregado</option>
-          <option value="cancelado">Cancelado</option>
-        </select>
         <input
-          className="carritos-admin-busqueda"
-          placeholder="Buscar cliente"
+          type="text"
+          placeholder="Buscar por cliente..."
           value={busquedaCliente}
           onChange={(e) => setBusquedaCliente(e.target.value)}
+          className="carritos-admin-buscador"
         />
+        <select
+          value={filtroEstado}
+          onChange={(e) => setFiltroEstado(e.target.value)}
+          className="carritos-admin-select"
+        >
+          <option value="">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="pagado">Pagado</option>
+          <option value="entregado">Entregado</option>
+        </select>
       </div>
+
       <table className="carritos-admin-table">
         <thead>
           <tr>
@@ -157,11 +166,11 @@ const CarritosAdmin = () => {
                   Ver Detalle
                 </button>
                 <button
-                  className="carritos-admin-btn-estado"
-                  onClick={() => handleCambiarEstado(c.id_carrito)}
-                  disabled={c.estado === "entregado"}
+                  className="carritos-admin-btn-contactar"
+                  onClick={() => handleContactarCliente(c.telefono)}
+                  disabled={!c.telefono}
                 >
-                  Marcar como Entregado
+                  Contactar Cliente
                 </button>
                 <button
                   className="carritos-admin-btn-pagado"
@@ -171,11 +180,11 @@ const CarritosAdmin = () => {
                   Marcar Pagado
                 </button>
                 <button
-                  className="carritos-admin-btn-contactar"
-                  onClick={() => handleContactarCliente(c.telefono)}
-                  disabled={!c.telefono}
+                  className="carritos-admin-btn-estado"
+                  onClick={() => handleCambiarEstado(c.id_carrito)}
+                  disabled={c.estado !== "pagado"}
                 >
-                  Contactar Cliente
+                  Marcar como Entregado
                 </button>
                 <button
                   className="carritos-admin-btn-eliminar"
@@ -263,15 +272,17 @@ const CarritosAdmin = () => {
                     0
                   )}`}
             </h4>
-            <button
-              className="carritos-admin-detalle-cerrar"
-              onClick={() => setCarritoDetalle(null)}
-            >
-              Cerrar
-            </button>
           </div>
+          <button
+            onClick={() => setCarritoDetalle(null)}
+            className="carritos-admin-btn-cerrar"
+          >
+            Cerrar
+          </button>
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 };

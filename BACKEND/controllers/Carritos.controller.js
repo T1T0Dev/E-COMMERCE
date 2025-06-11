@@ -178,11 +178,37 @@ export const listarCarritos = async (req, res) => {
 export const eliminarCarrito = async (req, res) => {
   const { id_carrito } = req.params;
   try {
-    // Elimina los detalles del carrito (si existen)
+    // 1. Busca los pedidos asociados a este carrito
+    const [pedidos] = await db.query(
+      "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
+      [id_carrito]
+    );
+
+    // 2. Elimina los detalles de esos pedidos y su historial de ventas
+    for (const pedido of pedidos) {
+      // Elimina historial de ventas asociado a este pedido
+      await db.query(
+        "DELETE FROM Historial_Ventas WHERE id_pedido = ?",
+        [pedido.id_pedido]
+      );
+      // Elimina los detalles del pedido
+      await db.query(
+        "DELETE FROM Detalle_Pedido WHERE id_pedido = ?",
+        [pedido.id_pedido]
+      );
+    }
+
+    // 3. Elimina los pedidos asociados a este carrito
+    await db.query("DELETE FROM Pedidos WHERE id_carrito = ?", [
+      id_carrito,
+    ]);
+
+    // 4. Elimina los detalles del carrito (si existen)
     await db.query("DELETE FROM Carrito_Detalle WHERE id_carrito = ?", [
       id_carrito,
     ]);
-    // Luego elimina el carrito
+
+    // 5. Finalmente elimina el carrito
     const [result] = await db.query(
       "DELETE FROM Carritos WHERE id_carrito = ?",
       [id_carrito]

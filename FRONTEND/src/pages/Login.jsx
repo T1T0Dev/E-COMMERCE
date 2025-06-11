@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import useAuthStore from "../store/useAuthStore";
-import Ojito from "../components/clientcomponents/Ojito";
-
+import PasswordInput from "../components/clientcomponents/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/Login.css";
 
@@ -16,7 +14,6 @@ export default function Login() {
   const [errores, setErrores] = useState({});
 
   const navigate = useNavigate();
-
   const login = useAuthStore((state) => state.setUser);
 
   const validarLogin = () => {
@@ -33,23 +30,17 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validarLogin()) return;
-
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
-        {
-          email,
-          contraseña,
-        }
+        { email, contraseña }
       );
       useAuthStore.getState().setUser(response.data);
-
       if (response.data) {
-        // Guarda el usuario con nombre en zustand y localStorage
         login(response.data);
         toast.success("Login exitoso");
+        sessionStorage.setItem("user", JSON.stringify(response.data));
         setTimeout(() => {
           navigate("/");
         }, 1500);
@@ -64,14 +55,14 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div className="dual-bg-login">
+      <div className="dual-bg-left"></div>
+      <div className="dual-bg-right"></div>
       <div className="login-card">
-        <ToastContainer />
-        <h1 className="login-title">INICIA SESION</h1>
+        <h1 className="login-title">INICIA SESIÓN</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div>
             <label className="login-label" htmlFor="email">
-              EMAIL
             </label>
             <input
               className="login-input"
@@ -89,36 +80,35 @@ export default function Login() {
           </div>
           <div className="password-input-wrapper">
             <label className="login-label" htmlFor="password">
-              PASSWORD
             </label>
-            <input
+            <PasswordInput
               className="login-input"
-              type={showPassword ? "text" : "password"}
-              placeholder="Contraseña"
               id="password"
               name="password"
-              required
+              placeholder="Contraseña"
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
+              required
+              show={showPassword}
+              setShow={setShowPassword}
             />
             {errores.contraseña && (
               <span className="error-message">{errores.contraseña}</span>
             )}
-            <Ojito
-              visible={showPassword}
-              onClick={() => setShowPassword((v) => !v)}
-              ariaLabel={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
-            />
+            
           </div>
           <button className="login-btn" type="submit">
             Login<span className="arrow-icon">↗</span>
           </button>
         </form>
-        <div style={{ marginTop: "1rem", textAlign: "center" }}>
-          <span className="create-account">NO TIENES CUENTA? </span>
-          <Link to="/register">CREA TU CUENTA GRATIS!</Link>
+        <div className="login-bottom-link">
+          <span className="create-account">¿NO TIENES CUENTA? </span>
+          <Link className="registro-link" to="/register">
+            CREA TU CUENTA GRATIS!
+          </Link>
         </div>
       </div>
+        <ToastContainer />
     </div>
   );
 }

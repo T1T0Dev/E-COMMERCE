@@ -3,7 +3,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./estilosadmin/ModalProd.css";
 
-const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [] }) => {
+const ModalProd = ({
+  isOpen,
+  onClose,
+  onProductCreated,
+  producto,
+  categorias = [],
+}) => {
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
@@ -23,8 +29,8 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
   useEffect(() => {
     if (isOpen) {
       fetch("http://localhost:3000/api/talles")
-        .then(res => res.json())
-        .then(data => setTalles(data));
+        .then((res) => res.json())
+        .then((data) => setTalles(data));
     }
   }, [isOpen]);
 
@@ -42,7 +48,7 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
       // Precargar talles seleccionados si existen
       if (producto.talles && producto.talles.length > 0) {
         const tallesObj = {};
-        producto.talles.forEach(t => {
+        producto.talles.forEach((t) => {
           tallesObj[t.id_talle] = t.stock;
         });
         setTallesSeleccionados(tallesObj);
@@ -63,7 +69,7 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
 
   // Manejar cambios en los talles seleccionados
   const handleTalleChange = (id_talle, checked) => {
-    setTallesSeleccionados(prev => {
+    setTallesSeleccionados((prev) => {
       const nuevo = { ...prev };
       if (checked) {
         nuevo[id_talle] = nuevo[id_talle] || 1; // valor por defecto 1
@@ -75,7 +81,7 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
   };
 
   const handleCantidadChange = (id_talle, cantidad) => {
-    setTallesSeleccionados(prev => ({
+    setTallesSeleccionados((prev) => ({
       ...prev,
       [id_talle]: cantidad,
     }));
@@ -103,12 +109,15 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
     if (imagen) data.append("imagen_producto", imagen);
 
     // Agregar talles seleccionados
-    data.append("talles", JSON.stringify(
-      Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
-        id_talle: Number(id_talle),
-        stock: Number(stock),
-      }))
-    ));
+    data.append(
+      "talles",
+      JSON.stringify(
+        Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
+          id_talle: Number(id_talle),
+          stock: Number(stock),
+        }))
+      )
+    );
 
     try {
       const url = producto?.id_producto
@@ -123,7 +132,11 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
       const result = await res.json();
 
       if (res.ok) {
-        toast.success(producto?.id_producto ? "Producto actualizado" : "Producto creado correctamente");
+        toast.success(
+          producto?.id_producto
+            ? "Producto actualizado"
+            : "Producto creado correctamente"
+        );
         if (onProductCreated) onProductCreated();
         onClose();
       } else {
@@ -143,19 +156,60 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
           <button className="modal-close" onClick={onClose} aria-label="Cerrar">
             &times;
           </button>
-          <h2 className="modal-title">{producto ? "Editar Producto" : "Nuevo Producto"}</h2>
-          <form className="modal-form" onSubmit={handleSubmit} encType="multipart/form-data">
-            <div className="modal-form-group">
-              <label className="modal-label">Nombre del producto</label>
-              <input
-                className="modal-input"
-                type="text"
-                name="nombre_producto"
-                value={formData.nombre_producto}
-                onChange={handleChange}
-                required
-              />
+          <h2 className="modal-title">
+            {producto ? "Editar Producto" : "Nuevo Producto"}
+          </h2>
+          <form
+            className="modal-form"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
+            <div className="modal-grid">
+              <div className="modal-form-group">
+                <label className="modal-label">Nombre del producto</label>
+                <input
+                  className="modal-input"
+                  type="text"
+                  name="nombre_producto"
+                  value={formData.nombre_producto}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="modal-form-group">
+                <label className="modal-label">Precio</label>
+                <input
+                  className="modal-input"
+                  type="number"
+                  name="precio"
+                  value={formData.precio}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div className="modal-form-group">
+                <label className="modal-label">Categoría</label>
+                <select
+                  className="modal-input"
+                  name="id_categoria"
+                  value={formData.id_categoria}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Seleccionar categoría
+                  </option>
+                  {categorias.map((cat) => (
+                    <option key={cat.id_categoria} value={cat.id_categoria}>
+                      {cat.nombre_categoria}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
+
             <div className="modal-form-group">
               <label className="modal-label">Descripción</label>
               <textarea
@@ -168,38 +222,6 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
               />
             </div>
             <div className="modal-form-group">
-              <label className="modal-label">Precio</label>
-              <input
-                className="modal-input"
-                type="number"
-                name="precio"
-                value={formData.precio}
-                onChange={handleChange}
-                required
-                min="0"
-                step="0.01"
-              />
-            </div>
-            <div className="modal-form-group">
-              <label className="modal-label">Categoría</label>
-              <select
-                className="modal-input"
-                name="id_categoria"
-                value={formData.id_categoria}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled hidden>
-                  Seleccionar categoría
-                </option>
-                {categorias.map((cat) => (
-                  <option key={cat.id_categoria} value={cat.id_categoria}>
-                    {cat.nombre_categoria}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="modal-form-group">
               <label className="modal-label">Imagen</label>
               <input
                 className="modal-input"
@@ -207,28 +229,30 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
                 name="imagen_producto"
                 accept="image/*"
                 onChange={handleFileChange}
-                // required solo si es nuevo
                 required={!producto}
               />
             </div>
             <div className="modal-form-group">
               <label className="modal-label">Talles y stock</label>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div className="modal-talles-row">
                 {talles.map((talle) => (
-                  <label key={talle.id_talle} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <label key={talle.id_talle} className="modal-talle-item">
                     <input
                       type="checkbox"
                       checked={tallesSeleccionados[talle.id_talle] !== undefined}
-                      onChange={e => handleTalleChange(talle.id_talle, e.target.checked)}
+                      onChange={e =>
+                        handleTalleChange(talle.id_talle, e.target.checked)
+                      }
                     />
                     {talle.nombre_talle}
                     {tallesSeleccionados[talle.id_talle] !== undefined && (
                       <input
                         type="number"
                         min={1}
-                        style={{ width: 60, marginLeft: 8 }}
                         value={tallesSeleccionados[talle.id_talle]}
-                        onChange={e => handleCantidadChange(talle.id_talle, e.target.value)}
+                        onChange={e =>
+                          handleCantidadChange(talle.id_talle, e.target.value)
+                        }
                         placeholder="Stock"
                         required
                       />
@@ -237,8 +261,14 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
                 ))}
               </div>
             </div>
-            <button className="modal-submit" type="submit" disabled={loading}>
-              {loading ? "Guardando..." : producto ? "Actualizar" : "Guardar"}
+            <button type="submit" className="modal-submit" disabled={loading}>
+              {loading
+                ? producto
+                  ? "Guardando..."
+                  : "Agregando..."
+                : producto
+                ? "Guardar Cambios"
+                : "Agregar Producto"}
             </button>
           </form>
         </div>

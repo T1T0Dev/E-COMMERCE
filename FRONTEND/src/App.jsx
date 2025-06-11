@@ -12,33 +12,99 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css'
 import TallesAdmin from "./components/admincomponents/TallesAdmin";
-
 import UsersCrud from './components/admincomponents/UsersCrud.jsx'
 import CarritosAdmin from './components/admincomponents/CarritosAdmin.jsx'
 import VentasCrud from './components/admincomponents/VentasCrud.jsx'
 import ClienteCrud from './components/admincomponents/ClienteCrud.jsx'
+import ProtectedRoute from "./components/ProtectedRoute.jsx"; 
+
+
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Principal />} />
+        {/* Rutas públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<FirstRegistro />} />
         <Route path="/second-registro" element={<SecondRegistro />} />
-        <Route path="/admin/productos" element={<CrudProd />} />
-        <Route path="/catalogo" element={<Catalogo />} />
-        <Route path="/perfil" element={<EditClient />} />
-        <Route path="/admin/categorias" element={<CategoriasAdmin />} />
-        <Route path="/admin/talles" element={<TallesAdmin />} />
-      <Route path="/admin/clientes" element={<ClienteCrud/>} />
-        <Route path="/admin/usuarios" element={<UsersCrud />} />
-        <Route path="/admin/carritos" element={<CarritosAdmin />} />
-        <Route path="/admin/ventas" element={<VentasCrud/>} />
-        {/* Puedes agregar más rutas aquí */}
+
+        {/* Rutas protegidas */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Principal />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/productos"
+          element={
+            <ProtectedRoute>
+              <CrudProd />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/catalogo"
+          element={
+            <ProtectedRoute>
+              <Catalogo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute>
+              <EditClient />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/categorias"
+          element={
+            <ProtectedRoute>
+              <CategoriasAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/talles"
+          element={
+            <ProtectedRoute>
+              <TallesAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/usuarios"
+          element={
+            <ProtectedRoute>
+              <UsersCrud />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/carritos"
+          element={
+            <ProtectedRoute>
+              <CarritosAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/ventas"
+          element={
+            <ProtectedRoute>
+              <VentasCrud />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
   )
 }
 
-export default App; 
+export default App;
