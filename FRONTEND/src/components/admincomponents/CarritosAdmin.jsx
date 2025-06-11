@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "./estilosadmin/CarritosAdmin.css";
 
 const CarritosAdmin = () => {
@@ -73,6 +73,33 @@ const CarritosAdmin = () => {
     setCarritoDetalle(carrito);
   };
 
+  const handleContactarCliente = (telefono) => {
+    if (!telefono) return;
+    const tel = telefono.replace(/\D/g, "");
+    window.open(`https://wa.me/54${tel}`, "_blank");
+  };
+
+  const handleMarcarPagado = async (id_carrito) => {
+    const res = await fetch(
+      `http://localhost:3000/api/carrito/${id_carrito}/estado`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ estado: "pagado" }),
+      }
+    );
+    if (res.ok) {
+      toast.success("Estado actualizado a pagado");
+      setCarritos((carritos) =>
+        carritos.map((c) =>
+          c.id_carrito === id_carrito ? { ...c, estado: "pagado" } : c
+        )
+      );
+    } else {
+      toast.error("Error al cambiar estado");
+    }
+  };
+
   return (
     <div className="carritos-admin-container">
       <ToastContainer />
@@ -135,6 +162,20 @@ const CarritosAdmin = () => {
                   disabled={c.estado === "entregado"}
                 >
                   Marcar como Entregado
+                </button>
+                <button
+                  className="carritos-admin-btn-pagado"
+                  onClick={() => handleMarcarPagado(c.id_carrito)}
+                  disabled={c.estado === "pagado"}
+                >
+                  Marcar Pagado
+                </button>
+                <button
+                  className="carritos-admin-btn-contactar"
+                  onClick={() => handleContactarCliente(c.telefono)}
+                  disabled={!c.telefono}
+                >
+                  Contactar Cliente
                 </button>
                 <button
                   className="carritos-admin-btn-eliminar"

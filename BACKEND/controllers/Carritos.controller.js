@@ -206,13 +206,14 @@ export const getCarritosPedidosFusion = async (req, res) => {
         ca.fecha_creacion,
         cl.nombre AS cliente_nombre,
         cl.apellido AS cliente_apellido,
+        cl.telefono, -- <--- AGREGA ESTA LÍNEA
         p.id_pedido,
         p.fecha_pedido,
         hv.fecha AS fecha_venta,
         hv.total AS total_venta,
         dp.id_detalle,
         pr.nombre_producto,
-        pr.imagen_producto, -- <--- AGREGA ESTA LINEA
+        pr.imagen_producto,
         t.nombre_talle,
         dp.cantidad,
         dp.subtotal
@@ -237,6 +238,7 @@ export const getCarritosPedidosFusion = async (req, res) => {
           cliente: [row.cliente_nombre, row.cliente_apellido]
             .filter(Boolean)
             .join(" "),
+          telefono: row.telefono, // <--- AGREGA ESTA LÍNEA
           id_pedido: row.id_pedido,
           fecha_pedido: row.fecha_pedido,
           fecha_venta: row.fecha_venta,
@@ -244,7 +246,6 @@ export const getCarritosPedidosFusion = async (req, res) => {
           productos: [],
         };
       }
-      // Solo agrega si hay producto (puede haber filas sin producto si LEFT JOIN)
       if (row.id_detalle) {
         carritosMap[row.id_carrito].productos.push({
           id_detalle: row.id_detalle,

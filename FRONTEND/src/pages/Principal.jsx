@@ -5,6 +5,7 @@ import ScrollToTopButton from "../components/clientcomponents/ScrollToTopButton.
 import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
 import "./styles/Principal.css";
 import useAuthStore from '../store/useAuthStore.js'
+import ModalEmprendimiento from "./ModalSaberMas.jsx";
 
 const Principal = () => {
   const user = useAuthStore((state) => state.user);
@@ -12,6 +13,7 @@ const Principal = () => {
   const [correo, setCorreo] = useState("");
   const [asunto, setAsunto] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const enviarWhatsApp = (e) => {
     e.preventDefault();
@@ -38,11 +40,17 @@ const Principal = () => {
       <main>
         <div className="landing-content" id="services">
           <section className="hero-section">
-            <h1>BIENVENID@ {user?.nombre} A DREKKZ INDUMENTARIA</h1>
+            <h1>
+              BIENVENID@ <span className="landing-nombre-cliente">{user?.nombre}</span> A DREKKZ INDUMENTARIA
+            </h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
             <p>Descubre más sobre nuestros servicios y productos.</p>
-            <button className="cta-button"> SABER MAS <span className="arrow-icon">↗</span>
-</button>
+            <button
+              className="cta-button"
+              onClick={() => setModalOpen(true)}
+            >
+              SABER MAS <span className="arrow-icon">↗</span>
+            </button>
           </section>
 
           <section className="features-section">
@@ -101,6 +109,7 @@ const Principal = () => {
     </div>
   </div>
 </section>
+          <ModalEmprendimiento open={modalOpen} onClose={() => setModalOpen(false)} />
         </div>
       </main>
       <Footer />

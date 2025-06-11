@@ -4,7 +4,15 @@ import db from '../config/db.js';
 
 export const getClientes = async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM clientes');
+        const [rows] = await db.query(`
+            SELECT 
+                id_cliente,
+                nombre,
+                apellido,
+                telefono,
+                direccion
+            FROM clientes
+        `);
         res.json(rows);
     } catch (error) {
         console.error('Error al obtener los clientes:', error);

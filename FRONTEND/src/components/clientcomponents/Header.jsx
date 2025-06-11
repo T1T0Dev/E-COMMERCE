@@ -109,6 +109,7 @@ const Header = () => {
                     <Link to="/admin/categorias">Categorías</Link>
                     <Link to="/admin/talles">Talles</Link>
                     <Link to="/admin/usuarios">Usuarios</Link>
+                    <Link to="/admin/clientes">Clientes</Link>
                     <Link to="/admin/carritos">Carritos</Link>
                     <Link to="/admin/ventas">Ventas</Link>
                   </div>

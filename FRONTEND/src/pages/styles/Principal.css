@@ -313,3 +313,24 @@
 .contact-form, .contact-logo {
     padding: 30px;
 }
+
+.landing-nombre-cliente {
+  color: #888c99;         /* Gris más fuerte y oscuro */
+  font-weight: 800;
+  font-size: inherit;     /* igual que el h1 */
+  letter-spacing: 1px;
+  padding: 0 0.15em;
+  border-radius: 4px;
+  display: inline;
+  font-family: inherit;
+  background: none;
+  box-shadow: none;
+  filter: none;
+  position: static;
+  transition: color 0.2s;
+}
+
+.landing-nombre-cliente::after {
+  content: '';
+  display: none;
+}
