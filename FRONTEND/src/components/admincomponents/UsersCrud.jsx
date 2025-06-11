@@ -6,6 +6,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import ModalConfirmacion from "./ModalConfirmacion";
 
+import "react-toastify/dist/ReactToastify.css";
+
 const initialForm = {
   email: "",
   contraseña: "",

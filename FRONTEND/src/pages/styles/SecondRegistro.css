@@ -1,5 +1,5 @@
 /* Fondo mitad blanco, mitad negro */
-.dual-bg-login {
+.dual-bg-registro {
   min-height: 100vh;
   width: 100vw;
   display: flex;
@@ -10,8 +10,27 @@
   background: linear-gradient(90deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
 }
 
+.dual-bg-left,
+.dual-bg-right {
+  position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.dual-bg-left {
+  left: 0;
+  background: #fff;
+}
+
+.dual-bg-right {
+  right: 0;
+  background: #181818;
+}
+
 /* Card glassmorphism */
-.login-card {
+.registro-card {
   background: rgba(245,245,245,0.82);
   border-radius: 2rem;
   box-shadow: 0 8px 32px 0 rgba(30,30,30,0.13);
@@ -30,12 +49,12 @@
   transition: box-shadow 0.3s;
 }
 
-.login-card:hover {
+.registro-card:hover {
   box-shadow: 0 12px 40px 0 rgba(30,30,30,0.18);
 }
 
 /* Título negro con sombra gris */
-.login-title {
+.registro-title {
   color: #181818;
   font-size: 2.3rem;
   font-weight: 900;
@@ -45,7 +64,7 @@
   text-shadow: 0 2px 12px #bdbdbd33;
 }
 
-.login-form {
+.registro-form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -53,7 +72,7 @@
 }
 
 /* Inputs flotantes */
-.login-label {
+.registro-label {
   color: #222;
   font-size: 1rem;
   font-weight: 600;
@@ -62,7 +81,7 @@
   display: block;
 }
 
-.login-input {
+.registro-input {
   width: 100%;
   padding: 1.1rem 0rem 0.6rem 0.2rem;
   border: none;
@@ -76,13 +95,13 @@
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.login-input:focus {
+.registro-input:focus {
   border-bottom: 2.5px solid #181818;
   box-shadow: 0 0 8px #bdbdbd88;
   background: #fff;
 }
 
-.error-message {
+.registro-error {
   color: #b91c1c;
   background: #f7f7fa;
   border-radius: 6px;
@@ -100,7 +119,7 @@
 }
 
 /* Botón negro con hover gris oscuro */
-.login-btn {
+.registro-btn {
   background: linear-gradient(90deg, #181818 60%, #444 100%);
   color: #fff;
   font-weight: bold;
@@ -128,43 +147,16 @@
   color: #fff;
 }
 
-.login-btn:hover {
+.registro-btn:hover {
   background: linear-gradient(90deg, #444 0%, #181818 100%);
   color: #fff;
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 6px 24px #2224;
 }
 
-.login-btn:hover .arrow-icon {
+.registro-btn:hover .arrow-icon {
   transform: translateX(4px) rotate(45deg);
   color: #bdbdbd;
-}
-
-.login-bottom-link {
-  margin-top: 2.2rem;
-  text-align: center;
-}
-
-.create-account {
-  color: #444;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-right: 0.3rem;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.registro-link {
-  color: #181818;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: underline;
-  transition: color 0.2s;
-}
-
-.registro-link:hover {
-  color: #444;
-  text-shadow: 0 1px 8px #bdbdbd55;
 }
 
 /* Ojito (icono de mostrar/ocultar password) */
@@ -185,7 +177,7 @@
 }
 
 @media (max-width: 700px) {
-  .dual-bg-login {
+  .dual-bg-registro {
     flex-direction: column;
     background: linear-gradient(180deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
   }
@@ -203,12 +195,12 @@
     bottom: 0;
     right: 0;
   }
-  .login-card {
+  .registro-card {
     max-width: 98vw;
     margin: 0 auto;
     padding: 2rem 1rem 1.5rem 1rem;
   }
-  .login-title {
+  .registro-title {
     font-size: 1.4rem;
   }
 }

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import Ojito from "../components/clientcomponents/Ojito";
+import PasswordInput from "../components/clientcomponents/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
-import "./styles/Registros.css";
+import "./styles/SecondRegistro.css";
 
 const SecondRegistro = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -40,7 +40,9 @@ const SecondRegistro = () => {
   };
 
   return (
-    <div className="registro-container">
+     <div className="dual-bg-registro">
+      <div className="dual-bg-left"></div>
+      <div className="dual-bg-right"></div>
       <ToastContainer position="top-right" autoClose={2000} />
       <div className="registro-card">
         <h2 className="registro-title">Registro - Usuario</h2>
@@ -62,21 +64,19 @@ const SecondRegistro = () => {
             <label className="registro-label" htmlFor="password">
               Contraseña
             </label>
-            <input
+            <PasswordInput
               className="registro-input"
               id="password"
               name="password"
-              type={showPassword ? "text" : "password"}
               placeholder="Contraseña"
               value={form.password}
               onChange={handleChange}
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
               required
             />
-            <Ojito
-              visible={showPassword}
-              onClick={() => setShowPassword((v) => !v)}
-              ariaLabel={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
-            />
+            
+           
           </div>
           <button className="registro-btn" type="submit">
             Registrarme<span className="arrow-icon">↗</span>
