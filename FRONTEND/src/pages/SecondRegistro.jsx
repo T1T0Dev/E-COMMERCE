@@ -26,8 +26,8 @@ const SecondRegistro = () => {
     }
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
-        ...form,
-        contaseña: form.password,
+        email: form.email,
+        contraseña: form.password, // <-- corregido aquí
         ...cliente,
         rol: "cliente",
       });
@@ -57,7 +57,7 @@ const SecondRegistro = () => {
             onChange={handleChange}
             required
           />
-          
+
           <div className="password-input-wrapper">
             <label className="registro-label" htmlFor="password">
               Contraseña

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "./estilosadmin/VentasCrud.css";
 const VentasCrud = () => {
   const [ventasPorDia, setVentasPorDia] = useState([]);
   const [detalleDia, setDetalleDia] = useState([]);
