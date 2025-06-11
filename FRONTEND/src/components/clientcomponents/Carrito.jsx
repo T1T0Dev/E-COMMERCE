@@ -5,7 +5,7 @@ import ModalGracias from "./ModalGracias";
 import useAuthStore from "../../store/useAuthStore";
 import useCarritoStore from "../../store/useCarritoStore.js";
 import "./estiloscliente/Carrito.css";
-import { toast } from "react-toastify";
+import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Carrito = ({ open, onClose }) => {
@@ -215,6 +215,7 @@ const Carrito = ({ open, onClose }) => {
         }}
         mensaje="¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
       />
+      <ToastContainer position="top-center" autoClose={3000}/>
     </>
   );
 };
