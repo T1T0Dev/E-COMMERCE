@@ -11,20 +11,37 @@ import "./styles/Login.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // <--- Nuevo estado
+  const [contraseña, setContraseña] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errores, setErrores] = useState({});
+
   const navigate = useNavigate();
+
   const login = useAuthStore((state) => state.setUser);
+
+  const validarLogin = () => {
+    const newErrors = {};
+    if (!email) newErrors.email = "El email es obligatorio";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      newErrors.email = "Email inválido";
+    if (!contraseña) newErrors.contraseña = "La contraseña es obligatoria";
+    else if (contraseña.length < 6)
+      newErrors.contraseña = "Mínimo 6 caracteres";
+    setErrores(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validarLogin()) return;
 
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
         {
           email,
-          password,
+          contraseña,
         }
       );
       useAuthStore.getState().setUser(response.data);
@@ -38,7 +55,11 @@ export default function Login() {
         }, 1500);
       }
     } catch (err) {
-      toast.error("Email o contraseña incorrectos");
+      if (err.response && err.response.data && err.response.data.error) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error("Error al registrar usuario");
+      }
     }
   };
 
@@ -55,26 +76,34 @@ export default function Login() {
             <input
               className="login-input"
               type="text"
+              placeholder="Email"
               id="email"
               name="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errores.email && (
+              <span className="error-message">{errores.email}</span>
+            )}
           </div>
           <div className="password-input-wrapper">
             <label className="login-label" htmlFor="password">
-              PASSWORD 
+              PASSWORD
             </label>
             <input
               className="login-input"
               type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
               id="password"
               name="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
             />
+            {errores.contraseña && (
+              <span className="error-message">{errores.contraseña}</span>
+            )}
             <Ojito
               visible={showPassword}
               onClick={() => setShowPassword((v) => !v)}

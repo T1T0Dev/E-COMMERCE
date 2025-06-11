@@ -4,6 +4,7 @@ import "./estilosadmin/UsersCrud.css";
 import { toast, ToastContainer } from "react-toastify";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import ModalConfirmacion from "./ModalConfirmacion";
 
 const initialForm = {
   email: "",
@@ -13,6 +14,7 @@ const initialForm = {
 
 const UsersCrud = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [modal, setModal] = useState({ open: false, action: null, usuario: null });
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,7 +42,6 @@ const UsersCrud = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Crear o editar usuario
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -48,36 +49,60 @@ const UsersCrud = () => {
         await axios.put(`http://localhost:3000/api/usuarios/${editId}`, form);
         toast.success("Usuario actualizado");
       } else {
-        await axios.post("http://localhost:3000/api/auth/register", form);
+        await axios.post("http://localhost:3000/api/usuarios", form);
         toast.success("Usuario creado");
       }
       setForm(initialForm);
       setEditId(null);
       fetchUsuarios();
     } catch (err) {
-      toast.error("Error al guardar usuario");
+      if (err.response && err.response.status === 409) {
+        toast.error("El email ya está registrado.");
+      } else {
+        toast.error("Error al guardar usuario");
+      }
     }
   };
 
-  // Editar usuario
+  // Editar usuario (abre modal de confirmación)
   const handleEdit = (usuario) => {
-    setForm({
-      email: usuario.email,
-      contraseña: "",
-      rol: usuario.rol,
+    setModal({
+      open: true,
+      action: "editar",
+      usuario,
     });
-    setEditId(usuario.id_usuario);
   };
 
-  // Eliminar usuario
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Eliminar este usuario?")) return;
+  // Confirmar edición
+  const confirmEdit = () => {
+    setForm({
+      email: modal.usuario.email,
+      contraseña: "",
+      rol: modal.usuario.rol,
+    });
+    setEditId(modal.usuario.id_usuario);
+    setModal({ open: false, action: null, usuario: null });
+  };
+
+  // Eliminar usuario (abre modal de confirmación)
+  const handleDelete = (id) => {
+    setModal({
+      open: true,
+      action: "eliminar",
+      usuario: id,
+    });
+  };
+
+  // Confirmar eliminación
+  const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/usuarios/${id}`);
+      await axios.delete(`http://localhost:3000/api/usuarios/${modal.usuario}`);
       toast.success("Usuario eliminado");
       fetchUsuarios();
     } catch (err) {
       toast.error("Error al eliminar usuario");
+    } finally {
+      setModal({ open: false, action: null, usuario: null });
     }
   };
 
@@ -87,9 +112,30 @@ const UsersCrud = () => {
     setEditId(null);
   };
 
+  // Cerrar modal
+  const closeModal = () => setModal({ open: false, action: null, usuario: null });
+
   return (
     <div className="userscrud-container">
       <ToastContainer position="top-right" autoClose={2000} />
+      <ModalConfirmacion
+        open={modal.open}
+        mensaje={
+          modal.action === "eliminar"
+            ? "¿Estás seguro de eliminar este usuario?"
+            : modal.action === "editar"
+            ? "¿Estás seguro de editar este usuario?"
+            : ""
+        }
+        onConfirm={
+          modal.action === "eliminar"
+            ? confirmDelete
+            : modal.action === "editar"
+            ? confirmEdit
+            : closeModal
+        }
+        onCancel={closeModal}
+      />
       <button onClick={() => navigate(-1)} className="cta-button">
         <AiOutlineArrowLeft size={30} className="drop-shadow" />
         Volver atrás
@@ -108,7 +154,7 @@ const UsersCrud = () => {
           className="userscrud-input"
           name="contraseña"
           type="password"
-          placeholder="Contraseña"
+          placeholder="Nueva Contraseña"
           value={form.contraseña}
           onChange={handleChange}
           required={!editId}
@@ -142,6 +188,7 @@ const UsersCrud = () => {
             <tr>
               <th>ID</th>
               <th>Email</th>
+              <th>Contraseña</th>
               <th>Rol</th>
               <th>Acciones</th>
             </tr>
@@ -151,6 +198,7 @@ const UsersCrud = () => {
               <tr key={usuario.id_usuario}>
                 <td>{usuario.id_usuario}</td>
                 <td>{usuario.email}</td>
+                <td>{usuario.contraseña}</td>
                 <td>{usuario.rol}</td>
                 <td>
                   <button

@@ -1,5 +1,25 @@
 import db from '../config/db.js';
 
+export const createUsuario = async (req, res) => {
+    const { email, contraseña, rol } = req.body;
+    if (!email || !contraseña || !rol) {
+        return res.status(400).json({ error: "Faltan datos obligatorios" });
+    }
+    try {
+        const [result] = await db.query(
+            'INSERT INTO usuarios (email, contraseña, rol) VALUES (?, ?, ?)',
+            [email, contraseña, rol]
+        );
+        res.status(201).json({ id_usuario: result.insertId, email, rol });
+    } catch (error) {
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({ error: "El email ya está registrado" });
+        }
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ error: 'Error al crear usuario' });
+    }
+};
+
 export const getUsuarios = async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM usuarios');

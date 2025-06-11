@@ -17,14 +17,14 @@ const Principal = () => {
     e.preventDefault();
 
     const texto =
-      `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n` +
-      `------------------------------------\n` +
-      `👤 Nombre: ${nombre}\n` +
-      `📧 Correo: ${correo}\n` +
-      `📝 Asunto: ${asunto}\n` +
-      `💬 Mensaje:\n${mensaje}\n` +
-      `------------------------------------\n` +
-      `¡Espero su respuesta! 😊`;
+      `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n
+      ------------------------------------\n
+      %20%F0%9F%91%A4 Nombre: ${nombre}\n
+      📧 Correo: ${correo}\n
+      📝 Asunto: ${asunto}\n
+      💬 Mensaje:\n${mensaje}\n
+      ------------------------------------\n
+      ¡Espero su respuesta! 👏🏻`;
 
     const telefono = "543815941635";
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;

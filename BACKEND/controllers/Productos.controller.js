@@ -10,6 +10,7 @@ export const getProductos = async (req, res) => {
         p.descripcion,
         p.precio,
         p.imagen_producto,
+        p.id_categoria,
         c.nombre_categoria
       FROM Productos p
       JOIN Categorias c ON p.id_categoria = c.id_categoria
@@ -55,9 +56,10 @@ export const getProductosConTalles = async (req, res) => {
         SELECT 
           p.id_producto,
           p.nombre_producto,
-          p.descripcion,           -- <--- AGREGA ESTA LÍNEA
+          p.descripcion,          
           p.precio,
           p.imagen_producto,
+          p.id_categoria,           
           c.nombre_categoria,
           t.id_talle,
           t.nombre_talle,
@@ -79,6 +81,7 @@ export const getProductosConTalles = async (req, res) => {
           descripcion: row.descripcion,   // <--- AGREGA ESTA LÍNEA
           precio: row.precio,
           imagen_producto: row.imagen_producto,
+          id_categoria: row.id_categoria, 
           nombre_categoria: row.nombre_categoria,
           talles: [],
         };
@@ -219,6 +222,7 @@ export const getProductoById = async (req, res) => {
                 p.nombre_producto,
                 p.precio,
                 p.imagen_producto,
+                p.id_categoria,
                 c.nombre_categoria,
                 t.id_talle,
                 t.nombre_talle,

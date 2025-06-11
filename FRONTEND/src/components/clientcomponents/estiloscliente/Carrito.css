@@ -5,11 +5,11 @@
   width: 400px;
   max-width: 90vw;
   height: 100vh;
-  background: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-  transition: right 0.3s ease-in-out;
+  background: #181820;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.45);
+  transition: right 0.3s cubic-bezier(.4,1.2,.4,1);
   z-index: 3000;
-  color: #000000;
+  color: #f5f5f5;
 }
 
 .carrito-drawer.open {
@@ -22,12 +22,14 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  color: #000000;
+  color: #f5f5f5;
 }
 
 .carrito-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  color: #fff;
+  letter-spacing: 0.03em;
 }
 
 .carrito-productos-lista {
@@ -39,41 +41,58 @@
 
 .carrito-item {
   margin-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #232526;
   padding-bottom: 1rem;
-  color: #000000;
+  color: #f5f5f5;
 }
 
 .carrito-cantidad-btn {
-  background: #d6d6d6;
+  background: #232526;
+  color: #fff;
   border: none;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.7rem;
   cursor: pointer;
+  border-radius: 6px;
+  margin: 0 2px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background 0.18s;
+}
+.carrito-cantidad-btn:hover {
+  background: #6366f1;
+  color: #fff;
 }
 
 .carrito-eliminar-btn {
   background: #e11d48;
   color: white;
   border: none;
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.8rem;
   cursor: pointer;
   margin-top: 0.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background 0.18s;
+}
+.carrito-eliminar-btn:hover {
+  background: #b91c1c;
 }
 
 .carrito-bottom {
-    margin-top: 1rem;
+  margin-top: 1rem;
   position: sticky;
   bottom: 0;
-  background-color: white;
+  background-color: #181820;
   padding-top: 1rem;
   padding-bottom: 1rem;
   z-index: 1;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.10);
 }
 
 .carrito-total {
   font-size: 1.2rem;
   margin-bottom: 1rem;
+  color: #fff;
 }
 
 .carrito-btn-enviar,
@@ -84,19 +103,28 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
+  border-radius: 7px;
+  font-size: 1rem;
 }
 
 .carrito-btn-enviar {
-  background-color: #10b981;
+  background-color: #6366f1;
   color: white;
+  transition: background 0.18s;
+}
+.carrito-btn-enviar:hover {
+  background: #4338ca;
 }
 
 .carrito-btn-cerrar {
-  background-color: #000000;
+  background-color: #232526;
   color: white;
 }
+.carrito-btn-cerrar:hover {
+  background: #000;
+}
 
-/* 🔴 Overlay desenfocado */
+/* Overlay desenfocado */
 .carrito-overlay {
   position: fixed;
   top: 0;

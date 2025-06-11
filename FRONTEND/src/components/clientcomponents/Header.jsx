@@ -59,7 +59,7 @@ const Header = () => {
                   <Link to="/catalogo">CATALOGO</Link>
                 </li>
               )}
-              <li>
+              <li style={{ position: "relative" }}>
                 <button
                   className="cart-section"
                   onClick={() => setMostrarCarrito(true)}
@@ -68,6 +68,7 @@ const Header = () => {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
+                    position: "relative",
                   }}
                 >
                   <FaShoppingCart size={22} />
@@ -104,7 +105,7 @@ const Header = () => {
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
                     <Link to="/admin/productos">Productos</Link>
-                    <Link to="/admin/pedidos">Pedidos</Link>
+                    
                     <Link to="/admin/categorias">Categorías</Link>
                     <Link to="/admin/talles">Talles</Link>
                     <Link to="/admin/usuarios">Usuarios</Link>

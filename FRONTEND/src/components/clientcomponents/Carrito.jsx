@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import ModalEnvio from "./ModalEnvio";
+import ModalGracias from "./ModalGracias";
 import useAuthStore from "../../store/useAuthStore";
 import useCarritoStore from "../../store/useCarritoStore.js";
 import "./estiloscliente/Carrito.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Carrito = ({ open, onClose }) => {
@@ -12,7 +13,7 @@ const Carrito = ({ open, onClose }) => {
     useCarritoStore();
   const user = useAuthStore((state) => state.user);
   const [modalEnvioOpen, setModalEnvioOpen] = useState(false);
-  const [mensajeFinal, setMensajeFinal] = useState("");
+  const [modalGraciasOpen, setModalGraciasOpen] = useState(false);
 
   const total = items.reduce(
     (acc, item) => acc + item.precio * item.cantidad,
@@ -97,15 +98,8 @@ const Carrito = ({ open, onClose }) => {
         });
       }
 
-      setMensajeFinal(
-        "¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
-      );
+      setModalGraciasOpen(true);
       limpiarCarrito();
-      onClose();
-      toast.success(
-        "¡Gracias por tu compra! En breve nos contactaremos para coordinar la entrega.",
-        { position: "top-center", autoClose: 5000 }
-      );
     } catch (error) {
       toast.error("Error al enviar el pedido.");
     }
@@ -206,7 +200,6 @@ const Carrito = ({ open, onClose }) => {
             </button>
           </div>
         </div>
-        <ToastContainer position="top-right" autoClose={3000} />
       </div>
       <ModalEnvio
         open={modalEnvioOpen}
@@ -214,11 +207,14 @@ const Carrito = ({ open, onClose }) => {
         onConfirm={handleConfirmEnvio}
         direccionCliente={user?.direccion || ""}
       />
-      {mensajeFinal && (
-        <div className="carrito-mensaje-final">
-          <p>{mensajeFinal}</p>
-        </div>
-      )}
+      <ModalGracias
+        open={modalGraciasOpen}
+        onClose={() => {
+          setModalGraciasOpen(false);
+          onClose();
+        }}
+        mensaje="¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
+      />
     </>
   );
 };

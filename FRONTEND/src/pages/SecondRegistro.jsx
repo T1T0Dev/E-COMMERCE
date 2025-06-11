@@ -27,6 +27,7 @@ const SecondRegistro = () => {
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,
+        contaseña: form.password,
         ...cliente,
         rol: "cliente",
       });

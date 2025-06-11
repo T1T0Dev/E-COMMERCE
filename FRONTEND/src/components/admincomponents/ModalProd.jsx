@@ -35,7 +35,7 @@ const ModalProd = ({ isOpen, onClose, onProductCreated, producto, categorias = [
         nombre_producto: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        id_categoria: producto.id_categoria,
+        id_categoria: producto.id_categoria || "",
       });
       setImagen(null);
 

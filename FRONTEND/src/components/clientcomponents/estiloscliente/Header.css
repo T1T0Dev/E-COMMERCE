@@ -1,3 +1,12 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 4000;
+  background: #181820;
+  box-shadow: 0 2px 16px #000a;
+}
+
+
 
 .navbar-flex,
 .navbar-flex * {
@@ -161,6 +170,29 @@ nav ul li.logo {
   font-size: 22px;
   color: #ffffff;
   margin-right: 4px;
+}
+
+.cart-count {
+  background: #fff;
+  color: #e11d48;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 0.10em 0.5em;
+  font-size: 1rem;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  box-shadow: 0 2px 8px #0008;
+  border: 2px solid #181820;
+  animation: cart-bounce 0.5s;
+  z-index: 10;
+}
+
+@keyframes cart-bounce {
+  0% { transform: scale(1.2);}
+  30% { transform: scale(1.5);}
+  60% { transform: scale(0.9);}
+  100% { transform: scale(1);}
 }
 
 @media (max-width: 768px) {
