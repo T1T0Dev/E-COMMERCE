@@ -26,20 +26,25 @@ const EditClient = () => {
   useEffect(() => {
     if (!user) return;
 
-    axios.get(`http://localhost:3000/api/clientes`).then((res) => {
-      const cli = res.data.find((c) => c.id_usuario === user.id_usuario);
-      setCliente(cli);
-      if (cli) {
-        setForm((f) => ({
-          ...f,
-          nombre: cli.nombre || "",
-          apellido: cli.apellido || "",
-          direccion: cli.direccion || "",
-          telefono: cli.telefono || "",
-        }));
-      }
-    });
+    // Obtener cliente por id_usuario (mejor desde el backend)
+    axios
+      .get(`http://localhost:3000/api/clientes/usuario/${user.id_usuario}`)
+      .then((res) => {
+        setCliente(res.data);
+        console.log("Cliente encontrado:", res.data);
+        if (res.data) {
+          setForm((f) => ({
+            ...f,
+            nombre: res.data.nombre || "",
+            apellido: res.data.apellido || "",
+            direccion: res.data.direccion || "",
+            telefono: res.data.telefono || "",
+          }));
+        }
+      })
+      .catch(() => setCliente(null));
 
+    // Obtener usuario
     axios
       .get(`http://localhost:3000/api/usuarios/${user.id_usuario}`)
       .then((res) => {
@@ -49,7 +54,9 @@ const EditClient = () => {
           email: res.data.email || "",
           contraseña: "",
         }));
-      });
+        console.log("Usuario encontrado:", res.data);
+      })
+      .catch(() => setUsuario(null));
   }, [user]);
 
   useEffect(() => {
@@ -154,7 +161,15 @@ const EditClient = () => {
     window.location.reload();
   };
 
-  if (!cliente || !usuario) return <div>Cargando...</div>;
+  if (!usuario) return <div>Cargando...</div>;
+  if (!cliente)
+    return (
+      <div>
+        No se encontró información de cliente para este usuario.
+        <br />
+        Si eres cliente y ves este mensaje, contacta al administrador.
+      </div>
+    );
 
   return (
     <div className="editcliente-main">

@@ -130,7 +130,7 @@
   background: #2d2d4d;
 }
 
-/* Botones de acciones: tamaño y forma uniforme */
+/* Botones de acciones: tamaño y forma uniforme y colores oscuros modernos */
 .carritos-admin-btn-detalle,
 .carritos-admin-btn-estado,
 .carritos-admin-btn-pagado,
@@ -152,52 +152,47 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-  box-shadow: 0 2px 8px #0001;
+  box-shadow: 0 2px 8px #0002;
   outline: none;
   line-height: 1.1;
   gap: 6px;
+  color: #fff;
 }
 
-/* Colores de botones */
+/* Colores oscuros individuales para cada acción */
 .carritos-admin-btn-detalle {
-  background: #3a86ff;
-  color: #fff;
+  background: rgb(27, 27, 27);
 }
-.carritos-admin-btn-detalle:hover:enabled {
-  background: #265bb7;
-  color: #fff;
+.carritos-admin-btn-detalle:hover {
+  background: #34345a;
 }
+
 .carritos-admin-btn-estado {
-  background: #43ea7c;
-  color: #fff;
+  background: rgb(27, 27, 27);
 }
-.carritos-admin-btn-estado:hover:enabled {
-  background: #2bb35a;
-  color: #fff;
+.carritos-admin-btn-estado:hover {
+  background: #27404a;
 }
+
 .carritos-admin-btn-pagado {
-  background: #fcb045;
-  color: #fff;
+  background: rgb(27, 27, 27);
 }
-.carritos-admin-btn-pagado:hover:enabled {
-  background: #ff9800;
-  color: #fff;
+.carritos-admin-btn-pagado:hover {
+  background: #3a2e47;
 }
+
 .carritos-admin-btn-contactar {
-  background: #25d366;
-  color: #fff;
+  background: rgb(27, 27, 27);
 }
-.carritos-admin-btn-contactar:hover:enabled {
-  background: #128c7e;
-  color: #fff;
+.carritos-admin-btn-contactar:hover {
+  background: #2e4a41;
 }
+
 .carritos-admin-btn-eliminar {
-  background: #e74c3c;
-  color: #fff;
+  background: rgb(27, 27, 27);
 }
-.carritos-admin-btn-eliminar:hover:enabled {
-  background: #b71c1c;
-  color: #fff;
+.carritos-admin-btn-eliminar:hover {
+  background: #5a2d2d;
 }
 
 /* Botones deshabilitados */

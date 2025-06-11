@@ -34,6 +34,22 @@ export const getClienteById = async (req, res) => {
     }
 }
 
+export const getClienteByUsuarioId = async (req, res) => {
+    const { id_usuario } = req.params;
+    console.log("Buscando cliente con id_usuario:", id_usuario);
+    try {
+        const [rows] = await db.query('SELECT * FROM clientes WHERE id_usuario = ?', [Number(id_usuario)]);
+        console.log("Resultado de la consulta:", rows);
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        console.error('Error al obtener el cliente por id_usuario:', error);
+        res.status(500).json({ error: 'Error al obtener el cliente' });
+    }
+};
+
 export const updateCliente = async (req, res) => {
     const { id } = req.params;
     const { nombre,apellido,direccion, telefono } = req.body;
@@ -66,11 +82,14 @@ export const deleteCliente = async (req, res) => {
 }
 
 export const createCliente = async (req, res) => {
-    const { nombre, apellido, direccion, telefono} = req.body;
+    const { nombre, apellido, direccion, telefono, id_usuario } = req.body; // agrega id_usuario
 
     try {
-        const [result] = await db.query('INSERT INTO clientes (nombre, apellido, direccion, telefono) VALUES (?, ?, ?, ?)', [nombre, apellido, direccion, telefono]);
-        res.status(201).json({ id_cliente: result.insertId, nombre, apellido, direccion, telefono });
+        const [result] = await db.query(
+            'INSERT INTO clientes (nombre, apellido, direccion, telefono, id_usuario) VALUES (?, ?, ?, ?, ?)',
+            [nombre, apellido, direccion, telefono, id_usuario] // agrega id_usuario
+        );
+        res.status(201).json({ id_cliente: result.insertId, nombre, apellido, direccion, telefono, id_usuario });
     } catch (error) {
         console.error('Error al crear el cliente:', error);
         res.status(500).json({ error: 'Error al crear el cliente' });
@@ -103,3 +122,5 @@ export const uploadFotoPerfil = async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la foto de perfil' });
     }
 }
+
+
