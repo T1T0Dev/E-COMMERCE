@@ -4,7 +4,7 @@ import Footer from "../components/clientcomponents/Footer.jsx";
 import ScrollToTopButton from "../components/clientcomponents/ScrollToTopButton.jsx";
 import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
 import "./styles/Principal.css";
-import useAuthStore from '../store/useAuthStore.js'
+import useAuthStore from "../store/useAuthStore.js";
 
 const Principal = () => {
   const user = useAuthStore((state) => state.user);
@@ -16,8 +16,7 @@ const Principal = () => {
   const enviarWhatsApp = (e) => {
     e.preventDefault();
 
-    const texto =
-      `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n
+    const texto = `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n
       ------------------------------------\n
       %20%F0%9F%91%A4 Nombre: ${nombre}\n
       📧 Correo: ${correo}\n
@@ -41,8 +40,10 @@ const Principal = () => {
             <h1>BIENVENID@ {user?.nombre} A DREKKZ INDUMENTARIA</h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
             <p>Descubre más sobre nuestros servicios y productos.</p>
-            <button className="cta-button"> SABER MAS <span className="arrow-icon">↗</span>
-</button>
+            <button className="cta-button">
+              {" "}
+              SABER MAS <span className="arrow-icon">↗</span>
+            </button>
           </section>
 
           <section className="features-section">
@@ -64,43 +65,43 @@ const Principal = () => {
           </section>
 
           <Carruselprod />
-<section className="contact-section" id="contact-section">
-  <div className="contact-wrapper">
-    <div className="contact-form">
-      <h2>Contáctanos</h2>
-      <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
-      <form onSubmit={enviarWhatsApp}>
-        <input
-          type="text"
-          placeholder="Tu Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Tu Correo Electrónico"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Asunto"
-          value={asunto}
-          onChange={(e) => setAsunto(e.target.value)}
-        />
-        <textarea
-          placeholder="Tu Mensaje"
-          value={mensaje}
-          onChange={(e) => setMensaje(e.target.value)}
-        />
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-    <div className="contact-logo">
-      <img src="src/Resources/logo-drekkz1.png" alt="Logo DREKKZ" />
-    </div>
-  </div>
-</section>
+          <section className="contact-section" id="contact-section">
+            <div className="contact-wrapper">
+              <div className="contact-form">
+                <h2>Contáctanos</h2>
+                <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
+                <form onSubmit={enviarWhatsApp}>
+                  <input
+                    type="text"
+                    placeholder="Tu Nombre"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Tu Correo Electrónico"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Asunto"
+                    value={asunto}
+                    onChange={(e) => setAsunto(e.target.value)}
+                  />
+                  <textarea
+                    placeholder="Tu Mensaje"
+                    value={mensaje}
+                    onChange={(e) => setMensaje(e.target.value)}
+                  />
+                  <button type="submit">Enviar</button>
+                </form>
+              </div>
+              <div className="contact-logo">
+                <img src="src/Resources/logo-drekkz1.png" alt="Logo DREKKZ" />
+              </div>
+            </div>
+          </section>
         </div>
       </main>
       <Footer />

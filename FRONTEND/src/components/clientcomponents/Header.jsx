@@ -17,6 +17,7 @@ const Header = () => {
   const { items } = useCarritoStore();
 
   const handleLogout = () => {
+    sessionStorage.removeItem("user");
     logout();
     navigate("/login");
     setMenuOpen(false);
@@ -50,13 +51,12 @@ const Header = () => {
           )}
         </ul>
 
-        {/* DERECHA */}
         <ul className="navbar-right">
           {user && user.rol === "cliente" && (
             <>
               {location.pathname !== "/catalogo" && (
                 <li>
-                  <Link to="/catalogo">CATALOGO</Link>
+                  <Link to="/catalogo">🛍️ CATALOGO</Link>
                 </li>
               )}
               <li style={{ position: "relative" }}>
@@ -86,7 +86,7 @@ const Header = () => {
                 </button>
                 {menuOpen && (
                   <div className="dropdown-menu">
-                    <Link to="/perfil">Editar Perfil</Link>
+                    <Link to="/perfil">👤 Editar Perfil</Link>
                   </div>
                 )}
               </li>
@@ -104,13 +104,12 @@ const Header = () => {
                 </button>
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
-                    <Link to="/admin/productos">Productos</Link>
-                    
-                    <Link to="/admin/categorias">Categorías</Link>
-                    <Link to="/admin/talles">Talles</Link>
-                    <Link to="/admin/usuarios">Usuarios</Link>
-                    <Link to="/admin/carritos">Carritos</Link>
-                    <Link to="/admin/ventas">Ventas</Link>
+                    <Link to="/admin/categorias">📂 Categorías</Link>
+                    <Link to="/admin/talles">📏 Talles</Link>
+                    <Link to="/admin/productos">📦 Productos</Link>
+                    <Link to="/admin/carritos">🛒 Carritos</Link>
+                    <Link to="/admin/ventas">💰 Ventas</Link>
+                    <Link to="/admin/usuarios">👤 Usuarios</Link>
                   </div>
                 )}
               </li>
@@ -119,20 +118,17 @@ const Header = () => {
 
           {!user && (
             <li>
-              <Link to="/login">Iniciar sesión</Link>
+              <Link to="/login">🔑 Iniciar sesión</Link>
             </li>
           )}
         </ul>
       </nav>
-
-      {/* OVERLAY desenfocado */}
       {mostrarCarrito && (
         <div
           className="carrito-overlay"
           onClick={() => setMostrarCarrito(false)}
         />
       )}
-
       {/* Panel lateral del carrito */}
       {mostrarCarrito && (
         <Carrito

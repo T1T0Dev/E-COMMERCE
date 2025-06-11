@@ -8,16 +8,33 @@ import "./styles/SecondRegistro.css";
 
 const SecondRegistro = () => {
   const [form, setForm] = useState({ email: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
-
+  const [errores, setErrores] = useState({});
   const navigate = useNavigate();
+
+  const validar = () => {
+    const newErrors = {};
+    if (!form.email) {
+      newErrors.email = "El email es obligatorio";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "El email no es válido";
+    }
+    if (!form.password) {
+      newErrors.password = "La contraseña es obligatoria";
+    } else if (form.password.length < 6) {
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+    }
+    setErrores(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrores({ ...errores, [e.target.name]: "" });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validar()) return;
     const cliente = JSON.parse(sessionStorage.getItem("registroCliente"));
     if (!cliente) {
       toast.error("Completa primero los datos personales");
@@ -27,7 +44,7 @@ const SecondRegistro = () => {
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,
-        contaseña: form.password,
+        contraseña: form.password, // corregido el nombre del campo
         ...cliente,
         rol: "cliente",
       });
@@ -40,7 +57,7 @@ const SecondRegistro = () => {
   };
 
   return (
-     <div className="dual-bg-registro">
+    <div className="dual-bg-registro">
       <div className="dual-bg-left"></div>
       <div className="dual-bg-right"></div>
       <ToastContainer position="top-right" autoClose={2000} />
@@ -48,7 +65,6 @@ const SecondRegistro = () => {
         <h2 className="registro-title">Registro - Usuario</h2>
         <form className="registro-form" onSubmit={handleSubmit}>
           <label className="registro-label" htmlFor="email">
-            Email
           </label>
           <input
             className="registro-input"
@@ -58,11 +74,14 @@ const SecondRegistro = () => {
             value={form.email}
             onChange={handleChange}
             required
+            autoComplete="email"
           />
-          
+          {errores.email && (
+            <span className="registro-error">{errores.email}</span>
+          )}
+
           <div className="password-input-wrapper">
             <label className="registro-label" htmlFor="password">
-              Contraseña
             </label>
             <PasswordInput
               className="registro-input"
@@ -71,12 +90,9 @@ const SecondRegistro = () => {
               placeholder="Contraseña"
               value={form.password}
               onChange={handleChange}
-              showPassword={showPassword}
-              setShowPassword={setShowPassword}
               required
+              error={errores.password}
             />
-            
-           
           </div>
           <button className="registro-btn" type="submit">
             Registrarme<span className="arrow-icon">↗</span>

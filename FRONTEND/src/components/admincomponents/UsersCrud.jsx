@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import ModalConfirmacion from "./ModalConfirmacion";
-
 import "react-toastify/dist/ReactToastify.css";
 
 const initialForm = {
@@ -16,7 +15,11 @@ const initialForm = {
 
 const UsersCrud = () => {
   const [usuarios, setUsuarios] = useState([]);
-  const [modal, setModal] = useState({ open: false, action: null, usuario: null });
+  const [modal, setModal] = useState({
+    open: false,
+    action: null,
+    usuario: null,
+  });
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -115,112 +118,122 @@ const UsersCrud = () => {
   };
 
   // Cerrar modal
-  const closeModal = () => setModal({ open: false, action: null, usuario: null });
+  const closeModal = () =>
+    setModal({ open: false, action: null, usuario: null });
 
   return (
-    <div className="userscrud-container">
-      <ToastContainer position="top-right" autoClose={2000} />
-      <ModalConfirmacion
-        open={modal.open}
-        mensaje={
-          modal.action === "eliminar"
-            ? "¿Estás seguro de eliminar este usuario?"
-            : modal.action === "editar"
-            ? "¿Estás seguro de editar este usuario?"
-            : ""
-        }
-        onConfirm={
-          modal.action === "eliminar"
-            ? confirmDelete
-            : modal.action === "editar"
-            ? confirmEdit
-            : closeModal
-        }
-        onCancel={closeModal}
-      />
-      <button onClick={() => navigate(-1)} className="cta-button">
-        <AiOutlineArrowLeft size={30} className="drop-shadow" />
-        Volver atrás
-      </button>
-      <h2 className="userscrud-title">Administrar Usuarios</h2>
-      <form className="userscrud-form" onSubmit={handleSubmit}>
-        <input
-          className="userscrud-input"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          className="userscrud-input"
-          name="contraseña"
-          type="password"
-          placeholder="Nueva Contraseña"
-          value={form.contraseña}
-          onChange={handleChange}
-          required={!editId}
-        />
-        <select
-          className="userscrud-input"
-          name="rol"
-          value={form.rol}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccionar rol</option>
-          <option value="admin">Admin</option>
-          <option value="cliente">Cliente</option>
-        </select>
-        <button className="userscrud-btn-agregar" type="submit">
-          {editId ? "Actualizar" : "Agregar"}
+    <div className="userscrud-bg">
+      <div className="userscrud-back-btn-wrapper">
+        <button onClick={() => navigate(-1)} className="cta-button">
+          <AiOutlineArrowLeft size={30} className="drop-shadow" />
+          Volver atrás
         </button>
-        {editId && (
-          <button className="userscrud-btn-cancelar" type="button" onClick={handleCancel}>
-            Cancelar
+      </div>
+      <div className="userscrud-container">
+        <ToastContainer position="top-right" autoClose={2000} />
+        <ModalConfirmacion
+          open={modal.open}
+          mensaje={
+            modal.action === "eliminar"
+              ? "¿Estás seguro de eliminar este usuario?"
+              : modal.action === "editar"
+              ? "¿Estás seguro de editar este usuario?"
+              : ""
+          }
+          onConfirm={
+            modal.action === "eliminar"
+              ? confirmDelete
+              : modal.action === "editar"
+              ? confirmEdit
+              : closeModal
+          }
+          onCancel={closeModal}
+        />
+
+        <h2 className="userscrud-title">Administrar Usuarios</h2>
+        <form className="userscrud-form" onSubmit={handleSubmit}>
+          <input
+            className="userscrud-input"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            className="userscrud-input"
+            name="contraseña"
+            type="password"
+            placeholder="Nueva Contraseña"
+            value={form.contraseña}
+            onChange={handleChange}
+            required={!editId}
+          />
+          <select
+            className="userscrud-input"
+            name="rol"
+            value={form.rol}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccionar rol</option>
+            <option value="admin">Admin</option>
+            <option value="cliente">Cliente</option>
+          </select>
+          <button className="userscrud-btn-agregar" type="submit">
+            {editId ? "Actualizar" : "Agregar"}
           </button>
-        )}
-      </form>
-      <h3 className="userscrud-subtitle">Usuarios existentes</h3>
-      {loading ? (
-        <div>Cargando usuarios...</div>
-      ) : (
-        <table className="userscrud-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Email</th>
-              <th>Contraseña</th>
-              <th>Rol</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuarios.map((usuario) => (
-              <tr key={usuario.id_usuario}>
-                <td>{usuario.id_usuario}</td>
-                <td>{usuario.email}</td>
-                <td>{usuario.contraseña}</td>
-                <td>{usuario.rol}</td>
-                <td>
-                  <button
-                    className="userscrud-btn-editar"
-                    onClick={() => handleEdit(usuario)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="userscrud-btn-eliminar"
-                    onClick={() => handleDelete(usuario.id_usuario)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
+          {editId && (
+            <button
+              className="userscrud-btn-cancelar"
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancelar
+            </button>
+          )}
+        </form>
+        <h3 className="userscrud-subtitle">Usuarios existentes</h3>
+        {loading ? (
+          <div>Cargando usuarios...</div>
+        ) : (
+          <table className="userscrud-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Contraseña</th>
+                <th>Rol</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id_usuario}>
+                  <td>{usuario.id_usuario}</td>
+                  <td>{usuario.email}</td>
+                  <td>{usuario.contraseña}</td>
+                  <td>{usuario.rol}</td>
+                  <td>
+                    <button
+                      className="userscrud-btn-editar"
+                      onClick={() => handleEdit(usuario)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="userscrud-btn-eliminar"
+                      onClick={() => handleDelete(usuario.id_usuario)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

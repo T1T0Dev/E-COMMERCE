@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import './estilosadmin/CrudProd.css';
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiOutlineArrowLeft } from "react-icons/ai";
 import ModalProd from "./ModalProd";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -78,9 +77,13 @@ const CrudProd = () => {
   // Cuando se agrega o edita un producto desde el modal
   const handleProductCreated = () => {
     fetchProductos();
-    // Quita el toast de aquí para evitar duplicados
-    // toast.success("Producto agregado correctamente");
   };
+
+  // Determina la clase para el wrapper del botón agregar producto
+  const addBtnWrapperClass =
+    productos.length === 0
+      ? "crudprod-add-btn-wrapper"
+      : "crudprod-add-btn-wrapper right";
 
   return (
     <div className="crudprod-container-father">
@@ -89,14 +92,14 @@ const CrudProd = () => {
         onClick={() => navigate(-1)}
         className="cta-button"
       >
-        <AiOutlineArrowLeft size={30} className="drop-shadow" />
+        <AiOutlineArrowLeft size={30} className="cta-button-icon" />
         Volver atrás
       </button>
 
-      <div className="crudprod-add-btn-wrapper flex justify-center mb-6">
-        <button onClick={handleNuevo} className="crudprod-add-btn bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">
-          Agregar Producto 
-          <AiOutlinePlusCircle size={45}/>
+      <div className={addBtnWrapperClass}>
+        <button onClick={handleNuevo} className="crudprod-add-btn">
+          Agregar Producto
+          <AiOutlinePlusCircle size={32} className="crudprod-add-btn-icon" />
         </button>
         <ModalProd
           isOpen={isModelOpen}
@@ -106,56 +109,48 @@ const CrudProd = () => {
           categorias={categorias}
         />
       </div>
-      <div className="crudprod-flex-row flex flex-row flex-wrap gap-[20px] justify-center">
+      <div className="crudprod-flex-row">
         {loading ? (
-          <div>Cargando productos...</div>
+          <div className="crudprod-loading">Cargando productos...</div>
         ) : (
           productos.map((producto) => (
             <div
               key={producto.id_producto}
-              className="crudprod-card bg-white rounded-xl shadow-md flex flex-col overflow-hidden h-[480px] mx-auto"
+              className="crudprod-card"
             >
-              <div className="crudprod-img-wrapper w-full h-64 overflow-hidden flex items-center justify-center">
+              <div className="crudprod-img-wrapper">
                 <img
                   src={`http://localhost:3000${producto.imagen_producto}`}
                   alt={producto.nombre_producto}
-                  className="crudprod-img w-full h-64 object-cover"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "16rem",
-                    minHeight: "16rem",
-                    objectFit: "cover",
-                  }}
+                  className="crudprod-img"
                 />
               </div>
-              <div className="crudprod-info p-4 flex flex-col justify-between flex-grow">
+              <div className="crudprod-info">
                 <div>
-                  <h3 className="crudprod-title text-lg font-semibold">
+                  <h3 className="crudprod-title">
                     {producto.nombre_producto}
                   </h3>
-                  <h4 className="crudprod-category text-sm font-medium text-blue-600 mt-1">
+                  <h4 className="crudprod-category">
                     {producto.nombre_categoria}
                   </h4>
-                  <h2 className="crudprod-price text-xl font-bold text-gray-800 mt-2">
+                  <h2 className="crudprod-price">
                     ${producto.precio}
                   </h2>
-                  <p className="crudprod-desc text-gray-500 text-sm mt-1">
+                  <p className="crudprod-desc">
                     {producto.descripcion}
                   </p>
-                  <div className="crudprod-btns flex gap-2 mt-2">
+                  <div className="crudprod-btns">
                     <button
-                      className="crudprod-edit-btn bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
+                      className="crudprod-edit-btn"
                       onClick={() => handleEditar(producto)}
                     >
-                      Editar <br />
-                      <FaEdit />
+                      Editar <FaEdit />
                     </button>
                     <button
-                      className="crudprod-delete-btn bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                      className="crudprod-delete-btn"
                       onClick={() => handleEliminar(producto.id_producto)}
                     >
-                      Eliminar <br />
-                      <FaTrash />
+                      Eliminar <FaTrash />
                     </button>
                   </div>
                 </div>

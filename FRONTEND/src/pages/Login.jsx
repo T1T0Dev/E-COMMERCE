@@ -40,6 +40,7 @@ export default function Login() {
       if (response.data) {
         login(response.data);
         toast.success("Login exitoso");
+        sessionStorage.setItem("user", JSON.stringify(response.data));
         setTimeout(() => {
           navigate("/");
         }, 1500);
@@ -88,15 +89,13 @@ export default function Login() {
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
               required
-              error={errores.contraseña}
               show={showPassword}
               setShow={setShowPassword}
             />
             {errores.contraseña && (
               <span className="error-message">{errores.contraseña}</span>
             )}
-
-           
+            
           </div>
           <button className="login-btn" type="submit">
             Login<span className="arrow-icon">↗</span>

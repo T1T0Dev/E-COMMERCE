@@ -7,16 +7,39 @@ const FirstRegistro = () => {
     nombre: "",
     apellido: "",
     direccion: "",
-    telefono: ""
+    telefono: "",
   });
+  const [errores, setErrores] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const validar = () => {
+    const newErrors = {};
+    if (!form.nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
+    if (!form.apellido.trim())
+      newErrors.apellido = "El apellido es obligatorio";
+    if (!form.direccion.trim())
+      newErrors.direccion = "La dirección es obligatoria";
+    if (!form.telefono.trim()) {
+      newErrors.telefono = "El teléfono es obligatorio";
+    } else if (
+      !/^(\+?\d{1,4}[-\s]?)?(\d{2,4}[-\s]?){2,4}\d{2,4}$/.test(
+        form.telefono.trim()
+      )
+    ) {
+      newErrors.telefono = "El teléfono no es válido";
+    }
+    setErrores(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = e => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrores({ ...errores, [e.target.name]: "" });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validar()) return;
     sessionStorage.setItem("registroCliente", JSON.stringify(form));
     navigate("/second-registro");
   };
@@ -30,7 +53,9 @@ const FirstRegistro = () => {
         <form className="registro-form" onSubmit={handleSubmit}>
           <div className="registro-grid">
             <div className="registro-field">
-              <label className="registro-label" htmlFor="nombre">Nombre</label>
+              <label className="registro-label" htmlFor="nombre">
+                Nombre
+              </label>
               <input
                 className="registro-input"
                 id="nombre"
@@ -40,9 +65,14 @@ const FirstRegistro = () => {
                 onChange={handleChange}
                 required
               />
+              {errores.nombre && (
+                <span className="registro-error">{errores.nombre}</span>
+              )}
             </div>
             <div className="registro-field">
-              <label className="registro-label" htmlFor="apellido">Apellido</label>
+              <label className="registro-label" htmlFor="apellido">
+                Apellido
+              </label>
               <input
                 className="registro-input"
                 id="apellido"
@@ -52,9 +82,14 @@ const FirstRegistro = () => {
                 onChange={handleChange}
                 required
               />
+              {errores.apellido && (
+                <span className="registro-error">{errores.apellido}</span>
+              )}
             </div>
             <div className="registro-field">
-              <label className="registro-label" htmlFor="direccion">Dirección</label>
+              <label className="registro-label" htmlFor="direccion">
+                Dirección
+              </label>
               <input
                 className="registro-input"
                 id="direccion"
@@ -64,9 +99,14 @@ const FirstRegistro = () => {
                 onChange={handleChange}
                 required
               />
+              {errores.direccion && (
+                <span className="registro-error">{errores.direccion}</span>
+              )}
             </div>
             <div className="registro-field">
-              <label className="registro-label" htmlFor="telefono">Teléfono</label>
+              <label className="registro-label" htmlFor="telefono">
+                Teléfono
+              </label>
               <input
                 className="registro-input"
                 id="telefono"
@@ -76,6 +116,9 @@ const FirstRegistro = () => {
                 onChange={handleChange}
                 required
               />
+              {errores.telefono && (
+                <span className="registro-error">{errores.telefono}</span>
+              )}
             </div>
           </div>
           <button className="registro-btn" type="submit">
