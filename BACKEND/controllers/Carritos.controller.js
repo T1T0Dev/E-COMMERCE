@@ -232,7 +232,7 @@ export const getCarritosPedidosFusion = async (req, res) => {
         ca.fecha_creacion,
         cl.nombre AS cliente_nombre,
         cl.apellido AS cliente_apellido,
-        cl.telefono, -- <--- AGREGA ESTA LÍNEA
+        cl.telefono,
         p.id_pedido,
         p.fecha_pedido,
         hv.fecha AS fecha_venta,

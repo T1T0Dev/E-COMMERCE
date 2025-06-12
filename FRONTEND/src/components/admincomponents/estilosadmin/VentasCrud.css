@@ -1,136 +1,207 @@
-
-
+/* Fondo y tarjeta principal */
 .ventas-crud {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #f9fafb;
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    padding: 36px 32px 40px 32px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #232946;
+  max-width: 980px;
+  margin: 40px auto;
+  background: #232323ee;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #0004, 0 1.5px 8px #35353522;
+  padding: 38px 28px 40px 28px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #ededed;
 }
 
-/* Mejorar visibilidad de las celdas td */
-.ventas-crud-table td,
-.ventas-crud-detalle-table td {
-    padding: 14px 10px;
-    border-bottom: 1px solid #e3e6f0;
-    color: #232946;
-    font-size: 1rem;
-    vertical-align: middle;
-    background: #f1f5fb; /* Fondo más claro para mejor visibilidad */
+.ventas-crud h2 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 8px #18181833;
 }
+
+/* Tablas */
+.ventas-crud-table,
+.ventas-crud-detalle-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #232323;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0002;
+  margin-top: 18px;
+}
+
 .ventas-crud-table th,
 .ventas-crud-detalle-table th {
-    background: #232946;
-    color: #fff;
-    padding: 16px 10px;
-    font-weight: 700;
-    text-align: left;
-    font-size: 1.05rem;
-    letter-spacing: 0.5px;
+  background: #181818;
+  color: #ededed;
+  padding: 16px 10px;
+  font-weight: 700;
+  text-align: left;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .ventas-crud-table td,
 .ventas-crud-detalle-table td {
-    padding: 14px 10px;
-    border-bottom: 1px solid #e3e6f0;
-    color: #232946;
-    font-size: 1rem;
-    vertical-align: middle;
+  padding: 14px 10px;
+  border-bottom: 1px solid #353535;
+  color: #ededed;
+  font-size: 1rem;
+  vertical-align: middle;
+  background: #232323;
 }
 
 .ventas-crud-table tr:last-child td,
 .ventas-crud-detalle-table tr:last-child td {
-    border-bottom: none;
+  border-bottom: none;
+}
+
+.ventas-crud-table tr:nth-child(even),
+.ventas-crud-detalle-table tr:nth-child(even) {
+  background: #232335;
 }
 
 .ventas-crud-table tr:hover,
 .ventas-crud-detalle-table tr:hover {
-    background: #e8eefd;
-    transition: background 0.2s;
+  background: #353545;
+  transition: background 0.2s;
 }
 
-.ventas-crud-table button {
-    background: #0066ff;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 6px rgba(0,102,255,0.08);
+/* Botones */
+.ventas-crud-table button,
+.ventas-crud-detalle-table button {
+  background: linear-gradient(90deg, #181818 60%, #353535 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px #18181822;
 }
 
-.ventas-crud-table button:hover {
-    background: #004bb5;
-}
-
-.ventas-crud-modal {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(34, 34, 59, 0.18);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.ventas-crud-modal-content {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 36px rgba(34,34,59,0.18);
-    padding: 36px 32px 28px 32px;
-    min-width: 340px;
-    max-width: 98vw;
-    max-height: 92vh;
-    overflow-y: auto;
-    position: relative;
-}
-
-.ventas-crud-modal-content h3 {
-    margin-top: 0;
-    color: #232946;
-    margin-bottom: 22px;
-    font-size: 1.3rem;
-    font-weight: 700;
+.ventas-crud-table button:hover,
+.ventas-crud-detalle-table button:hover {
+  background: linear-gradient(90deg, #353535 60%, #181818 100%);
+  color: #fff;
 }
 
 .ventas-crud-modal-content button {
-    background: #e63946;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 18px;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 6px rgba(230,57,70,0.08);
+  background: #b91c1c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px #18181822;
+  float: right;
 }
-
 .ventas-crud-modal-content button:hover {
-    background: #b71c1c;
+  background: #181818;
+  color: #fff;
 }
 
-@media (max-width: 600px) {
-    .ventas-crud {
-        padding: 10px 2px;
-    }
-    .ventas-crud-modal-content {
-        min-width: unset;
-        padding: 14px 2px;
-    }
-    .ventas-crud-table th, .ventas-crud-table td,
-    .ventas-crud-detalle-table th, .ventas-crud-detalle-table td {
-        font-size: 0.95rem;
-        padding: 8px 4px;
-    }
-    .ventas-crud h2 {
-        font-size: 1.3rem;
-    }
+/* Modal */
+.ventas-crud-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #181818cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ventas-crud-modal-content {
+  background: #232323;
+  border-radius: 16px;
+  box-shadow: 0 8px 36px #0006;
+  padding: 36px 32px 28px 32px;
+  min-width: 340px;
+  max-width: 98vw;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  color: #ededed;
+}
+
+.ventas-crud-modal-content h3 {
+  margin-top: 0;
+  color: #fff;
+  margin-bottom: 22px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.ventascrud-back-btn-wrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #232323;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 1.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-left: 2rem;
+  box-shadow: 0 4px 16px #0003;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.cta-button:hover {
+  background: #353535;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .ventascrud-back-btn-wrapper {
+    margin-top: 1.2rem;
+  }
+  .cta-button {
+    margin-left: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    font-size: 1rem;
+  }
+  .ventas-crud {
+    padding: 10px 2px;
+  }
+  .ventas-crud-modal-content {
+    min-width: unset;
+    padding: 14px 2px;
+  }
+  .ventas-crud-table th,
+  .ventas-crud-table td,
+  .ventas-crud-detalle-table th,
+  .ventas-crud-detalle-table td {
+    font-size: 0.95rem;
+    padding: 8px 4px;
+  }
+  .ventas-crud h2 {
+    font-size: 1.3rem;
+  }
 }

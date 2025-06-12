@@ -1,116 +1,134 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./estilosadmin/VentasCrud.css";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+
 const VentasCrud = () => {
   const [ventasPorDia, setVentasPorDia] = useState([]);
   const [detalleDia, setDetalleDia] = useState([]);
   const [modalFecha, setModalFecha] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/pedidos/ventas-por-dia")
-      .then(res => res.json())
-      .then(data => setVentasPorDia(data));
+    axios
+      .get("http://localhost:3000/api/pedidos/ventas-por-dia")
+      .then((res) => setVentasPorDia(res.data));
   }, []);
 
-  const verDetalle = (fechaCompleta) => {
-    // Extrae solo la parte de la fecha (YYYY-MM-DD)
-    const fecha = fechaCompleta.split("T")[0];
-    fetch(`http://localhost:3000/api/pedidos/ventas-por-dia/${fecha}`)
-      .then(res => {
-        if (!res.ok) throw new Error("No hay datos para ese día");
-        return res.json();
-      })
-      .then(data => {
-        setDetalleDia(data);
-        setModalFecha(fecha);
+  const verDetalle = (fecha) => {
+    const fechaCorta = fecha.slice(0, 10);
+    axios
+      .get(`http://localhost:3000/api/pedidos/ventas-por-dia/${fechaCorta}`)
+      .then((res) => {
+        setDetalleDia(res.data);
+        setModalFecha(fechaCorta);
       })
       .catch(() => {
         setDetalleDia([]);
-        setModalFecha(fecha);
+        setModalFecha(fechaCorta);
       });
   };
-
+  
   const cerrarModal = () => {
     setModalFecha(null);
     setDetalleDia([]);
   };
 
-  return (
-    <div className="ventas-crud">
-      <h2>Historial de Ventas</h2>
-      <table className="ventas-crud-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Cantidad de Pedidos</th>
-            <th>Total Vendido</th>
-            <th>Producto Más Vendido</th>
-            <th>Ver Detalle</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ventasPorDia.length === 0 ? (
-            <tr>
-              <td colSpan={5}>No hay ventas registradas.</td>
-            </tr>
-          ) : (
-            ventasPorDia.map((venta, idx) => (
-              <tr key={idx}>
-                <td>{venta.fecha}</td>
-                <td>{venta.cantidad_pedidos}</td>
-                <td>${venta.total_vendido}</td>
-                <td>{venta.producto_mas_vendido || "-"}</td>
-                <td>
-                  <button onClick={() => verDetalle(venta.fecha)}>
-                    Ver Detalle
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+  function formatearFecha(fechaISO) {
+    if (!fechaISO) return "";
+    const d = new Date(fechaISO);
+    const dia = d.getDate().toString().padStart(2, "0");
+    const mes = (d.getMonth() + 1).toString().padStart(2, "0");
+    const anio = d.getFullYear();
+    return `${dia}-${mes}-${anio}`;
+  }
 
-      {/* Modal de detalle */}
-      {modalFecha && (
-        <div className="ventas-crud-modal">
-          <div className="ventas-crud-modal-content">
-            <h3>Detalle de ventas del {modalFecha}</h3>
-            <button onClick={cerrarModal} style={{ float: "right" }}>
-              Cerrar
-            </button>
-            <table className="ventas-crud-detalle-table">
-              <thead>
-                <tr>
-                  <th>ID Pedido</th>
-                  <th>Cliente</th>
-                  <th>Producto</th>
-                  <th>Talle</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
+  return (
+    <div className="ventas-crud-bg">
+      <div className="ventascrud-back-btn-wrapper">
+        <button onClick={() => navigate(-1)} className="cta-button">
+          <AiOutlineArrowLeft size={30} className="drop-shadow" />
+          Volver atrás
+        </button>
+      </div>
+      <div className="ventas-crud">
+        <h2>Historial de Ventas</h2>
+        <table className="ventas-crud-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Cantidad de Pedidos</th>
+              <th>Total Vendido</th>
+              <th>Producto Más Vendido</th>
+              <th>Ver Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ventasPorDia.length === 0 ? (
+              <tr>
+                <td colSpan={5}>No hay ventas registradas.</td>
+              </tr>
+            ) : (
+              ventasPorDia.map((venta, idx) => (
+                <tr key={idx}>
+                  <td>{formatearFecha(venta.fecha)}</td>
+                  <td>{venta.cantidad_pedidos}</td>
+                  <td>${venta.total_vendido}</td>
+                  <td>{venta.producto_mas_vendido || "-"}</td>
+                  <td>
+                    <button onClick={() => verDetalle(venta.fecha)}>
+                      Ver Detalle
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {detalleDia.length === 0 ? (
+              ))
+            )}
+          </tbody>
+        </table>
+
+        {/* Modal de detalle */}
+        {modalFecha && (
+          <div className="ventas-crud-modal">
+            <div className="ventas-crud-modal-content">
+              <h3>Detalle de ventas del {formatearFecha(modalFecha)}</h3>
+              <button onClick={cerrarModal} style={{ float: "right" }}>
+                Cerrar
+              </button>
+              <table className="ventas-crud-detalle-table">
+                <thead>
                   <tr>
-                    <td colSpan={6}>No hay detalles para este día.</td>
+                    <th>ID Pedido</th>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Talle</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
                   </tr>
-                ) : (
-                  detalleDia.map((detalle, idx) => (
-                    <tr key={idx}>
-                      <td>{detalle.id_pedido}</td>
-                      <td>{detalle.cliente_nombre}</td>
-                      <td>{detalle.nombre_producto}</td>
-                      <td>{detalle.nombre_talle}</td>
-                      <td>{detalle.cantidad}</td>
-                      <td>${detalle.subtotal}</td>
+                </thead>
+                <tbody>
+                  {detalleDia.length === 0 ? (
+                    <tr>
+                      <td colSpan={6}>No hay detalles para este día.</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    detalleDia.map((detalle, idx) => (
+                      <tr key={idx}>
+                        <td>{detalle.id_pedido}</td>
+                        <td>{detalle.cliente_nombre}</td>
+                        <td>{detalle.nombre_producto}</td>
+                        <td>{detalle.nombre_talle}</td>
+                        <td>{detalle.cantidad}</td>
+                        <td>${detalle.subtotal}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
