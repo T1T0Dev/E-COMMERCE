@@ -6,6 +6,8 @@ import defaultProfile from "../assets/default-profile.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PasswordInput from "../components/clientcomponents/PasswordInput";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const EditClient = () => {
   const user = useAuthStore((state) => state.user);
@@ -22,6 +24,7 @@ const EditClient = () => {
   const [errores, setErrores] = useState({});
   const [foto, setFoto] = useState(null);
   const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -31,7 +34,6 @@ const EditClient = () => {
       .get(`http://localhost:3000/api/clientes/usuario/${user.id_usuario}`)
       .then((res) => {
         setCliente(res.data);
-        console.log("Cliente encontrado:", res.data);
         if (res.data) {
           setForm((f) => ({
             ...f,
@@ -54,7 +56,6 @@ const EditClient = () => {
           email: res.data.email || "",
           contraseña: "",
         }));
-        console.log("Usuario encontrado:", res.data);
       })
       .catch(() => setUsuario(null));
   }, [user]);
@@ -202,6 +203,13 @@ const EditClient = () => {
             Cambiar foto
           </button>
         </form>
+        <button
+          className="editcliente-volver-btn"
+          onClick={() => navigate(-1)}
+        >
+          <AiOutlineArrowLeft style={{ marginRight: 8, fontSize: 22 }} />
+          Volver
+        </button>
       </div>
       <div className="editcliente-panel-der">
         <form className="editcliente-form" onSubmit={handleSaveCliente}>
