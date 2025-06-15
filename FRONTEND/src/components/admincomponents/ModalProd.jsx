@@ -19,6 +19,7 @@ const ModalProd = ({
     id_categoria: "",
   });
   const [imagen, setImagen] = useState(null);
+  const [preview, setPreview] = useState(null); // Para previsualización de imagen
   const [loading, setLoading] = useState(false);
 
   // NUEVO: talles disponibles y seleccionados
@@ -55,6 +56,8 @@ const ModalProd = ({
       } else {
         setTallesSeleccionados({});
       }
+      // Previsualización de imagen existente
+      setPreview(producto.url_imagen || null);
     } else {
       setFormData({
         nombre_producto: "",
@@ -64,8 +67,18 @@ const ModalProd = ({
       });
       setImagen(null);
       setTallesSeleccionados({});
+      setPreview(null);
     }
   }, [producto, isOpen]);
+
+  // Previsualización de imagen seleccionada
+  useEffect(() => {
+    if (imagen) {
+      const url = URL.createObjectURL(imagen);
+      setPreview(url);
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [imagen]);
 
   // Manejar cambios en los talles seleccionados
   const handleTalleChange = (id_talle, checked) => {
@@ -176,7 +189,7 @@ const ModalProd = ({
                   required
                 />
               </div>
-              <div className="modal-form-group">
+              <div className="modal-form-group modal-form-group-full">
                 <label className="modal-label">Precio</label>
                 <input
                   className="modal-input"
@@ -187,6 +200,7 @@ const ModalProd = ({
                   required
                   min="0"
                   step="0.01"
+                  style={{ width: "100%" }}
                 />
               </div>
               <div className="modal-form-group">
@@ -231,6 +245,11 @@ const ModalProd = ({
                 onChange={handleFileChange}
                 required={!producto}
               />
+              {preview && (
+                <div className="modal-img-preview">
+                  <img src={preview} alt="Previsualización" />
+                </div>
+              )}
             </div>
             <div className="modal-form-group">
               <label className="modal-label">Talles y stock</label>
