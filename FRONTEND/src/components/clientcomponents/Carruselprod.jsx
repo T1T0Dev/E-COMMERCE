@@ -5,16 +5,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./estiloscliente/Carruselprod.css";
-
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 
-
 const Carruselprod = () => {
-    const [productos, setProductos] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-    
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -31,70 +28,60 @@ const Carruselprod = () => {
   }, []);
 
   if (loading)
-    return <div className="text-white text-center">Cargando productos...</div>;
+    return <div className="carruselprod-loading">Cargando productos...</div>;
 
-    return (
-        <div className="carruselprod-container w-full h-full flex justify-center items-center">
-            <div className="carruselprod-inner w-full flex justify-center items-center">
-                <div className="carruselprod-wrapper w-full max-w-6xl flex justify-center items-center">
-                    <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        navigation
-                        pagination={{ clickable: true }}
-                        autoplay={{ delay: 4000 }}
-                        loop={true}
-                        spaceBetween={20}
-                        breakpoints={{
-                            640: { slidesPerView: 1 },
-                            1024: { slidesPerView: 3 },
-                        }}
-                        className="carruselprod-swiper !flex !justify-center !items-center"
-                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        {productos.map((producto) => (
-                            <SwiperSlide
-                                key={producto.id_producto}
-                                className="carruselprod-slide flex justify-center items-center"
-                                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                            >
-                                <div className="carruselprod-card bg-white rounded-xl shadow-md flex flex-col overflow-hidden h-[480px] mx-auto">
-                                    <div className="carruselprod-img-wrapper w-full h-64 overflow-hidden flex items-center justify-center">
-                                        <img
-                                          src={`http://localhost:3000${producto.imagen_producto}`}
-                                          alt={producto.nombre_producto}
-                                          className="carruselprod-img w-full h-64 object-cover"
-                                          style={{
-                                            maxWidth: '100%',
-                                            maxHeight: '16rem',
-                                            minHeight: '16rem',
-                                            objectFit: 'cover',
-                                            borderRadius: '1rem'
-                                          }}
-                                        />
-                                    </div>
-                                    <div className="carruselprod-info p-4 flex flex-col justify-between flex-grow">
-                                        <div>
-                                            <h3 className="carruselprod-title text-lg font-semibold">{producto.nombre_producto}</h3>
-                                            <h2 className="carruselprod-price text-xl font-bold text-gray-800 mt-2">${producto.precio}</h2>
-                                            <p className="carruselprod-desc text-gray-500 text-sm mt-1">{producto.descripcion}</p>
-                                          <div className="carrusel-btn-wrapper">
-        <button onClick={() => navigate("/Catalogo")} className="carruselCart ">
-           <span>LO QUIERO YA</span>
-           <span className="flecha">↗</span>
-        </button>
-</div>
-                                    
-                                        </div>
-                                        <div className="carruselprod-footer mt-4"></div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+  return (
+    <div className="carruselprod-outer">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 4500 }}
+        loop={true}
+        spaceBetween={32}
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          700: { slidesPerView: 2 },
+          1100: { slidesPerView: 3 },
+        }}
+        className="carruselprod-swiper"
+      >
+        {productos.map((producto) => (
+          <SwiperSlide
+            key={producto.id_producto}
+            className="carruselprod-slide"
+          >
+            <div className="carruselprod-card glass-modern">
+              <div className="carruselprod-img-wrapper glass-modern-img">
+                <div className="carruselprod-title-overlay glass-title">
+                  {producto.nombre_producto}
                 </div>
+                <img
+                  src={`http://localhost:3000${producto.imagen_producto}`}
+                  alt={producto.nombre_producto}
+                  className="carruselprod-img"
+                  loading="lazy"
+                />
+              </div>
+              <div className="carruselprod-info">
+                <div className="carruselprod-price glass-price">
+                  ${producto.precio}
+                </div>
+                <p className="carruselprod-desc">{producto.descripcion}</p>
+                <button
+                  onClick={() => navigate("/Catalogo")}
+                  className="carruselprod-btn glass-btn"
+                >
+                  ¡LO QUIERO YA!{" "}
+                  <span className="carruselprod-btn-icon">🛒</span>
+                </button>
+              </div>
             </div>
-        </div>
-    );
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
 };
 
 export default Carruselprod;

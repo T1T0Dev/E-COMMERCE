@@ -132,14 +132,8 @@ const UsersCrud = () => {
       <div className="userscrud-container">
         <ToastContainer position="top-right" autoClose={2000} />
         <ModalConfirmacion
-          open={modal.open}
-          mensaje={
-            modal.action === "eliminar"
-              ? "¿Estás seguro de eliminar este usuario?"
-              : modal.action === "editar"
-              ? "¿Estás seguro de editar este usuario?"
-              : ""
-          }
+          isOpen={modal.open}
+          onClose={closeModal}
           onConfirm={
             modal.action === "eliminar"
               ? confirmDelete
@@ -147,7 +141,28 @@ const UsersCrud = () => {
               ? confirmEdit
               : closeModal
           }
-          onCancel={closeModal}
+          mensaje={
+            modal.action === "eliminar"
+              ? "¿Estás seguro de eliminar este usuario?"
+              : modal.action === "editar"
+              ? "¿Estás seguro de editar este usuario?"
+              : ""
+          }
+          titulo={
+            modal.action === "eliminar"
+              ? "Eliminar usuario"
+              : modal.action === "editar"
+              ? "Editar usuario"
+              : ""
+          }
+          textoConfirmar={
+            modal.action === "eliminar"
+              ? "Sí, eliminar"
+              : modal.action === "editar"
+              ? "Sí, editar"
+              : "Confirmar"
+          }
+          textoCancelar="Cancelar"
         />
 
         <h2 className="userscrud-title">Administrar Usuarios</h2>

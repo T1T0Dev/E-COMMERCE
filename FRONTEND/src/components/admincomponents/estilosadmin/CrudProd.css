@@ -172,6 +172,7 @@
 }
 
 .crudprod-edit-btn,
+.crudprod-activar-btn,
 .crudprod-delete-btn {
     background: #222;
     color: #fff;
@@ -194,12 +195,72 @@
     color: #fff;
 }
 
-.crudprod-delete-btn {
+.crudprod-delete-btn,.crudprod-activar-btn {
     background: #b91c1c;
 }
 .crudprod-delete-btn:hover {
     background: #181818;
     color: #fff;
+}
+
+/* SwitchToggle.css */
+.crudprod-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+}
+
+.switch-label {
+  font-size: 1.08rem;
+  color: #bdbdbd;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.switch-label.active {
+  color: #fff;
+}
+
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+}
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, #232323 60%, #353535 100%);
+  border-radius: 34px;
+  transition: background 0.3s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s, background 0.3s;
+  box-shadow: 0 2px 8px #0002;
+}
+.switch-toggle input:checked + .slider {
+  background: linear-gradient(90deg, #ededed 60%, #353535 100%);
+}
+.switch-toggle input:checked + .slider:before {
+  transform: translateX(24px);
+  background: #232323;
 }
 
 /* RESPONSIVE */

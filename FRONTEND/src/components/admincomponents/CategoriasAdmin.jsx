@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ModalConfirmacion from "./ModalConfirmacion";
 
 const CategoriasAdmin = () => {
   const [categorias, setCategorias] = useState([]);
   const [nombre, setNombre] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState({ open: false, id: null, nombre: "" });
   const navigate = useNavigate();
 
   // Traer categorías
@@ -42,9 +44,15 @@ const CategoriasAdmin = () => {
     }
   };
 
-  // Eliminar categoría
-  const handleEliminar = async (id) => {
-    if (!window.confirm("¿Eliminar esta categoría?")) return;
+  // Abrir modal de confirmación para eliminar
+  const handleEliminar = (id, nombre_categoria) => {
+    setModalConfirm({ open: true, id, nombre: nombre_categoria });
+  };
+
+  // Confirmar eliminación
+  const confirmarEliminar = async () => {
+    const id = modalConfirm.id;
+    setModalConfirm({ open: false, id: null, nombre: "" });
     const res = await fetch(`http://localhost:3000/api/categorias/${id}`, {
       method: "DELETE",
     });
@@ -59,6 +67,15 @@ const CategoriasAdmin = () => {
 
   return (
     <div className="categorias-admin-bg">
+      <ModalConfirmacion
+        isOpen={modalConfirm.open}
+        onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
+        onConfirm={confirmarEliminar}
+        mensaje={`¿Estás seguro que deseas eliminar la categoría "${modalConfirm.nombre}"?`}
+        titulo="Eliminar categoría"
+        textoConfirmar="Sí, eliminar"
+        textoCancelar="Cancelar"
+      />
       <div className="categorias-admin-back-btn-wrapper">
         <button onClick={() => navigate(-1)} className="cta-button">
           <AiOutlineArrowLeft size={30} className="drop-shadow" />
@@ -93,7 +110,7 @@ const CategoriasAdmin = () => {
                   </span>
                 </div>
                 <button
-                  onClick={() => handleEliminar(cat.id_categoria)}
+                  onClick={() => handleEliminar(cat.id_categoria, cat.nombre_categoria || cat.nombre)}
                   className="categorias-admin-btn-eliminar"
                 >
                   Eliminar

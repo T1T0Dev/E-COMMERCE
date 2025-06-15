@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import './estilosadmin/CrudProd.css';
+import "./estilosadmin/CrudProd.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { AiOutlinePlusCircle, AiOutlineArrowLeft } from "react-icons/ai";
 import ModalProd from "./ModalProd";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import ModalConfirmacion from "./ModalConfirmacion";
+import axios from "axios";
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -12,15 +14,23 @@ const CrudProd = () => {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalConfirm, setModalConfirm] = useState({
+    open: false,
+    id: null,
+    nombre: "",
+  });
+  const [mostrarInactivos, setMostrarInactivos] = useState(false);
   const navigate = useNavigate();
 
-  // Traer productos del backend
+  // Traer productos del backend según el switch
   const fetchProductos = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/productos");
-      const data = await res.json();
-      setProductos(data);
+      const activo = mostrarInactivos ? 0 : 1;
+      const res = await axios.get(
+        `http://localhost:3000/api/productos?activo=${activo}`
+      );
+      setProductos(res.data);
     } catch (err) {
       setProductos([]);
     } finally {
@@ -31,9 +41,8 @@ const CrudProd = () => {
   // Traer categorías del backend
   const fetchCategorias = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/categorias");
-      const data = await res.json();
-      setCategorias(data);
+      const res = await axios.get("http://localhost:3000/api/categorias");
+      setCategorias(res.data);
     } catch (err) {
       setCategorias([]);
     }
@@ -42,7 +51,8 @@ const CrudProd = () => {
   useEffect(() => {
     fetchProductos();
     fetchCategorias();
-  }, []);
+    // eslint-disable-next-line
+  }, [mostrarInactivos]);
 
   // Editar producto
   const handleEditar = (producto) => {
@@ -56,21 +66,24 @@ const CrudProd = () => {
     setIsModelOpen(true);
   };
 
-  // Eliminar producto
-  const handleEliminar = async (id_producto) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este producto?")) return;
+  // Abrir modal de confirmación para eliminar
+  const handleEliminar = (id_producto, nombre_producto) => {
+    setModalConfirm({ open: true, id: id_producto, nombre: nombre_producto });
+  };
+
+  // Confirmar eliminación (baja lógica)
+  const confirmarEliminar = async () => {
+    const id_producto = modalConfirm.id;
     try {
-      const res = await fetch(`http://localhost:3000/api/productos/${id_producto}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        toast.success("Producto eliminado correctamente");
-        fetchProductos(); // refresca la lista
-      } else {
-        toast.error("Error al eliminar el producto");
-      }
+      await axios.delete(`http://localhost:3000/api/productos/${id_producto}`);
+      toast.success("Producto dado de baja correctamente");
+      fetchProductos();
     } catch (err) {
-      toast.error("Error de red");
+      toast.error(
+        err.response?.data?.error || "Error al dar de baja el producto"
+      );
+    } finally {
+      setModalConfirm({ open: false, id: null, nombre: "" });
     }
   };
 
@@ -79,7 +92,6 @@ const CrudProd = () => {
     fetchProductos();
   };
 
-  // Determina la clase para el wrapper del botón agregar producto
   const addBtnWrapperClass =
     productos.length === 0
       ? "crudprod-add-btn-wrapper"
@@ -87,11 +99,41 @@ const CrudProd = () => {
 
   return (
     <div className="crudprod-container-father">
+      {/* Switch para mostrar activos/inactivos */}
+      <div className="crudprod-switch-wrapper">
+        <span
+          className={!mostrarInactivos ? "switch-label active" : "switch-label"}
+        >
+          Activos
+        </span>
+        <label className="switch-toggle">
+          <input
+            type="checkbox"
+            checked={mostrarInactivos}
+            onChange={() => setMostrarInactivos((v) => !v)}
+          />
+          <span className="slider"></span>
+        </label>
+        <span
+          className={mostrarInactivos ? "switch-label active" : "switch-label"}
+        >
+          Inactivos
+        </span>
+      </div>
+
+      {/* Modal de confirmación */}
+      <ModalConfirmacion
+        isOpen={modalConfirm.open}
+        onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
+        onConfirm={confirmarEliminar}
+        mensaje={`¿Estás seguro que deseas dar de baja "${modalConfirm.nombre}"?`}
+        titulo="Dar de baja producto"
+        textoConfirmar="Sí, dar de baja"
+        textoCancelar="Cancelar"
+      />
+
       {/* Botón Volver atrás */}
-      <button
-        onClick={() => navigate(-1)}
-        className="cta-button"
-      >
+      <button onClick={() => navigate(-1)} className="cta-button">
         <AiOutlineArrowLeft size={30} className="cta-button-icon" />
         Volver atrás
       </button>
@@ -103,7 +145,10 @@ const CrudProd = () => {
         </button>
         <ModalProd
           isOpen={isModelOpen}
-          onClose={() => { setIsModelOpen(false); setProductoEdit(null); }}
+          onClose={() => {
+            setIsModelOpen(false);
+            setProductoEdit(null);
+          }}
           onProductCreated={handleProductCreated}
           producto={productoEdit}
           categorias={categorias}
@@ -112,12 +157,15 @@ const CrudProd = () => {
       <div className="crudprod-flex-row">
         {loading ? (
           <div className="crudprod-loading">Cargando productos...</div>
+        ) : productos.length === 0 ? (
+          <div className="crudprod-loading">
+            {mostrarInactivos
+              ? "No hay productos inactivos."
+              : "No hay productos activos."}
+          </div>
         ) : (
           productos.map((producto) => (
-            <div
-              key={producto.id_producto}
-              className="crudprod-card"
-            >
+            <div key={producto.id_producto} className="crudprod-card">
               <div className="crudprod-img-wrapper">
                 <img
                   src={`http://localhost:3000${producto.imagen_producto}`}
@@ -127,32 +175,62 @@ const CrudProd = () => {
               </div>
               <div className="crudprod-info">
                 <div>
-                  <h3 className="crudprod-title">
-                    {producto.nombre_producto}
-                  </h3>
+                  <h3 className="crudprod-title">{producto.nombre_producto}</h3>
                   <h4 className="crudprod-category">
                     {producto.nombre_categoria}
                   </h4>
-                  <h2 className="crudprod-price">
-                    ${producto.precio}
-                  </h2>
-                  <p className="crudprod-desc">
-                    {producto.descripcion}
-                  </p>
+                  <h2 className="crudprod-price">${producto.precio}</h2>
+                  <p className="crudprod-desc">{producto.descripcion}</p>
                   <div className="crudprod-btns">
                     <button
                       className="crudprod-edit-btn"
                       onClick={() => handleEditar(producto)}
+                      disabled={producto.activo === 0}
                     >
                       Editar <FaEdit />
                     </button>
-                    <button
-                      className="crudprod-delete-btn"
-                      onClick={() => handleEliminar(producto.id_producto)}
-                    >
-                      Eliminar <FaTrash />
-                    </button>
+
+                    {/* Mostrar solo el botón correspondiente según el filtro */}
+                    {!mostrarInactivos ? (
+                      // Vista de activos: mostrar "Dar de baja"
+                      <button
+                        className="crudprod-delete-btn"
+                        onClick={() =>
+                          handleEliminar(
+                            producto.id_producto,
+                            producto.nombre_producto
+                          )
+                        }
+                      >
+                        Dar de baja <FaTrash />
+                      </button>
+                    ) : (
+                      // Vista de inactivos: mostrar "Dar de alta"
+                      <button
+                        className="crudprod-activar-btn"
+                        onClick={async () => {
+                          try {
+                            await axios.put(
+                              `http://localhost:3000/api/productos/activar/${producto.id_producto}`
+                            );
+                            toast.success(
+                              "Producto dado de alta correctamente"
+                            );
+                            fetchProductos();
+                          } catch (err) {
+                            toast.error("Error al dar de alta el producto");
+                          }
+                        }}
+                      >
+                        Dar de alta <FaEdit />
+                      </button>
+                    )}
                   </div>
+                  {producto.activo === 0 && (
+                    <div className="crudprod-inactivo-label">
+                      Producto inactivo
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
