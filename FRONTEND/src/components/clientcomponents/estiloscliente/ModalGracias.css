@@ -1,0 +1,55 @@
+.modal-gracias-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(20,20,20,0.55);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-gracias-content {
+  background: #181818;
+  color: #f5f5f5;
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 24px #23293a99;
+  min-width: 320px;
+  max-width: 95vw;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.modal-gracias-content h2 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.modal-gracias-content p {
+  color: #f5f5f5;
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-gracias-btn {
+  background: #232526;
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.7rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  margin: 0 auto;
+}
+
+.modal-gracias-btn:hover {
+  background: #6366f1;
+  color: #fff;
+}
