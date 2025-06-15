@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+
+/* ...existing code... */
+.editcliente-volver-btn {
+  margin-top: 1.2rem;
+  background: #000;
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  padding: 0.7rem 2.2rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px #000a;
+  transition: background 0.2s, color 0.2s, transform 0.18s;
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.editcliente-volver-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.04);
+}
+
+.editcliente-main {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  background: #0f0f0f;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.editcliente-panel-izq {
+  width: 40vw;
+  min-width: 320px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #242424;
+  padding: 2rem 1.2rem 1.5rem 1.2rem;
+  box-shadow: 0 4px 24px #23293a33;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.editcliente-panel-der {
+  width: 60vw;
+  min-width: 320px;
+  max-width: 900px;
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px #23293a33;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
+}
+
+.editcliente-foto-wrapper {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ffffff;
+  margin-bottom: 1.2rem;
+  border: 3px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editcliente-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.editcliente-foto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.editcliente-foto-input {
+  display: none;
+  margin-bottom: 0.5rem;
+}
+
+.editcliente-foto-label {
+  background: #1f1f1f;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  border: 1px solid #ffffff;
+  transition: all 0.3s ease;
+}
+
+.editcliente-foto-label:hover {
+  background-color: #000000;
+  color: #fff;
+}
+
+.editcliente-foto-btn {
+  background: #121212;
+  color: #fff;
+  font-weight: 400;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  font-size: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  position: relative;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.editcliente-foto-btn::after {
+  content: '\2197';
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.editcliente-foto-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.05);
+}
+
+.editcliente-foto-btn:hover::after {
+  transform: rotate(45deg);
+}
+
+.editcliente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.editcliente-form h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  color: #000000;
+  margin-bottom: 0.7rem;
+}
+
+.editcliente-form label {
+  font-family: "Roboto", sans-serif;
+  color: #000000;
+  font-weight: 600;
+}
+
+.editcliente-form input {
+  font-family: "Roboto", sans-serif;
+  padding: 0.7rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #000000;
+  background: #363636;
+  color: #e0e7ef;
+  font-size: 1rem;
+}
+
+.editcliente-btn {
+  background: #000000;
+  color: #fff;
+  font-weight: 400;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  font-size: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  position: relative;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.editcliente-btn::after {
+  content: '\2197';
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.editcliente-btn:hover {
+  background: #171717;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.editcliente-btn:hover::after {
+  transform: rotate(45deg);
+}
+
+.editcliente-volver-btn {
+  margin-top: 2.5rem;
+  background: #000;
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  padding: 0.7rem 2.2rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px #000a;
+  transition: background 0.2s, color 0.2s, transform 0.18s;
+  width: 100%;
+  max-width: 250px;
+}
+.editcliente-volver-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.04);
+}
+
+/* Tablet: apila paneles y ajusta paddings */
+@media (max-width: 1100px) {
+  .editcliente-main {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .editcliente-panel-izq,
+  .editcliente-panel-der {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0;
+    padding: 2rem 1rem;
+  }
+  .editcliente-panel-der {
+    padding-top: 1rem;
+  }
+}
+
+/* Mobile: reduce paddings, imagen y botón */
+@media (max-width: 600px) {
+  .editcliente-panel-izq,
+  .editcliente-panel-der {
+    padding: 1.2rem 0.5rem;
+  }
+  .editcliente-foto-wrapper {
+    width: 90px;
+    height: 90px;
+  }
+  .editcliente-volver-btn {
+    font-size: 1rem;
+    padding: 0.6rem 0;
+    max-width: 100%;
+  }
+}

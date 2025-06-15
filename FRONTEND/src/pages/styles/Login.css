@@ -1,0 +1,214 @@
+/* Fondo mitad blanco, mitad negro */
+.dual-bg-login {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
+}
+
+/* Card glassmorphism */
+.login-card {
+  background: rgba(245,245,245,0.82);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(30,30,30,0.13);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(60,60,60,0.08);
+  padding: 2.8rem 2.5rem 2.2rem 2.5rem;
+  width: 100%;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+  transition: box-shadow 0.3s;
+}
+
+.login-card:hover {
+  box-shadow: 0 12px 40px 0 rgba(30,30,30,0.18);
+}
+
+/* Título negro con sombra gris */
+.login-title {
+  color: #181818;
+  font-size: 2.3rem;
+  font-weight: 900;
+  margin-bottom: 2.2rem;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-shadow: 0 2px 12px #bdbdbd33;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Inputs flotantes */
+.login-label {
+  color: #222;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
+  display: block;
+}
+
+.login-input {
+  width: 100%;
+  padding: 1.1rem 0rem 0.6rem 0.2rem;
+  border: none;
+  border-radius: 12px;
+  background: #f3f3f3;
+  color: #181818;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 12px rgba(60,60,60,0.06);
+  outline: none;
+  border-bottom: 2.5px solid #bdbdbd;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.login-input:focus {
+  border-bottom: 2.5px solid #181818;
+  box-shadow: 0 0 8px #bdbdbd88;
+  background: #fff;
+}
+
+.error-message {
+  color: #b91c1c;
+  background: #f7f7fa;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  margin-top: 0.3rem;
+  font-size: 0.98rem;
+  text-align: left;
+  display: block;
+  box-shadow: 0 1px 4px #b91c1c22;
+}
+
+.password-input-wrapper {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+/* Botón negro con hover gris oscuro */
+.login-btn {
+  background: linear-gradient(90deg, #181818 60%, #444 100%);
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 14px 0;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.08rem;
+  cursor: pointer;
+  margin-top: 1.2rem;
+  width: 100%;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 12px #2222;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.arrow-icon {
+  display: inline-block;
+  font-size: 1.1rem;
+  transition: transform 0.3s, color 0.3s;
+  color: #fff;
+}
+
+.login-btn:hover {
+  background: linear-gradient(90deg, #444 0%, #181818 100%);
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 24px #2224;
+}
+
+.login-btn:hover .arrow-icon {
+  transform: translateX(4px) rotate(45deg);
+  color: #bdbdbd;
+}
+
+.login-bottom-link {
+  margin-top: 2.2rem;
+  text-align: center;
+}
+
+.create-account {
+  color: #444;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 0.3rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.registro-link {
+  color: #181818;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.registro-link:hover {
+  color: #444;
+  text-shadow: 0 1px 8px #bdbdbd55;
+}
+
+/* Ojito (icono de mostrar/ocultar password) */
+.password-input-wrapper svg {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #000000;
+  font-size: 1.3rem;
+  opacity: 0.75;
+  transition: color 0.2s, opacity 0.2s;
+}
+.password-input-wrapper svg:hover {
+  color: #181818;
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .dual-bg-login {
+    flex-direction: column;
+    background: linear-gradient(180deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
+  }
+  .dual-bg-left,
+  .dual-bg-right {
+    width: 100vw;
+    height: 50vh;
+    position: absolute;
+  }
+  .dual-bg-left {
+    top: 0;
+    left: 0;
+  }
+  .dual-bg-right {
+    bottom: 0;
+    right: 0;
+  }
+  .login-card {
+    max-width: 98vw;
+    margin: 0 auto;
+    padding: 2rem 1rem 1.5rem 1rem;
+  }
+  .login-title {
+    font-size: 1.4rem;
+  }
+}
