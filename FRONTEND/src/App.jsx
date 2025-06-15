@@ -18,25 +18,19 @@ import VentasCrud from './components/admincomponents/VentasCrud.jsx'
 import ClienteCrud from './components/admincomponents/ClienteCrud.jsx'
 import ProtectedRoute from "./components/ProtectedRoute.jsx"; 
 
-
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Landing page SIEMPRE accesible */}
+        <Route path="/" element={<Principal />} />
+
         {/* Rutas públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<FirstRegistro />} />
         <Route path="/second-registro" element={<SecondRegistro />} />
 
         {/* Rutas protegidas */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Principal />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/admin/productos"
           element={

@@ -51,75 +51,73 @@ const FirstRegistro = () => {
       <div className="registro-card">
         <h2 className="registro-title">Registro - Datos Personales</h2>
         <form className="registro-form" onSubmit={handleSubmit}>
-          <div className="registro-grid">
-            <div className="registro-field">
-              <label className="registro-label" htmlFor="nombre">
-                Nombre
-              </label>
-              <input
-                className="registro-input"
-                id="nombre"
-                name="nombre"
-                placeholder="Nombre/s"
-                value={form.nombre}
-                onChange={handleChange}
-                required
-              />
-              {errores.nombre && (
-                <span className="registro-error">{errores.nombre}</span>
-              )}
-            </div>
-            <div className="registro-field">
-              <label className="registro-label" htmlFor="apellido">
-                Apellido
-              </label>
-              <input
-                className="registro-input"
-                id="apellido"
-                name="apellido"
-                placeholder="Apellido/s"
-                value={form.apellido}
-                onChange={handleChange}
-                required
-              />
-              {errores.apellido && (
-                <span className="registro-error">{errores.apellido}</span>
-              )}
-            </div>
-            <div className="registro-field">
-              <label className="registro-label" htmlFor="direccion">
-                Dirección
-              </label>
-              <input
-                className="registro-input"
-                id="direccion"
-                name="direccion"
-                placeholder="Dirección"
-                value={form.direccion}
-                onChange={handleChange}
-                required
-              />
-              {errores.direccion && (
-                <span className="registro-error">{errores.direccion}</span>
-              )}
-            </div>
-            <div className="registro-field">
-              <label className="registro-label" htmlFor="telefono">
-                Teléfono
-              </label>
-              <input
-                className="registro-input"
-                id="telefono"
-                name="telefono"
-                placeholder="Teléfono"
-                value={form.telefono}
-                onChange={handleChange}
-                required
-              />
-              {errores.telefono && (
-                <span className="registro-error">{errores.telefono}</span>
-              )}
-            </div>
+          <div className="registro-field">
+            <label className="registro-label" htmlFor="nombre">
+              Nombre
+            </label>
+            <input
+              className="registro-input"
+              id="nombre"
+              name="nombre"
+              placeholder="Nombre/s"
+              value={form.nombre}
+              onChange={handleChange}
+              required
+            />
+            {errores.nombre && (
+              <span className="registro-error">{errores.nombre}</span>
+            )}
+          </div>
+          <div className="registro-field">
+            <label className="registro-label" htmlFor="apellido">
+              Apellido
+            </label>
+            <input
+              className="registro-input"
+              id="apellido"
+              name="apellido"
+              placeholder="Apellido/s"
+              value={form.apellido}
+              onChange={handleChange}
+              required
+            />
+            {errores.apellido && (
+              <span className="registro-error">{errores.apellido}</span>
+            )}
+          </div>
+          <div className="registro-field">
+            <label className="registro-label" htmlFor="direccion">
+              Dirección
+            </label>
+            <input
+              className="registro-input"
+              id="direccion"
+              name="direccion"
+              placeholder="Dirección"
+              value={form.direccion}
+              onChange={handleChange}
+              required
+            />
+            {errores.direccion && (
+              <span className="registro-error">{errores.direccion}</span>
+            )}
+          </div>
+          <div className="registro-field">
+            <label className="registro-label" htmlFor="telefono">
+              Teléfono
+            </label>
+            <input
+              className="registro-input"
+              id="telefono"
+              name="telefono"
+              placeholder="Teléfono"
+              value={form.telefono}
+              onChange={handleChange}
+              required
+            />
+            {errores.telefono && (
+              <span className="registro-error">{errores.telefono}</span>
+            )}
           </div>
           <button className="registro-btn" type="submit">
             Siguiente<span className="arrow-icon">↗</span>

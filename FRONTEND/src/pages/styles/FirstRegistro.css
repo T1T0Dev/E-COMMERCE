@@ -10,26 +10,6 @@
   background: linear-gradient(90deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
 }
 
-.registro-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem 1.5rem;
-  margin-bottom: 1.2rem;
-}
-
-.registro-field {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Responsive: una columna en pantallas chicas */
-@media (max-width: 700px) {
-  .registro-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-
 .dual-bg-left,
 .dual-bg-right {
   position: absolute;
@@ -84,11 +64,18 @@
   text-shadow: 0 2px 12px #bdbdbd33;
 }
 
+/* Formulario vertical */
 .registro-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
+}
+
+/* Campos del formulario */
+.registro-field {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Inputs flotantes */
@@ -196,6 +183,7 @@
   opacity: 1;
 }
 
+/* Responsive */
 @media (max-width: 700px) {
   .dual-bg-registro {
     flex-direction: column;
@@ -223,4 +211,11 @@
   .registro-title {
     font-size: 1.4rem;
   }
+}
+
+/* Elimina clases y reglas que ya no usás */
+.registro-card-vertical,
+.registro-form-vertical,
+.registro-grid {
+  display: none !important;
 }

@@ -41,7 +41,7 @@ const Principal = () => {
         <div className="landing-content" id="services">
           <section className="hero-section">
             <h1>
-              BIENVENID@ <span className="landing-nombre-cliente">{user?.nombre}</span> A DREKKZ INDUMENTARIA
+              BIENVENID@<span className="landing-nombre-cliente">{user?.nombre}</span>A DREKKZ INDUMENTARIA
             </h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
           
