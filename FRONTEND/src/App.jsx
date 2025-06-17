@@ -95,6 +95,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+         <Route
+          path="/admin/crud-clientes"
+          element={
+            <ProtectedRoute>
+              <ClienteCrud />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

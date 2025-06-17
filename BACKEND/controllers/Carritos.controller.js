@@ -1,7 +1,6 @@
 import db from "../config/db.js";
 
 export const crearCarrito = async (req, res) => {
-  
   const { id_cliente } = req.body;
 
   try {
@@ -17,73 +16,14 @@ export const crearCarrito = async (req, res) => {
 };
 
 export const cambiarEstadoCarrito = async (req, res) => {
-
-  if (estado === "entregado") {
-    // 1. Busca el pedido asociado
-    const [[pedido]] = await connection.query(
-      "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
-      [id_carrito]
-    );
-    if (!pedido) {
-      await connection.rollback();
-      return res.status(400).json({ error: "No hay pedido asociado a este carrito" });
-    }
-    const id_pedido = pedido.id_pedido;
-
-    // 2. Trae los detalles del pedido
-    const [detalles] = await connection.query(
-      "SELECT id_producto, id_talle, cantidad, subtotal FROM Detalle_Pedido WHERE id_pedido = ?",
-      [id_pedido]
-    );
-
-    // 2b. Verifica stock suficiente para cada producto/talle
-    const productosSinStock = [];
-    for (const det of detalles) {
-      const [[stockRow]] = await connection.query(
-        "SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?",
-        [det.id_producto, det.id_talle]
-      );
-      if (!stockRow || stockRow.stock < det.cantidad) {
-        productosSinStock.push({
-          id_producto: det.id_producto,
-          id_talle: det.id_talle,
-          requerido: det.cantidad,
-          disponible: stockRow ? stockRow.stock : 0,
-        });
-      }
-    }
-    if (productosSinStock.length > 0) {
-      await connection.rollback();
-      return res.status(400).json({
-        error: "No hay stock suficiente para los siguientes productos/talles",
-        productosSinStock,
-      });
-    }
-  }
-
   const { id_carrito } = req.params;
   const { estado } = req.body;
   const connection = await db.getConnection();
+
   try {
     await connection.beginTransaction();
 
-    // Cambia el estado y, si es entregado, actualiza fecha_entrega
-    let updateQuery, updateParams;
-    if (estado === "entregado") {
-      updateQuery = "UPDATE Carritos SET estado = ?, fecha_entrega = NOW() WHERE id_carrito = ?";
-      updateParams = [estado, id_carrito];
-    } else {
-      updateQuery = "UPDATE Carritos SET estado = ? WHERE id_carrito = ?";
-      updateParams = [estado, id_carrito];
-    }
-
-    const [result] = await connection.query(updateQuery, updateParams);
-    if (result.affectedRows === 0) {
-      await connection.rollback();
-      return res.status(404).json({ error: "Carrito no encontrado" });
-    }
-
-    // --- Resto del código igual ---
+    // Si el nuevo estado es "entregado", primero verifica stock y gestiona ventas diarias
     if (estado === "entregado") {
       // 1. Busca el pedido asociado
       const [[pedido]] = await connection.query(
@@ -92,7 +32,9 @@ export const cambiarEstadoCarrito = async (req, res) => {
       );
       if (!pedido) {
         await connection.rollback();
-        return res.status(400).json({ error: "No hay pedido asociado a este carrito" });
+        return res
+          .status(400)
+          .json({ error: "No hay pedido asociado a este carrito" });
       }
       const id_pedido = pedido.id_pedido;
 
@@ -102,11 +44,46 @@ export const cambiarEstadoCarrito = async (req, res) => {
         [id_pedido]
       );
 
-      // 3. Maneja ventas diarias
-      const fecha = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      const totalPedido = detalles.reduce((acc, d) => acc + (d.subtotal || 0), 0);
+      // 2b. Verifica stock suficiente para cada producto/talle
+      const productosSinStock = [];
+      for (const det of detalles) {
+        const [[stockRow]] = await connection.query(
+          "SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?",
+          [det.id_producto, det.id_talle]
+        );
+        if (!stockRow || stockRow.stock < det.cantidad) {
+          productosSinStock.push({
+            id_producto: det.id_producto,
+            id_talle: det.id_talle,
+            requerido: det.cantidad,
+            disponible: stockRow ? stockRow.stock : 0,
+          });
+        }
+      }
+      if (productosSinStock.length > 0) {
+        await connection.rollback();
+        return res.status(400).json({
+          error: "No hay stock suficiente para los siguientes productos/talles",
+          productosSinStock,
+        });
+      }
 
-      // 3a. Busca o crea registro en Ventas_Diarias
+      // 3. Descuenta stock
+      for (const det of detalles) {
+        await connection.query(
+          "UPDATE Producto_Talle SET stock = stock - ? WHERE id_producto = ? AND id_talle = ?",
+          [det.cantidad, det.id_producto, det.id_talle]
+        );
+      }
+
+      // 4. Maneja ventas diarias
+      const fecha = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const totalPedido = detalles.reduce(
+        (acc, d) => acc + (d.subtotal || 0),
+        0
+      );
+
+      // 4a. Busca o crea registro en Ventas_Diarias
       const [[ventaDia]] = await connection.query(
         "SELECT id_venta_diaria FROM Ventas_Diarias WHERE fecha = ?",
         [fecha]
@@ -126,7 +103,7 @@ export const cambiarEstadoCarrito = async (req, res) => {
         );
       }
 
-      // 3b. Inserta o actualiza detalle de ventas diarias
+      // 4b. Inserta o actualiza detalle de ventas diarias
       for (const det of detalles) {
         await connection.query(
           `INSERT INTO Detalle_Venta_Diaria (id_venta_diaria, id_producto, id_talle, cantidad, subtotal)
@@ -134,9 +111,32 @@ export const cambiarEstadoCarrito = async (req, res) => {
            ON DUPLICATE KEY UPDATE
              cantidad = cantidad + VALUES(cantidad),
              subtotal = subtotal + VALUES(subtotal)`,
-          [id_venta_diaria, det.id_producto, det.id_talle, det.cantidad, det.subtotal]
+          [
+            id_venta_diaria,
+            det.id_producto,
+            det.id_talle,
+            det.cantidad,
+            det.subtotal,
+          ]
         );
       }
+    }
+
+    // Cambia el estado y, si es entregado, actualiza fecha_entrega
+    let updateQuery, updateParams;
+    if (estado === "entregado") {
+      updateQuery =
+        "UPDATE Carritos SET estado = ?, fecha_entrega = NOW() WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    } else {
+      updateQuery = "UPDATE Carritos SET estado = ? WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    }
+
+    const [result] = await connection.query(updateQuery, updateParams);
+    if (result.affectedRows === 0) {
+      await connection.rollback();
+      return res.status(404).json({ error: "Carrito no encontrado" });
     }
 
     await connection.commit();
@@ -149,7 +149,6 @@ export const cambiarEstadoCarrito = async (req, res) => {
     connection.release();
   }
 };
-
 
 export const agregarProductoACarrito = async (req, res) => {
   const { id_carrito, id_producto, id_talle, cantidad, subtotal } = req.body;
@@ -304,21 +303,17 @@ export const eliminarCarrito = async (req, res) => {
     // 2. Elimina los detalles de esos pedidos y su historial de ventas
     for (const pedido of pedidos) {
       // Elimina historial de ventas asociado a este pedido
-      await db.query(
-        "DELETE FROM Historial_Ventas WHERE id_pedido = ?",
-        [pedido.id_pedido]
-      );
+      await db.query("DELETE FROM Historial_Ventas WHERE id_pedido = ?", [
+        pedido.id_pedido,
+      ]);
       // Elimina los detalles del pedido
-      await db.query(
-        "DELETE FROM Detalle_Pedido WHERE id_pedido = ?",
-        [pedido.id_pedido]
-      );
+      await db.query("DELETE FROM Detalle_Pedido WHERE id_pedido = ?", [
+        pedido.id_pedido,
+      ]);
     }
 
     // 3. Elimina los pedidos asociados a este carrito
-    await db.query("DELETE FROM Pedidos WHERE id_carrito = ?", [
-      id_carrito,
-    ]);
+    await db.query("DELETE FROM Pedidos WHERE id_carrito = ?", [id_carrito]);
 
     // 4. Elimina los detalles del carrito (si existen)
     await db.query("DELETE FROM Carrito_Detalle WHERE id_carrito = ?", [
@@ -343,28 +338,31 @@ export const eliminarCarrito = async (req, res) => {
 export const getCarritosPedidosFusion = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        ca.id_carrito,
-        ca.estado AS estado_carrito,
-        ca.fecha_creacion,
-        cl.nombre AS cliente_nombre,
-        cl.apellido AS cliente_apellido,
-        cl.telefono,
-        p.id_pedido,
-        p.fecha_pedido,
-        dp.id_detalle,
-        pr.nombre_producto,
-        pr.imagen_producto,
-        t.nombre_talle,
-        dp.cantidad,
-        dp.subtotal
-      FROM Carritos ca
-      JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
-      LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
-      LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
-      LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
-      LEFT JOIN Talles t ON dp.id_talle = t.id_talle
-      ORDER BY ca.fecha_creacion DESC, p.fecha_pedido DESC
+  SELECT 
+    ca.id_carrito,
+    ca.estado AS estado_carrito,
+    ca.fecha_creacion,
+    cl.nombre AS cliente_nombre,
+    cl.apellido AS cliente_apellido,
+    cl.telefono,
+    p.id_pedido,
+    p.fecha_pedido,
+    dp.id_detalle,
+    pr.nombre_producto,
+    pr.imagen_producto,
+    t.nombre_talle,
+    dp.cantidad,
+    dp.subtotal,
+    e.direccion_envio,
+    e.requiere_envio
+    FROM Carritos ca
+    JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
+    LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
+    LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
+    LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
+    LEFT JOIN Talles t ON dp.id_talle = t.id_talle
+    LEFT JOIN Envios e ON p.id_pedido = e.id_pedido
+    ORDER BY ca.fecha_creacion DESC, p.fecha_pedido DESC
     `);
 
     // Agrupa por carrito
@@ -374,8 +372,12 @@ export const getCarritosPedidosFusion = async (req, res) => {
         carritosMap[row.id_carrito] = {
           id_carrito: row.id_carrito,
           estado: row.estado_carrito,
+          direccion_envio: row.direccion_envio,
+          requiere_envio: row.requiere_envio,
           fecha_creacion: row.fecha_creacion,
-          cliente: [row.cliente_nombre, row.cliente_apellido].filter(Boolean).join(" "),
+          cliente: [row.cliente_nombre, row.cliente_apellido]
+            .filter(Boolean)
+            .join(" "),
           telefono: row.telefono,
           id_pedido: row.id_pedido,
           fecha_pedido: row.fecha_pedido,
@@ -397,6 +399,8 @@ export const getCarritosPedidosFusion = async (req, res) => {
     res.json(Object.values(carritosMap));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al obtener carritos y pedidos fusionados" });
+    res
+      .status(500)
+      .json({ error: "Error al obtener carritos y pedidos fusionados" });
   }
 };
