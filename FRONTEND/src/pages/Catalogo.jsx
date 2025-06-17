@@ -13,7 +13,7 @@ const Catalogo = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/productos")
+      .get("http://localhost:3000/api/productos?activo=1")
       .then((res) => setProductos(res.data))
       .catch((err) => console.error(err));
   }, []);

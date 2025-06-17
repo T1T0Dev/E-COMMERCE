@@ -46,8 +46,6 @@ const FirstRegistro = () => {
 
   return (
     <div className="dual-bg-registro">
-      <div className="dual-bg-left"></div>
-      <div className="dual-bg-right"></div>
       <div className="registro-card">
         <h2 className="registro-title">Registro - Datos Personales</h2>
         <form className="registro-form" onSubmit={handleSubmit}>

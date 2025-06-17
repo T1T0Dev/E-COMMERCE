@@ -1,18 +1,27 @@
 import React from "react";
 import "./estilosadmin/ModalConfirmacion.css";
 
-const ModalConfirmacion = ({ open, mensaje, onConfirm, onCancel }) => {
-  if (!open) return null;
+const ModalConfirmacion = ({
+  isOpen, // <-- Cambiado de 'open'
+  mensaje,
+  onConfirm,
+  onClose, // <-- Cambiado de 'onCancel'
+  titulo = "Confirmar acción",
+  textoConfirmar = "Sí",
+  textoCancelar = "No"
+}) => {
+  if (!isOpen) return null;
   return (
     <div className="modal-confirm-overlay">
       <div className="modal-confirm-content">
+        <h3 style={{marginTop:0}}>{titulo}</h3>
         <p>{mensaje}</p>
         <div className="modal-confirm-actions">
           <button className="modal-confirm-btn modal-confirm-btn-si" onClick={onConfirm}>
-            Sí
+            {textoConfirmar}
           </button>
-          <button className="modal-confirm-btn modal-confirm-btn-no" onClick={onCancel}>
-            No
+          <button className="modal-confirm-btn modal-confirm-btn-no" onClick={onClose}>
+            {textoCancelar}
           </button>
         </div>
       </div>

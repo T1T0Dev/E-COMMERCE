@@ -100,16 +100,17 @@ const Header = () => {
                   className="admin-btn"
                   onClick={() => setAdminMenuOpen(!adminMenuOpen)}
                 >
-                  <FaUserShield style={{ fontSize: 22, color: "#f39c12" }} />
+                  <FaUserShield style={{ fontSize: 22, color: "white" }} />
                 </button>
                 {adminMenuOpen && (
                   <div className="dropdown-menu">
+                    <Link to="/admin/usuarios">👤 Usuarios</Link>
+                    <Link to="/admin/clientes">👥 Clientes</Link>
+                    <Link to="/admin/productos">📦 Productos</Link>
                     <Link to="/admin/categorias">📂 Categorías</Link>
                     <Link to="/admin/talles">📏 Talles</Link>
-                    <Link to="/admin/productos">📦 Productos</Link>
                     <Link to="/admin/carritos">🛒 Carritos</Link>
                     <Link to="/admin/ventas">💰 Ventas</Link>
-                    <Link to="/admin/usuarios">👤 Usuarios</Link>
                   </div>
                 )}
               </li>

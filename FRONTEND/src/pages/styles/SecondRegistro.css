@@ -7,7 +7,21 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
+  /* Fondo degradado blanco, gris y negro bien notorio */
+  background: radial-gradient(
+      circle at 60% 40%,
+      #fff 0%,
+      #e0e0e0 30%,
+      transparent 60%
+    ),
+    linear-gradient(
+      135deg,
+      #fff 0%,
+      #e0e0e0 20%,
+      #bdbdbd 45%,
+      #444 75%,
+      #181818 100%
+    );
 }
 
 .dual-bg-left,
@@ -31,12 +45,12 @@
 
 /* Card glassmorphism */
 .registro-card {
-  background: rgba(245,245,245,0.82);
+  background: rgba(245, 245, 245, 0.82);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(30,30,30,0.13);
+  box-shadow: 0 8px 32px 0 rgba(30, 30, 30, 0.13);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(60,60,60,0.08);
+  border: 1.5px solid rgba(60, 60, 60, 0.08);
   padding: 2.8rem 2.5rem 2.2rem 2.5rem;
   width: 100%;
   max-width: 410px;
@@ -50,7 +64,7 @@
 }
 
 .registro-card:hover {
-  box-shadow: 0 12px 40px 0 rgba(30,30,30,0.18);
+  box-shadow: 0 12px 40px 0 rgba(30, 30, 30, 0.18);
 }
 
 /* Título negro con sombra gris */
@@ -89,7 +103,7 @@
   background: #f3f3f3;
   color: #181818;
   font-size: 1.08rem;
-  box-shadow: 0 2px 12px rgba(60,60,60,0.06);
+  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
   outline: none;
   border-bottom: 2.5px solid #bdbdbd;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -179,7 +193,20 @@
 @media (max-width: 700px) {
   .dual-bg-registro {
     flex-direction: column;
-    background: linear-gradient(180deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
+    background: radial-gradient(
+        circle at 60% 40%,
+        #fff 0%,
+        #e0e0e0 30%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        #fff 0%,
+        #e0e0e0 20%,
+        #bdbdbd 60%,
+        #444 85%,
+        #181818 100%
+      );
   }
   .dual-bg-left,
   .dual-bg-right {

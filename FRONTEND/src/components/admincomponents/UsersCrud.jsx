@@ -23,6 +23,7 @@ const UsersCrud = () => {
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(""); // Estado para errores de validación
   const navigate = useNavigate();
 
   // Traer usuarios
@@ -45,10 +46,23 @@ const UsersCrud = () => {
   // Manejar cambios de formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError(""); // Limpiar error al escribir
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Limpiar errores previos
+
+    // Validación de contraseña mínima
+    if (!editId && form.contraseña.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+    if (editId && form.contraseña && form.contraseña.length > 0 && form.contraseña.length < 6) {
+      setError("La nueva contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+
     try {
       if (editId) {
         await axios.put(`http://localhost:3000/api/usuarios/${editId}`, form);
@@ -115,6 +129,7 @@ const UsersCrud = () => {
   const handleCancel = () => {
     setForm(initialForm);
     setEditId(null);
+    setError("");
   };
 
   // Cerrar modal
@@ -132,14 +147,8 @@ const UsersCrud = () => {
       <div className="userscrud-container">
         <ToastContainer position="top-right" autoClose={2000} />
         <ModalConfirmacion
-          open={modal.open}
-          mensaje={
-            modal.action === "eliminar"
-              ? "¿Estás seguro de eliminar este usuario?"
-              : modal.action === "editar"
-              ? "¿Estás seguro de editar este usuario?"
-              : ""
-          }
+          isOpen={modal.open}
+          onClose={closeModal}
           onConfirm={
             modal.action === "eliminar"
               ? confirmDelete
@@ -147,7 +156,28 @@ const UsersCrud = () => {
               ? confirmEdit
               : closeModal
           }
-          onCancel={closeModal}
+          mensaje={
+            modal.action === "eliminar"
+              ? "¿Estás seguro de eliminar este usuario?"
+              : modal.action === "editar"
+              ? "¿Estás seguro de editar este usuario?"
+              : ""
+          }
+          titulo={
+            modal.action === "eliminar"
+              ? "Eliminar usuario"
+              : modal.action === "editar"
+              ? "Editar usuario"
+              : ""
+          }
+          textoConfirmar={
+            modal.action === "eliminar"
+              ? "Sí, eliminar"
+              : modal.action === "editar"
+              ? "Sí, editar"
+              : "Confirmar"
+          }
+          textoCancelar="Cancelar"
         />
 
         <h2 className="userscrud-title">Administrar Usuarios</h2>
@@ -191,6 +221,11 @@ const UsersCrud = () => {
             >
               Cancelar
             </button>
+          )}
+          {error && (
+            <span className="userscrud-error" style={{ color: "red", marginTop: "8px", display: "block" }}>
+              {error}
+            </span>
           )}
         </form>
         <h3 className="userscrud-subtitle">Usuarios existentes</h3>

@@ -4,10 +4,17 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./estilosadmin/TallesAdmin.css";
+import ModalConfirmacion from "./ModalConfirmacion";
+
 const TallesAdmin = () => {
   const [talles, setTalles] = useState([]);
   const [nombre, setNombre] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState({
+    open: false,
+    id: null,
+    nombre: "",
+  });
   const navigate = useNavigate();
 
   // Traer talles
@@ -41,23 +48,45 @@ const TallesAdmin = () => {
     }
   };
 
-  // Eliminar talle
-  const handleEliminar = async (id) => {
-    if (!window.confirm("¿Eliminar este talle?")) return;
+  // Abrir modal de confirmación para eliminar
+  const handleEliminar = (id, nombre_talle) => {
+    setModalConfirm({ open: true, id, nombre: nombre_talle });
+  };
+
+  // Confirmar eliminación
+  const confirmarEliminar = async () => {
+    const id = modalConfirm.id;
+    setModalConfirm({ open: false, id: null, nombre: "" });
     const res = await fetch(`http://localhost:3000/api/talles/${id}`, {
       method: "DELETE",
     });
     const data = await res.json();
     if (!res.ok) {
-      toast.error(data.error || "Error al eliminar el talle");
+      if (data.productos && data.productos.length > 0) {
+        toast.error(
+          `No puedes eliminar el talle porque está asociado a los siguientes productos: ${data.productos.join(
+            ", "
+          )}`
+        );
+      } else {
+        toast.error(data.error || "Error al eliminar el talle");
+      }
       return;
     }
     toast.success("¡Talle eliminado!");
     fetchTalles();
   };
-
   return (
     <div className="talles-admin-bg">
+      <ModalConfirmacion
+        isOpen={modalConfirm.open}
+        onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
+        onConfirm={confirmarEliminar}
+        mensaje={`¿Estás seguro que deseas eliminar el talle "${modalConfirm.nombre}"?`}
+        titulo="Eliminar talle"
+        textoConfirmar="Sí, eliminar"
+        textoCancelar="Cancelar"
+      />
       <div className="talles-admin-back-btn-wrapper">
         <button onClick={() => navigate(-1)} className="cta-button">
           <AiOutlineArrowLeft size={30} className="drop-shadow" />
@@ -92,7 +121,9 @@ const TallesAdmin = () => {
                   </span>
                 </div>
                 <button
-                  onClick={() => handleEliminar(talle.id_talle)}
+                  onClick={() =>
+                    handleEliminar(talle.id_talle, talle.nombre_talle)
+                  }
                   className="talles-admin-btn-eliminar"
                 >
                   Eliminar

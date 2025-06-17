@@ -58,8 +58,6 @@ const SecondRegistro = () => {
 
   return (
     <div className="dual-bg-registro">
-      <div className="dual-bg-left"></div>
-      <div className="dual-bg-right"></div>
       <ToastContainer position="top-right" autoClose={2000} />
       <div className="registro-card">
         <h2 className="registro-title">Registro - Usuario</h2>

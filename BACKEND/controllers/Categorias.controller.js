@@ -45,6 +45,13 @@ export const deleteCategoria = async (req, res) => {
     const { id } = req.params;
 
     try {
+        // Poner en NULL la categoría de todos los productos que la usen
+        await db.query(
+            `UPDATE productos SET id_categoria = NULL WHERE id_categoria = ?`,
+            [id]
+        );
+
+        // Ahora sí puedes eliminar la categoría
         const [result] = await db.query('DELETE FROM categorias WHERE id_categoria = ?', [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Categoría no encontrada' });
@@ -55,4 +62,3 @@ export const deleteCategoria = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar la categoría' });
     }
 }
-

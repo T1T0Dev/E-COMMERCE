@@ -1,6 +1,7 @@
 import db from "../config/db.js";
 
 export const crearCarrito = async (req, res) => {
+  
   const { id_cliente } = req.body;
 
   try {
@@ -16,23 +17,139 @@ export const crearCarrito = async (req, res) => {
 };
 
 export const cambiarEstadoCarrito = async (req, res) => {
+
+  if (estado === "entregado") {
+    // 1. Busca el pedido asociado
+    const [[pedido]] = await connection.query(
+      "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
+      [id_carrito]
+    );
+    if (!pedido) {
+      await connection.rollback();
+      return res.status(400).json({ error: "No hay pedido asociado a este carrito" });
+    }
+    const id_pedido = pedido.id_pedido;
+
+    // 2. Trae los detalles del pedido
+    const [detalles] = await connection.query(
+      "SELECT id_producto, id_talle, cantidad, subtotal FROM Detalle_Pedido WHERE id_pedido = ?",
+      [id_pedido]
+    );
+
+    // 2b. Verifica stock suficiente para cada producto/talle
+    const productosSinStock = [];
+    for (const det of detalles) {
+      const [[stockRow]] = await connection.query(
+        "SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?",
+        [det.id_producto, det.id_talle]
+      );
+      if (!stockRow || stockRow.stock < det.cantidad) {
+        productosSinStock.push({
+          id_producto: det.id_producto,
+          id_talle: det.id_talle,
+          requerido: det.cantidad,
+          disponible: stockRow ? stockRow.stock : 0,
+        });
+      }
+    }
+    if (productosSinStock.length > 0) {
+      await connection.rollback();
+      return res.status(400).json({
+        error: "No hay stock suficiente para los siguientes productos/talles",
+        productosSinStock,
+      });
+    }
+  }
+
   const { id_carrito } = req.params;
   const { estado } = req.body;
+  const connection = await db.getConnection();
   try {
-    const [result] = await db.query(
-      "UPDATE Carritos SET estado = ? WHERE id_carrito = ?",
-      [estado, id_carrito]
-    );
+    await connection.beginTransaction();
+
+    // Cambia el estado y, si es entregado, actualiza fecha_entrega
+    let updateQuery, updateParams;
+    if (estado === "entregado") {
+      updateQuery = "UPDATE Carritos SET estado = ?, fecha_entrega = NOW() WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    } else {
+      updateQuery = "UPDATE Carritos SET estado = ? WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    }
+
+    const [result] = await connection.query(updateQuery, updateParams);
     if (result.affectedRows === 0) {
+      await connection.rollback();
       return res.status(404).json({ error: "Carrito no encontrado" });
     }
-    res.json({ message: "Estado del carrito actualizado" });
+
+    // --- Resto del código igual ---
+    if (estado === "entregado") {
+      // 1. Busca el pedido asociado
+      const [[pedido]] = await connection.query(
+        "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
+        [id_carrito]
+      );
+      if (!pedido) {
+        await connection.rollback();
+        return res.status(400).json({ error: "No hay pedido asociado a este carrito" });
+      }
+      const id_pedido = pedido.id_pedido;
+
+      // 2. Trae los detalles del pedido
+      const [detalles] = await connection.query(
+        "SELECT id_producto, id_talle, cantidad, subtotal FROM Detalle_Pedido WHERE id_pedido = ?",
+        [id_pedido]
+      );
+
+      // 3. Maneja ventas diarias
+      const fecha = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const totalPedido = detalles.reduce((acc, d) => acc + (d.subtotal || 0), 0);
+
+      // 3a. Busca o crea registro en Ventas_Diarias
+      const [[ventaDia]] = await connection.query(
+        "SELECT id_venta_diaria FROM Ventas_Diarias WHERE fecha = ?",
+        [fecha]
+      );
+      let id_venta_diaria;
+      if (!ventaDia) {
+        const [resVD] = await connection.query(
+          "INSERT INTO Ventas_Diarias (fecha, total) VALUES (?, ?)",
+          [fecha, totalPedido]
+        );
+        id_venta_diaria = resVD.insertId;
+      } else {
+        id_venta_diaria = ventaDia.id_venta_diaria;
+        await connection.query(
+          "UPDATE Ventas_Diarias SET total = total + ? WHERE id_venta_diaria = ?",
+          [totalPedido, id_venta_diaria]
+        );
+      }
+
+      // 3b. Inserta o actualiza detalle de ventas diarias
+      for (const det of detalles) {
+        await connection.query(
+          `INSERT INTO Detalle_Venta_Diaria (id_venta_diaria, id_producto, id_talle, cantidad, subtotal)
+           VALUES (?, ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE
+             cantidad = cantidad + VALUES(cantidad),
+             subtotal = subtotal + VALUES(subtotal)`,
+          [id_venta_diaria, det.id_producto, det.id_talle, det.cantidad, det.subtotal]
+        );
+      }
+    }
+
+    await connection.commit();
+    res.json({ message: "Estado actualizado correctamente" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error al actualizar el estado del carrito" });
+    await connection.rollback();
+    console.error("Error al cambiar estado del carrito:", error);
+    res.status(500).json({ error: "Error al cambiar estado del carrito" });
+  } finally {
+    connection.release();
   }
 };
+
 
 export const agregarProductoACarrito = async (req, res) => {
   const { id_carrito, id_producto, id_talle, cantidad, subtotal } = req.body;
@@ -235,8 +352,6 @@ export const getCarritosPedidosFusion = async (req, res) => {
         cl.telefono,
         p.id_pedido,
         p.fecha_pedido,
-        hv.fecha AS fecha_venta,
-        hv.total AS total_venta,
         dp.id_detalle,
         pr.nombre_producto,
         pr.imagen_producto,
@@ -246,7 +361,6 @@ export const getCarritosPedidosFusion = async (req, res) => {
       FROM Carritos ca
       JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
       LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
-      LEFT JOIN Historial_Ventas hv ON p.id_pedido = hv.id_pedido
       LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
       LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
       LEFT JOIN Talles t ON dp.id_talle = t.id_talle
@@ -261,14 +375,10 @@ export const getCarritosPedidosFusion = async (req, res) => {
           id_carrito: row.id_carrito,
           estado: row.estado_carrito,
           fecha_creacion: row.fecha_creacion,
-          cliente: [row.cliente_nombre, row.cliente_apellido]
-            .filter(Boolean)
-            .join(" "),
-          telefono: row.telefono, // <--- AGREGA ESTA LÍNEA
+          cliente: [row.cliente_nombre, row.cliente_apellido].filter(Boolean).join(" "),
+          telefono: row.telefono,
           id_pedido: row.id_pedido,
           fecha_pedido: row.fecha_pedido,
-          fecha_venta: row.fecha_venta,
-          total_venta: row.total_venta,
           productos: [],
         };
       }
@@ -287,8 +397,6 @@ export const getCarritosPedidosFusion = async (req, res) => {
     res.json(Object.values(carritosMap));
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: "Error al obtener carritos y pedidos fusionados" });
+    res.status(500).json({ error: "Error al obtener carritos y pedidos fusionados" });
   }
 };

@@ -1,4 +1,5 @@
-/* Fondo mitad blanco, mitad negro */
+
+
 .dual-bg-login {
   min-height: 100vh;
   width: 100vw;
@@ -7,17 +8,72 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
+  /* Fondo degradado blanco, gris y negro bien notorio */
+  background:
+    radial-gradient(circle at 60% 40%, #fff 0%, #e0e0e0 30%, transparent 60%),
+    linear-gradient(135deg, #fff 0%, #e0e0e0 20%, #bdbdbd 45%, #444 75%, #181818 100%);
+}
+
+/* Logo Drekkz destacado */
+/* ...existing code... */
+
+.drekkz-logo-login {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  z-index: 10;
+  filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 24px #181818)
+    drop-shadow(0 2px 8px #bdbdbd);
+  pointer-events: none;
+  user-select: none;
+  transition: width 0.2s, top 0.2s;
+}
+
+/* Responsive: logo más pequeño y más cerca del borde superior */
+@media (max-width: 700px) {
+  .dual-bg-login {
+    flex-direction: column;
+    background:
+      radial-gradient(circle at 60% 40%, #fff 0%, #e0e0e0 30%, transparent 60%),
+      linear-gradient(180deg, #fff 0%, #e0e0e0 20%, #bdbdbd 60%, #444 85%, #181818 100%);
+  }
+  .drekkz-logo-login {
+    width: 120px;
+    top: 12px;
+  }
+  .login-card {
+    max-width: 98vw;
+    margin: 0 auto;
+    padding: 2rem 1rem 1.5rem 1rem;
+  }
+  .login-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* Extra: para pantallas muy pequeñas */
+@media (max-width: 400px) {
+  .drekkz-logo-login {
+    width: 80px;
+    top: 8px;
+  }
+}
+
+/* Asegúrate que la tarjeta de login tenga menor z-index */
+.login-card {
+  z-index: 2;
 }
 
 /* Card glassmorphism */
 .login-card {
-  background: rgba(245,245,245,0.82);
+  background: rgba(245, 245, 245, 0.82);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(30,30,30,0.13);
+  box-shadow: 0 8px 32px 0 rgba(30, 30, 30, 0.13);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(60,60,60,0.08);
+  border: 1.5px solid rgba(60, 60, 60, 0.08);
   padding: 2.8rem 2.5rem 2.2rem 2.5rem;
   width: 100%;
   max-width: 410px;
@@ -31,7 +87,7 @@
 }
 
 .login-card:hover {
-  box-shadow: 0 12px 40px 0 rgba(30,30,30,0.18);
+  box-shadow: 0 12px 40px 0 rgba(30, 30, 30, 0.18);
 }
 
 /* Título negro con sombra gris */
@@ -70,7 +126,7 @@
   background: #f3f3f3;
   color: #181818;
   font-size: 1.08rem;
-  box-shadow: 0 2px 12px rgba(60,60,60,0.06);
+  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
   outline: none;
   border-bottom: 2.5px solid #bdbdbd;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -184,24 +240,14 @@
   opacity: 1;
 }
 
+
+
 @media (max-width: 700px) {
   .dual-bg-login {
     flex-direction: column;
-    background: linear-gradient(180deg, #fff 0%, #fff 50%, #181818 50%, #181818 100%);
-  }
-  .dual-bg-left,
-  .dual-bg-right {
-    width: 100vw;
-    height: 50vh;
-    position: absolute;
-  }
-  .dual-bg-left {
-    top: 0;
-    left: 0;
-  }
-  .dual-bg-right {
-    bottom: 0;
-    right: 0;
+    background:
+      radial-gradient(circle at 60% 40%, #fff 0%, #e0e0e0 30%, transparent 60%),
+      linear-gradient(180deg, #fff 0%, #e0e0e0 20%, #bdbdbd 60%, #444 85%, #181818 100%);
   }
   .login-card {
     max-width: 98vw;

@@ -29,7 +29,7 @@ const VentasCrud = () => {
         setModalFecha(fechaCorta);
       });
   };
-  
+
   const cerrarModal = () => {
     setModalFecha(null);
     setDetalleDia([]);
@@ -54,12 +54,13 @@ const VentasCrud = () => {
       </div>
       <div className="ventas-crud">
         <h2>Historial de Ventas</h2>
+        {/* Tabla resumen diario */}
         <table className="ventas-crud-table">
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Cantidad de Pedidos</th>
               <th>Total Vendido</th>
+              <th>Cantidad Pedidos</th>
               <th>Producto Más Vendido</th>
               <th>Ver Detalle</th>
             </tr>
@@ -73,8 +74,8 @@ const VentasCrud = () => {
               ventasPorDia.map((venta, idx) => (
                 <tr key={idx}>
                   <td>{formatearFecha(venta.fecha)}</td>
-                  <td>{venta.cantidad_pedidos}</td>
                   <td>${venta.total_vendido}</td>
+                  <td>{venta.cantidad_pedidos}</td>
                   <td>{venta.producto_mas_vendido || "-"}</td>
                   <td>
                     <button onClick={() => verDetalle(venta.fecha)}>
@@ -98,8 +99,6 @@ const VentasCrud = () => {
               <table className="ventas-crud-detalle-table">
                 <thead>
                   <tr>
-                    <th>ID Pedido</th>
-                    <th>Cliente</th>
                     <th>Producto</th>
                     <th>Talle</th>
                     <th>Cantidad</th>
@@ -109,13 +108,11 @@ const VentasCrud = () => {
                 <tbody>
                   {detalleDia.length === 0 ? (
                     <tr>
-                      <td colSpan={6}>No hay detalles para este día.</td>
+                      <td colSpan={4}>No hay detalles para este día.</td>
                     </tr>
                   ) : (
                     detalleDia.map((detalle, idx) => (
                       <tr key={idx}>
-                        <td>{detalle.id_pedido}</td>
-                        <td>{detalle.cliente_nombre}</td>
                         <td>{detalle.nombre_producto}</td>
                         <td>{detalle.nombre_talle}</td>
                         <td>{detalle.cantidad}</td>

@@ -202,28 +202,29 @@ export const getPedidosVentas = async (req, res) => {
 export const getVentasPorDia = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        DATE(hv.fecha) AS fecha,
-        COUNT(DISTINCT hv.id_venta) AS cantidad_pedidos,
-        SUM(hv.total) AS total_vendido,
-        (
-          SELECT pr.nombre_producto
-          FROM Detalle_Pedido dp
-          JOIN Productos pr ON dp.id_producto = pr.id_producto
-          JOIN Pedidos p2 ON dp.id_pedido = p2.id_pedido
-          JOIN Historial_Ventas hv2 ON hv2.id_pedido = p2.id_pedido
-          WHERE DATE(hv2.fecha) = DATE(hv.fecha)
-          GROUP BY pr.nombre_producto
-          ORDER BY SUM(dp.cantidad) DESC
-          LIMIT 1
-        ) AS producto_mas_vendido
-      FROM Historial_Ventas hv
-      GROUP BY fecha
-      ORDER BY fecha DESC
+     SELECT 
+  vd.fecha,
+  vd.total AS total_vendido,
+  (
+    SELECT COUNT(*) 
+    FROM Pedidos p 
+    JOIN Carritos c ON p.id_carrito = c.id_carrito 
+    WHERE DATE(c.fecha_entrega) = vd.fecha
+  ) AS cantidad_pedidos,
+  (
+    SELECT pr.nombre_producto
+    FROM Detalle_Venta_Diaria dvd
+    JOIN Productos pr ON dvd.id_producto = pr.id_producto
+    WHERE dvd.id_venta_diaria = vd.id_venta_diaria
+    GROUP BY pr.nombre_producto
+    ORDER BY SUM(dvd.cantidad) DESC
+    LIMIT 1
+  ) AS producto_mas_vendido
+FROM Ventas_Diarias vd
+ORDER BY vd.fecha DESC
     `);
     res.json(rows);
   } catch (error) {
-    console.error("Error en getVentasPorDia:", error);
     res.status(500).json({ error: "Error al obtener ventas por día" });
   }
 };
@@ -232,29 +233,21 @@ export const getVentasPorDia = async (req, res) => {
 export const getDetalleVentasPorDia = async (req, res) => {
   const { fecha } = req.params;
   try {
-    const [rows] = await db.query(
-      `
+    const [rows] = await db.query(`
       SELECT 
-        p.id_pedido,
-        CONCAT(cl.nombre, ' ', cl.apellido) AS cliente_nombre,
         pr.nombre_producto,
         t.nombre_talle,
-        dp.cantidad,
-        dp.subtotal
-      FROM Historial_Ventas hv
-      JOIN Pedidos p ON hv.id_pedido = p.id_pedido
-      JOIN Clientes cl ON p.id_cliente = cl.id_cliente
-      JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
-      JOIN Productos pr ON dp.id_producto = pr.id_producto
-      JOIN Talles t ON dp.id_talle = t.id_talle
-      WHERE DATE(hv.fecha) = ?
-      ORDER BY p.id_pedido
-    `,
-      [fecha]
-    );
+        dvd.cantidad,
+        dvd.subtotal
+      FROM Ventas_Diarias vd
+      JOIN Detalle_Venta_Diaria dvd ON vd.id_venta_diaria = dvd.id_venta_diaria
+      JOIN Productos pr ON dvd.id_producto = pr.id_producto
+      JOIN Talles t ON dvd.id_talle = t.id_talle
+      WHERE vd.fecha = ?
+      ORDER BY pr.nombre_producto, t.nombre_talle
+    `, [fecha]);
     res.json(rows);
   } catch (error) {
-    console.error("Error en getDetalleVentasPorDia:", error);
     res.status(500).json({ error: "Error al obtener detalle de ventas" });
   }
 };
