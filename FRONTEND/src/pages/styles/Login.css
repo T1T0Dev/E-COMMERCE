@@ -19,7 +19,7 @@
 
 .drekkz-logo-login {
   position: absolute;
-  top: 20px;
+  top: 0.2rem;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;

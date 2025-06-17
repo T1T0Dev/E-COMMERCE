@@ -1,27 +1,62 @@
+.clientecrud-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #181818 0%, #353535 100%);
+  padding: 0;
+  margin: 0;
+}
+
 .clientecrud-container {
   max-width: 1100px;
-  margin: 40px auto;
-  background: linear-gradient(120deg, #23233a 0%, #181828 100%);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  padding: 48px 40px;
+  margin: 48px auto 0 auto;
+  background: #232323f2;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px #0005, 0 2px 12px #35353522;
+  padding: 38px 28px 40px 28px;
   min-height: 70vh;
-  color: #f8f8fa;
+  color: #ededed;
   font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #232323;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 1.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 16px #0003;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  letter-spacing: 0.5px;
+}
+.cta-button:hover {
+  background: #353535;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
 }
 
 .clientecrud-title {
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 32px;
-  color: #3a86ff;
+  color: #fff;
   text-align: center;
   letter-spacing: 1px;
+  text-shadow: 0 2px 8px #18181833;
 }
 
 .clientecrud-loading,
 .clientecrud-vacio {
-  color: #bfc1e0;
+  color: #bdbdbd;
   font-size: 1.15rem;
   text-align: center;
   margin-top: 40px;
@@ -29,9 +64,10 @@
 
 .clientecrud-table {
   width: 100%;
-  border-collapse: collapse;
-  background: #23233a;
-  border-radius: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #232323;
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 8px #0002;
   margin-top: 18px;
@@ -39,27 +75,64 @@
 
 .clientecrud-table th,
 .clientecrud-table td {
-  padding: 16px 12px;
+  padding: 18px 24px;
   text-align: left;
+  vertical-align: middle;
 }
 
 .clientecrud-table th {
-  background: #181828;
-  color: #3a86ff;
-  font-size: 1.1rem;
-  font-weight: 700;
+  background: #181818;
+  color: #ededed;
+  font-size: 1.12rem;
+  font-weight: 800;
+  border-bottom: 2px solid #353535;
+  letter-spacing: 0.5px;
 }
 
 .clientecrud-table tr {
-  border-bottom: 1.5px solid #39395a;
+  border-bottom: 1.5px solid #353535;
   transition: background 0.18s;
 }
 
+.clientecrud-table tr:nth-child(even) {
+  background: #232335;
+}
+
 .clientecrud-table tr:hover {
-  background: #2d2d4d;
+  background: #353545;
 }
 
 .clientecrud-table td {
-  font-size: 1rem;
-  color: #f8f8fa;
+  font-size: 1.03rem;
+  color: #ededed;
+  border-bottom: 1px solid #353535;
+}
+
+.clientecrud-foto {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #353535;
+  background: #181818;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .clientecrud-container {
+    padding: 1rem 0.2rem;
+  }
+  .clientecrud-table th,
+  .clientecrud-table td {
+    padding: 10px 8px;
+    font-size: 0.98rem;
+  }
+  .clientecrud-title {
+    font-size: 1.3rem;
+  }
+  .cta-button {
+    padding: 0.6rem 1.1rem;
+    font-size: 1rem;
+  }
 }

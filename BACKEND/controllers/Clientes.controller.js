@@ -10,7 +10,8 @@ export const getClientes = async (req, res) => {
                 nombre,
                 apellido,
                 telefono,
-                direccion
+                direccion,
+                foto_perfil
             FROM clientes
         `);
         res.json(rows);
