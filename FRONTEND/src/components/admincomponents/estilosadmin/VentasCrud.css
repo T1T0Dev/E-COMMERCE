@@ -1,19 +1,25 @@
-/* Fondo y tarjeta principal */
-.ventas-crud {
-  max-width: 980px;
-  margin: 40px auto;
-  background: #232323ee;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px #0004, 0 1.5px 8px #35353522;
-  padding: 38px 28px 40px 28px;
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #ededed;
+/* Fondo y centrado */
+.ventas-crud-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #181818 0%, #353535 100%);
 }
 
-.ventas-crud h2 {
+/* Contenido centrado y limitado */
+.ventas-crud-content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tarjeta principal */
+.ventas-crud-content h2 {
   font-size: 2.1rem;
   font-weight: 700;
-  margin: 0 0 18px 0;
+  margin: 40px 0 18px 0;
   color: #fff;
   text-align: center;
   letter-spacing: 1.2px;
@@ -187,8 +193,8 @@
     padding: 0.6rem 1.1rem;
     font-size: 1rem;
   }
-  .ventas-crud {
-    padding: 10px 2px;
+  .ventas-crud-content {
+    padding: 0 2px 18px 2px;
   }
   .ventas-crud-modal-content {
     min-width: unset;
@@ -201,7 +207,8 @@
     font-size: 0.95rem;
     padding: 8px 4px;
   }
-  .ventas-crud h2 {
+  .ventas-crud-content h2 {
     font-size: 1.3rem;
+    margin-top: 18px;
   }
 }

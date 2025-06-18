@@ -3,6 +3,8 @@ import axios from "axios";
 import "./estilosadmin/VentasCrud.css";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
 
 const VentasCrud = () => {
   const [ventasPorDia, setVentasPorDia] = useState([]);
@@ -46,13 +48,11 @@ const VentasCrud = () => {
 
   return (
     <div className="ventas-crud-bg">
+      <AdminNavbar />
       <div className="ventascrud-back-btn-wrapper">
-        <button onClick={() => navigate(-1)} className="cta-button">
-          <AiOutlineArrowLeft size={30} className="drop-shadow" />
-          Volver atrás
-        </button>
+        <AdminHomeButton />
       </div>
-      <div className="ventas-crud">
+      <div className="ventas-crud-content">
         <h2>Historial de Ventas</h2>
         {/* Tabla resumen diario */}
         <table className="ventas-crud-table">

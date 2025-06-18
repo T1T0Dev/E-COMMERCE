@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
+import axios from "axios";
 import "./estilosadmin/CarritosAdmin.css";
 
 const CarritosAdmin = () => {
@@ -13,15 +16,10 @@ const CarritosAdmin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCarritos = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/api/carrito/fusion");
-        setCarritos(res.data);
-      } catch (error) {
-        toast.error("Error al cargar carritos");
-      }
-    };
-    fetchCarritos();
+    axios
+      .get("http://localhost:3000/api/carrito/fusion")
+      .then((res) => setCarritos(res.data))
+      .catch(() => toast.error("Error al cargar carritos"));
   }, []);
 
   const carritosFiltrados = carritos.filter(
@@ -57,9 +55,7 @@ const CarritosAdmin = () => {
   const handleEliminar = async (id_carrito) => {
     if (!window.confirm("¿Eliminar este carrito?")) return;
     try {
-      await axios.delete(
-        `http://localhost:3000/api/carrito/${id_carrito}`
-      );
+      await axios.delete(`http://localhost:3000/api/carrito/${id_carrito}`);
       toast.success("Carrito eliminado");
       setCarritos((carritos) =>
         carritos.filter((c) => c.id_carrito !== id_carrito)
@@ -99,14 +95,11 @@ const CarritosAdmin = () => {
 
   return (
     <div className="carritos-admin-bg">
-      {/* Botón volver fuera del contenedor */}
       <div className="carritos-admin-back-btn-wrapper">
-        <button onClick={() => navigate(-1)} className="cta-button">
-          <AiOutlineArrowLeft size={30} className="cta-button-icon" />
-          Volver atrás
-        </button>
+        <AdminNavbar />
+        <AdminHomeButton />
       </div>
-      <div className="carritos-admin-container">
+      <div className="carritos-admin-content">
         <ToastContainer />
         <div className="carritos-admin-header">
           <h2 className="carritos-admin-title">Gestión de Carritos</h2>
@@ -135,12 +128,14 @@ const CarritosAdmin = () => {
           <table className="carritos-admin-table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th title="Identificador del carrito">#</th>
                 <th>Cliente</th>
                 <th>Estado</th>
-                <th>Fecha</th>
-                <th>Pedido</th>
-                <th>Dirección de Envío</th>
+                <th title="Fecha de creación">Creado</th>
+                <th title="Número de pedido asociado">N° Pedido</th>
+                <th title="Dirección de envío o punto de retiro">
+                  Envío / Retiro
+                </th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -156,18 +151,26 @@ const CarritosAdmin = () => {
                   <tr key={c.id_carrito} className="carritos-admin-row">
                     <td>{c.id_carrito}</td>
                     <td>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                        <b>{c.cliente || c.cliente_nombre || "-"}</b>
-                        <span style={{ color: "#aaa", fontSize: "0.95em" }}>
-                          {c.telefono ? `📱 ${c.telefono}` : ""}
-                        </span>
-                      </div>
+                      <b>{c.cliente || c.cliente_nombre || "-"}</b>
+                      <br />
+                      <span style={{ color: "#aaa", fontSize: "0.95em" }}>
+                        {c.telefono ? `📱 ${c.telefono}` : ""}
+                      </span>
                     </td>
                     <td>
                       <span
                         className={`carritos-admin-estado carritos-admin-estado-${c.estado}`}
+                        title={
+                          c.estado.charAt(0).toUpperCase() + c.estado.slice(1)
+                        }
                       >
-                        {c.estado.charAt(0).toUpperCase() + c.estado.slice(1)}
+                        {c.estado === "entregado"
+                          ? "✅ Entregado"
+                          : c.estado === "pagado"
+                          ? "💲 Pagado"
+                          : c.estado === "activo"
+                          ? "🕒 Activo"
+                          : "❌ Cancelado"}
                       </span>
                     </td>
                     <td>
@@ -179,42 +182,47 @@ const CarritosAdmin = () => {
                     <td>
                       {c.requiere_envio
                         ? c.direccion_envio || "Usar dirección registrada"
-                        : "Concordar Punto de Encuentro"}
+                        : "Punto de Encuentro"}
                     </td>
                     <td>
                       <div className="carritos-admin-actions">
                         <button
                           className="carritos-admin-btn-detalle"
+                          title="Ver detalle"
                           onClick={() => handleVerDetalle(c.id_carrito)}
                         >
-                          Ver Detalle
+                          👁️
                         </button>
                         <button
                           className="carritos-admin-btn-contactar"
+                          title="Contactar cliente"
                           onClick={() => handleContactarCliente(c.telefono)}
                           disabled={!c.telefono}
                         >
-                          Contactar Cliente
+                          📞
                         </button>
                         <button
                           className="carritos-admin-btn-pagado"
+                          title="Marcar como pagado"
                           onClick={() => handleMarcarPagado(c.id_carrito)}
                           disabled={c.estado === "pagado"}
                         >
-                          Marcar Pagado
+                          💲
                         </button>
                         <button
                           className="carritos-admin-btn-estado"
+                          title="Marcar como entregado"
                           onClick={() => handleCambiarEstado(c.id_carrito)}
                           disabled={c.estado !== "pagado"}
                         >
-                          Marcar como Entregado
+                          ✅
                         </button>
                         <button
                           className="carritos-admin-btn-eliminar"
+                          title="Eliminar carrito"
                           onClick={() => handleEliminar(c.id_carrito)}
                         >
-                          Eliminar
+                          🗑️
                         </button>
                       </div>
                     </td>

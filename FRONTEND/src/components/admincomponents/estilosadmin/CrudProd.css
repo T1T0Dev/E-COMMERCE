@@ -5,28 +5,8 @@
     padding: 2rem 0;
 }
 
-/* Botón volver atrás */
-.cta-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #222;
-    color: #fff;
-    border: none;
-    border-radius: 1.5rem;
-    padding: 0.7rem 1.7rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 2rem 2rem;
-    box-shadow: 0 2px 8px #0002;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
-}
-.cta-button:hover {
-    background: #353535;
-    color: #fff;
-    transform: translateY(-2px) scale(1.04);
-}
+
+
 
 .crudprod-add-btn-wrapper.right {
     justify-content: flex-end;
@@ -209,8 +189,8 @@
   align-items: center;
   justify-content: center;
   gap: 1.2rem;
-  margin-bottom: 2.5rem;
-  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  margin-top: 6.5rem;
 }
 
 .switch-label {

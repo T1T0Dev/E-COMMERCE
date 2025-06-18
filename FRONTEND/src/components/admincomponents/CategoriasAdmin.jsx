@@ -5,6 +5,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalConfirmacion from "./ModalConfirmacion";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
 
 const CategoriasAdmin = () => {
   const [categorias, setCategorias] = useState([]);
@@ -79,6 +81,7 @@ const CategoriasAdmin = () => {
 
   return (
     <div className="categorias-admin-bg">
+      <AdminNavbar />
       <ModalConfirmacion
         isOpen={modalConfirm.open}
         onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
@@ -89,10 +92,7 @@ const CategoriasAdmin = () => {
         textoCancelar="Cancelar"
       />
       <div className="categorias-admin-back-btn-wrapper">
-        <button onClick={() => navigate(-1)} className="cta-button">
-          <AiOutlineArrowLeft size={30} className="drop-shadow" />
-          Volver atrás
-        </button>
+        <AdminHomeButton />
       </div>
       <div className="categorias-admin-container">
         <ToastContainer position="top-right" autoClose={2000} />

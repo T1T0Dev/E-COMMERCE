@@ -6,6 +6,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import ModalConfirmacion from "./ModalConfirmacion";
 import "react-toastify/dist/ReactToastify.css";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
 
 const initialForm = {
   email: "",
@@ -23,10 +25,9 @@ const UsersCrud = () => {
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(""); // Estado para errores de validación
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Traer usuarios
   const fetchUsuarios = async () => {
     setLoading(true);
     try {
@@ -43,22 +44,24 @@ const UsersCrud = () => {
     fetchUsuarios();
   }, []);
 
-  // Manejar cambios de formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(""); // Limpiar error al escribir
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Limpiar errores previos
-
-    // Validación de contraseña mínima
+    setError("");
     if (!editId && form.contraseña.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres");
       return;
     }
-    if (editId && form.contraseña && form.contraseña.length > 0 && form.contraseña.length < 6) {
+    if (
+      editId &&
+      form.contraseña &&
+      form.contraseña.length > 0 &&
+      form.contraseña.length < 6
+    ) {
       setError("La nueva contraseña debe tener al menos 6 caracteres");
       return;
     }
@@ -83,7 +86,6 @@ const UsersCrud = () => {
     }
   };
 
-  // Editar usuario (abre modal de confirmación)
   const handleEdit = (usuario) => {
     setModal({
       open: true,
@@ -92,7 +94,6 @@ const UsersCrud = () => {
     });
   };
 
-  // Confirmar edición
   const confirmEdit = () => {
     setForm({
       email: modal.usuario.email,
@@ -103,7 +104,6 @@ const UsersCrud = () => {
     setModal({ open: false, action: null, usuario: null });
   };
 
-  // Eliminar usuario (abre modal de confirmación)
   const handleDelete = (id) => {
     setModal({
       open: true,
@@ -112,7 +112,6 @@ const UsersCrud = () => {
     });
   };
 
-  // Confirmar eliminación
   const confirmDelete = async () => {
     try {
       await axios.delete(`http://localhost:3000/api/usuarios/${modal.usuario}`);
@@ -125,26 +124,25 @@ const UsersCrud = () => {
     }
   };
 
-  // Cancelar edición
   const handleCancel = () => {
     setForm(initialForm);
     setEditId(null);
     setError("");
   };
 
-  // Cerrar modal
   const closeModal = () =>
     setModal({ open: false, action: null, usuario: null });
 
   return (
+    
     <div className="userscrud-bg">
-      <div className="userscrud-back-btn-wrapper">
-        <button onClick={() => navigate(-1)} className="cta-button">
-          <AiOutlineArrowLeft size={30} className="drop-shadow" />
-          Volver atrás
-        </button>
+      <div className="userscrud-navbar">
+        <AdminNavbar />
       </div>
-      <div className="userscrud-container">
+      <div className="userscrud-back-btn-wrapper">
+        <AdminHomeButton />
+      </div>
+      <div className="userscrud-content">
         <ToastContainer position="top-right" autoClose={2000} />
         <ModalConfirmacion
           isOpen={modal.open}
@@ -223,7 +221,14 @@ const UsersCrud = () => {
             </button>
           )}
           {error && (
-            <span className="userscrud-error" style={{ color: "red", marginTop: "8px", display: "block" }}>
+            <span
+              className="userscrud-error"
+              style={{
+                color: "red",
+                marginTop: "8px",
+                display: "block",
+              }}
+            >
               {error}
             </span>
           )}

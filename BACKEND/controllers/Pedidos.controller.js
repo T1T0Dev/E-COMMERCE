@@ -90,27 +90,7 @@ export const getPedidoById = async (req, res) => {
 export const getPedidosJoin = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        p.id_pedido,
-        p.id_cliente,
-        c.nombre AS nombre_cliente,
-        c.apellido AS apellido_cliente,
-        p.fecha_pedido,
-        p.id_carrito,
-        car.estado AS estado_carrito,
-        car.fecha_creacion AS fecha_carrito,
-        dp.id_detalle,
-        pr.nombre_producto,
-        t.nombre_talle,
-        dp.cantidad,
-        dp.subtotal
-      FROM Pedidos p
-      JOIN Clientes c    ON p.id_cliente   = c.id_cliente
-      LEFT JOIN Carritos car ON p.id_carrito  = car.id_carrito
-      LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
-      LEFT JOIN Productos pr     ON dp.id_producto = pr.id_producto
-      LEFT JOIN Talles t         ON dp.id_talle    = t.id_talle
-      ORDER BY p.id_pedido DESC
+     SELECT * vista_pedidos_join 
     `);
 
     // Agrupa los detalles por pedido

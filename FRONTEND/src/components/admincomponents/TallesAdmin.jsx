@@ -5,6 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./estilosadmin/TallesAdmin.css";
 import ModalConfirmacion from "./ModalConfirmacion";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
+
 
 const TallesAdmin = () => {
   const [talles, setTalles] = useState([]);
@@ -78,6 +81,7 @@ const TallesAdmin = () => {
   };
   return (
     <div className="talles-admin-bg">
+      <AdminNavbar />
       <ModalConfirmacion
         isOpen={modalConfirm.open}
         onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
@@ -88,10 +92,7 @@ const TallesAdmin = () => {
         textoCancelar="Cancelar"
       />
       <div className="talles-admin-back-btn-wrapper">
-        <button onClick={() => navigate(-1)} className="cta-button">
-          <AiOutlineArrowLeft size={30} className="drop-shadow" />
-          Volver atrás
-        </button>
+        <AdminHomeButton />
       </div>
       <div className="talles-admin-container">
         <ToastContainer position="top-right" autoClose={2000} />
