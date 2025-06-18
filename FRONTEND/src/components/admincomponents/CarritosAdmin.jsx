@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +13,15 @@ const CarritosAdmin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/carrito/fusion")
-      .then((res) => res.json())
-      .then((data) => setCarritos(data));
+    const fetchCarritos = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/carrito/fusion");
+        setCarritos(res.data);
+      } catch (error) {
+        toast.error("Error al cargar carritos");
+      }
+    };
+    fetchCarritos();
   }, []);
 
   const carritosFiltrados = carritos.filter(
@@ -31,37 +38,33 @@ const CarritosAdmin = () => {
   );
 
   const handleCambiarEstado = async (id_carrito) => {
-    const res = await fetch(
-      `http://localhost:3000/api/carrito/${id_carrito}/estado`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ estado: "entregado" }),
-      }
-    );
-    if (res.ok) {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/carrito/${id_carrito}/estado`,
+        { estado: "entregado" }
+      );
       toast.success("Estado actualizado a entregado");
       setCarritos((carritos) =>
         carritos.map((c) =>
           c.id_carrito === id_carrito ? { ...c, estado: "entregado" } : c
         )
       );
-    } else {
+    } catch {
       toast.error("Error al cambiar estado");
     }
   };
 
   const handleEliminar = async (id_carrito) => {
     if (!window.confirm("¿Eliminar este carrito?")) return;
-    const res = await fetch(`http://localhost:3000/api/carrito/${id_carrito}`, {
-      method: "DELETE",
-    });
-    if (res.ok) {
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/carrito/${id_carrito}`
+      );
       toast.success("Carrito eliminado");
       setCarritos((carritos) =>
         carritos.filter((c) => c.id_carrito !== id_carrito)
       );
-    } else {
+    } catch {
       toast.error("Error al eliminar carrito");
     }
   };
@@ -78,35 +81,34 @@ const CarritosAdmin = () => {
   };
 
   const handleMarcarPagado = async (id_carrito) => {
-    const res = await fetch(
-      `http://localhost:3000/api/carrito/${id_carrito}/estado`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ estado: "pagado" }),
-      }
-    );
-    if (res.ok) {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/carrito/${id_carrito}/estado`,
+        { estado: "pagado" }
+      );
       toast.success("Estado actualizado a pagado");
       setCarritos((carritos) =>
         carritos.map((c) =>
           c.id_carrito === id_carrito ? { ...c, estado: "pagado" } : c
         )
       );
-    } else {
+    } catch {
       toast.error("Error al cambiar estado");
     }
   };
 
   return (
     <div className="carritos-admin-bg">
+      {/* Botón volver fuera del contenedor */}
+      <div className="carritos-admin-back-btn-wrapper">
+        <button onClick={() => navigate(-1)} className="cta-button">
+          <AiOutlineArrowLeft size={30} className="cta-button-icon" />
+          Volver atrás
+        </button>
+      </div>
       <div className="carritos-admin-container">
         <ToastContainer />
         <div className="carritos-admin-header">
-          <button onClick={() => navigate(-1)} className="cta-button">
-            <AiOutlineArrowLeft size={30} className="drop-shadow" />
-            Volver atrás
-          </button>
           <h2 className="carritos-admin-title">Gestión de Carritos</h2>
         </div>
         <div className="carritos-admin-filtros">
@@ -145,14 +147,7 @@ const CarritosAdmin = () => {
             <tbody>
               {carritosFiltrados.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    style={{
-                      textAlign: "center",
-                      color: "#888",
-                      padding: "2rem",
-                    }}
-                  >
+                  <td colSpan={7} className="carritos-admin-td-vacio">
                     No hay carritos para mostrar.
                   </td>
                 </tr>
@@ -161,9 +156,8 @@ const CarritosAdmin = () => {
                   <tr key={c.id_carrito} className="carritos-admin-row">
                     <td>{c.id_carrito}</td>
                     <td>
-                      <div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                         <b>{c.cliente || c.cliente_nombre || "-"}</b>
-                        <br />
                         <span style={{ color: "#aaa", fontSize: "0.95em" }}>
                           {c.telefono ? `📱 ${c.telefono}` : ""}
                         </span>

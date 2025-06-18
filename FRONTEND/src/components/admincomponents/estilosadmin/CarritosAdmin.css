@@ -6,26 +6,14 @@
   margin: 0;
 }
 
-/* Contenedor principal centrado */
-.carritos-admin-container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 48px auto 0 auto; /* Más espacio arriba */
-  padding: 36px 24px 44px 24px;
+/* Botón volver fuera del contenedor */
+.carritos-admin-back-btn-wrapper {
+  width: 100vw;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: #232323f2;
-  border-radius: 22px;
-  box-shadow: 0 12px 40px #0005, 0 2px 12px #35353522;
-}
-
-/* Header */
-.carritos-admin-header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2.5rem;
 }
 
 .cta-button {
@@ -50,11 +38,35 @@
   color: #fff;
   transform: translateY(-2px) scale(1.04);
 }
+
+/* Contenedor principal centrado */
+.carritos-admin-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 24px auto 0 auto;
+  padding: 36px 24px 44px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #232323f2;
+  border-radius: 22px;
+  box-shadow: 0 12px 40px #0005, 0 2px 12px #35353522;
+}
+
+/* Header */
+.carritos-admin-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
 .carritos-admin-title {
   font-size: 2.2rem;
   font-weight: 800;
   color: #fff;
-  text-align: left;
+  text-align: center;
   letter-spacing: 1.3px;
   text-shadow: 0 2px 8px #18181833;
   margin: 0;
@@ -98,7 +110,7 @@
 .carritos-admin-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 0 14px; /* Espacio entre filas */
   background: #232323;
   border-radius: 14px;
   overflow: hidden;
@@ -107,23 +119,24 @@
 }
 .carritos-admin-th,
 .carritos-admin-td {
-  padding: 18px 28px;
+  padding: 24px 40px; /* Más espacio horizontal y vertical */
   text-align: left;
   vertical-align: middle;
+  font-size: 1.12rem;
 }
 .carritos-admin-th {
   background: #181818;
   color: #ededed;
-  font-size: 1.12rem;
+  font-size: 1.18rem;
   font-weight: 800;
   position: sticky;
   top: 0;
   z-index: 2;
   border-bottom: 2px solid #353535;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.7px;
 }
 .carritos-admin-row {
-  border-bottom: 1.5px solid #353535;
+  border-bottom: 2px solid #232335;
   transition: background 0.18s;
 }
 .carritos-admin-row:nth-child(even) {
@@ -133,14 +146,21 @@
   background: #353545;
 }
 .carritos-admin-td {
-  font-size: 1.03rem;
   color: #ededed;
   border-bottom: 1px solid #353535;
+  font-size: 1.12rem;
+}
+
+.carritos-admin-td-vacio {
+  text-align: center;
+  color: #bdbdbd;
+  font-size: 1.1rem;
+  padding: 2.5rem 0;
 }
 
 /* Estados visuales */
 .carritos-admin-estado {
-  padding: 5px 16px;
+  padding: 7px 20px;
   border-radius: 10px;
   font-weight: 800;
   font-size: 1em;
@@ -170,7 +190,7 @@
 .carritos-admin-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px; /* Más espacio entre botones */
 }
 .carritos-admin-btn-detalle,
 .carritos-admin-btn-estado,
@@ -179,8 +199,8 @@
 .carritos-admin-btn-eliminar {
   border: none;
   border-radius: 10px;
-  padding: 10px 22px;
-  font-size: 1.05rem;
+  padding: 12px 26px;
+  font-size: 1.08rem;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 4px;
@@ -256,7 +276,7 @@
 }
 .carritos-admin-detalle-table th,
 .carritos-admin-detalle-table td {
-  padding: 10px 12px;
+  padding: 12px 16px;
   border-bottom: 1px solid #353535;
   color: #ededed;
 }
@@ -305,6 +325,10 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+  .carritos-admin-back-btn-wrapper {
+    padding-left: 0.5rem;
+    margin-top: 1.2rem;
+  }
 }
 @media (max-width: 700px) {
   .carritos-admin-header {
@@ -330,6 +354,9 @@
   .carritos-admin-td {
     padding: 10px 8px;
     font-size: 0.98rem;
+  }
+  .carritos-admin-table {
+    border-spacing: 0 6px;
   }
   .carritos-admin-table th {
     position: sticky;
