@@ -113,57 +113,91 @@ const ModalProd = ({
     setImagen(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!producto && !imagen) return toast.error("Selecciona una imagen");
-    setLoading(true);
 
-    const data = new FormData();
-    data.append("nombre_producto", formData.nombre_producto);
-    data.append("descripcion", formData.descripcion);
-    data.append("precio", formData.precio);
-    data.append("id_categoria", formData.id_categoria);
-    if (imagen) data.append("imagen_producto", imagen);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    data.append(
-      "talles",
-      JSON.stringify(
-        Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
-          id_talle: Number(id_talle),
-          stock: Number(stock),
-        }))
-      )
-    );
-
-    try {
-      const url = producto?.id_producto
-        ? `http://localhost:3000/api/productos/${producto.id_producto}`
-        : "http://localhost:3000/api/productos/con-talles";
-      const method = producto?.id_producto ? "PUT" : "POST";
-      const res = await fetch(url, {
-        method,
-        body: data,
-      });
-
-      const result = await res.json();
-
-      if (res.ok) {
-        toast.success(
-          producto?.id_producto
-            ? "Producto actualizado"
-            : "Producto creado correctamente"
-        );
-        if (onProductCreated) onProductCreated();
-        onClose();
-      } else {
-        toast.error(result.error || "Error");
-      }
-    } catch (err) {
-      toast.error("Error al conectar con el servidor");
-    } finally {
-      setLoading(false);
+  // Validaciones antes de enviar
+  if (!formData.nombre_producto.trim()) {
+    toast.error("El nombre del producto es obligatorio");
+    return;
+  }
+  if (!formData.descripcion.trim()) {
+    toast.error("La descripción es obligatoria");
+    return;
+  }
+  if (!formData.precio || isNaN(Number(formData.precio)) || Number(formData.precio) <= 0) {
+    toast.error("El precio debe ser un número mayor a 0");
+    return;
+  }
+  if (!formData.id_categoria) {
+    toast.error("Selecciona una categoría");
+    return;
+  }
+  if (!producto && !imagen) {
+    toast.error("Selecciona una imagen");
+    return;
+  }
+  if (Object.keys(tallesSeleccionados).length === 0) {
+    toast.error("Selecciona al menos un talle y su stock");
+    return;
+  }
+  for (const [id_talle, stock] of Object.entries(tallesSeleccionados)) {
+    if (!stock || isNaN(Number(stock)) || Number(stock) < 1) {
+      toast.error("El stock de cada talle debe ser mayor a 0");
+      return;
     }
-  };
+  }
+
+  setLoading(true);
+
+  const data = new FormData();
+  data.append("nombre_producto", formData.nombre_producto);
+  data.append("descripcion", formData.descripcion);
+  data.append("precio", formData.precio);
+  data.append("id_categoria", formData.id_categoria);
+  if (imagen) data.append("imagen_producto", imagen);
+
+  data.append(
+    "talles",
+    JSON.stringify(
+      Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
+        id_talle: Number(id_talle),
+        stock: Number(stock),
+      }))
+    )
+  );
+
+  try {
+    const url = producto?.id_producto
+      ? `http://localhost:3000/api/productos/${producto.id_producto}`
+      : "http://localhost:3000/api/productos/con-talles";
+    const method = producto?.id_producto ? "PUT" : "POST";
+    const res = await fetch(url, {
+      method,
+      body: data,
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      toast.success(
+        producto?.id_producto
+          ? "Producto actualizado"
+          : "Producto creado correctamente"
+      );
+      if (onProductCreated) onProductCreated();
+      onClose();
+    } else {
+      toast.error(result.error || "Error");
+    }
+  } catch (err) {
+    toast.error("Error al conectar con el servidor");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // Para React Select: encontrar la opción seleccionada
   const selectedCategoria = categoriaOptions.find(

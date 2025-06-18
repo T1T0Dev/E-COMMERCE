@@ -338,31 +338,7 @@ export const eliminarCarrito = async (req, res) => {
 export const getCarritosPedidosFusion = async (req, res) => {
   try {
     const [rows] = await db.query(`
-  SELECT 
-    ca.id_carrito,
-    ca.estado AS estado_carrito,
-    ca.fecha_creacion,
-    cl.nombre AS cliente_nombre,
-    cl.apellido AS cliente_apellido,
-    cl.telefono,
-    p.id_pedido,
-    p.fecha_pedido,
-    dp.id_detalle,
-    pr.nombre_producto,
-    pr.imagen_producto,
-    t.nombre_talle,
-    dp.cantidad,
-    dp.subtotal,
-    e.direccion_envio,
-    e.requiere_envio
-    FROM Carritos ca
-    JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
-    LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
-    LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
-    LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
-    LEFT JOIN Talles t ON dp.id_talle = t.id_talle
-    LEFT JOIN Envios e ON p.id_pedido = e.id_pedido
-    ORDER BY ca.fecha_creacion DESC, p.fecha_pedido DESC
+  SELECT * FROM vista_carritos_pedidos_fusion
     `);
 
     // Agrupa por carrito
