@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ModalConfirmacion from "./ModalConfirmacion";
 import axios from "axios";
+import AdminNavbar from "./AdminNavbar";
+import AdminHomeButton from "./AdminHomeButton";
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -99,12 +101,13 @@ const CrudProd = () => {
 
   return (
     <div className="crudprod-container-father">
+      <AdminNavbar />
       {/* Switch para mostrar activos/inactivos */}
       <div className="crudprod-switch-wrapper">
         <span
           className={!mostrarInactivos ? "switch-label active" : "switch-label"}
         >
-          Activos
+          ACTIVOS
         </span>
         <label className="switch-toggle">
           <input
@@ -117,7 +120,7 @@ const CrudProd = () => {
         <span
           className={mostrarInactivos ? "switch-label active" : "switch-label"}
         >
-          Inactivos
+          INACTIVOS
         </span>
       </div>
 
@@ -131,12 +134,8 @@ const CrudProd = () => {
         textoConfirmar="Sí, dar de baja"
         textoCancelar="Cancelar"
       />
-
-      {/* Botón Volver atrás */}
-      <button onClick={() => navigate(-1)} className="cta-button">
-        <AiOutlineArrowLeft size={30} className="cta-button-icon" />
-        Volver atrás
-      </button>
+      
+      <AdminHomeButton / >
 
       <div className={addBtnWrapperClass}>
         <button onClick={handleNuevo} className="crudprod-add-btn">

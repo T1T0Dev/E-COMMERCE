@@ -6,6 +6,7 @@ import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
 import "./styles/Principal.css";
 import useAuthStore from "../store/useAuthStore.js";
 import ModalEmprendimiento from "./ModalSaberMas.jsx";
+import WhatsAppFloatButton from "../components/clientcomponents/WhatsAppFloatButton.jsx";
 
 const Principal = () => {
   const user = useAuthStore((state) => state.user);
@@ -111,11 +112,13 @@ const Principal = () => {
           <ModalEmprendimiento
             open={modalOpen}
             onClose={() => setModalOpen(false)}
+            
           />
         </div>
       </main>
       <Footer />
       <ScrollToTopButton />
+      <WhatsAppFloatButton />
     </div>
   );
 };

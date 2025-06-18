@@ -2,32 +2,18 @@
   min-height: 100vh;
   width: 100vw;
   background: linear-gradient(120deg, #181818 0%, #353535 100%);
-  padding: 0;
+  padding: 0 2vw 32px 2vw;
   margin: 0;
 }
 
-/* Contenedor principal centrado */
-.carritos-admin-container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 48px auto 0 auto; /* Más espacio arriba */
-  padding: 36px 24px 44px 24px;
+/* Botón volver atrás */
+.carritos-admin-back-btn-wrapper {
+  width: 100vw;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: #232323f2;
-  border-radius: 22px;
-  box-shadow: 0 12px 40px #0005, 0 2px 12px #35353522;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
 }
-
-/* Header */
-.carritos-admin-header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
 .cta-button {
   display: flex;
   align-items: center;
@@ -50,14 +36,25 @@
   color: #fff;
   transform: translateY(-2px) scale(1.04);
 }
+
+/* Header y título */
+.carritos-admin-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  gap: 0.5rem;
+}
 .carritos-admin-title {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-size: 2.3rem;
+  font-weight: 900;
   color: #fff;
-  text-align: left;
+  text-align: center;
   letter-spacing: 1.3px;
   text-shadow: 0 2px 8px #18181833;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
+  width: 100%;
 }
 
 /* Filtros */
@@ -65,13 +62,16 @@
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
-  margin-bottom: 32px;
-  justify-content: flex-start;
-  width: 100%;
+  justify-content: center;
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 32px auto;
 }
 
 .carritos-admin-buscador,
 .carritos-admin-select {
+  max-width: 320px;
+  width: 100%;
   padding: 12px 18px;
   border: 1.5px solid #353535;
   border-radius: 10px;
@@ -85,57 +85,74 @@
 }
 .carritos-admin-buscador:focus,
 .carritos-admin-select:focus {
-  border: 2px solid #ededed;
+  border: 2px solid #38bdf8;
   background: #232323;
-  box-shadow: 0 0 0 2px #35353544;
+  box-shadow: 0 0 0 2px #38bdf844;
 }
 
-/* Tabla */
+/* Tabla estilizada y centrada */
 .carritos-admin-table-wrapper {
   width: 100%;
-  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 }
+
 .carritos-admin-table {
-  width: 100%;
+  width: 90%;
+  max-width: 1100px;
+  min-width: 320px;
+  margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
   background: #232323;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 2px 8px #0002;
-  margin-top: 0;
+  box-shadow: 0 6px 32px #0003, 0 1.5px 8px #35353522;
+  transition: box-shadow 0.2s;
 }
-.carritos-admin-th,
-.carritos-admin-td {
-  padding: 18px 28px;
+
+.carritos-admin-table th,
+.carritos-admin-table td {
+  padding: 18px 18px;
   text-align: left;
   vertical-align: middle;
 }
-.carritos-admin-th {
+
+.carritos-admin-table th {
   background: #181818;
   color: #ededed;
   font-size: 1.12rem;
   font-weight: 800;
+  border-bottom: 2px solid #353535;
+  letter-spacing: 0.5px;
   position: sticky;
   top: 0;
   z-index: 2;
-  border-bottom: 2px solid #353535;
-  letter-spacing: 0.5px;
 }
+
 .carritos-admin-row {
   border-bottom: 1.5px solid #353535;
   transition: background 0.18s;
 }
+
 .carritos-admin-row:nth-child(even) {
   background: #232335;
 }
+
 .carritos-admin-row:hover {
   background: #353545;
 }
-.carritos-admin-td {
+
+.carritos-admin-table td {
   font-size: 1.03rem;
   color: #ededed;
   border-bottom: 1px solid #353535;
+}
+
+.carritos-admin-table tr:last-child td {
+  border-bottom: none;
 }
 
 /* Estados visuales */
@@ -290,11 +307,6 @@
 
 /* Responsive */
 @media (max-width: 1100px) {
-  .carritos-admin-container {
-    max-width: 100vw;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
   .carritos-admin-header {
     max-width: 100vw;
     padding-left: 0.5rem;
@@ -304,6 +316,22 @@
     max-width: 100vw;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+}
+@media (max-width: 900px) {
+  .carritos-admin-table {
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+    font-size: 0.97rem;
+  }
+  .carritos-admin-table-wrapper {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .carritos-admin-table th,
+  .carritos-admin-table td {
+    padding: 10px 6px;
   }
 }
 @media (max-width: 700px) {
