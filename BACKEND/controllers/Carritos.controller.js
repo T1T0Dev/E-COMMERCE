@@ -23,105 +23,6 @@ export const cambiarEstadoCarrito = async (req, res) => {
   try {
     await connection.beginTransaction();
 
-    // Si el nuevo estado es "entregado", primero verifica stock y gestiona ventas diarias
-    if (estado === "entregado") {
-      // 1. Busca el pedido asociado
-      const [[pedido]] = await connection.query(
-        "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
-        [id_carrito]
-      );
-      if (!pedido) {
-        await connection.rollback();
-        return res
-          .status(400)
-          .json({ error: "No hay pedido asociado a este carrito" });
-      }
-      const id_pedido = pedido.id_pedido;
-
-      // 2. Trae los detalles del pedido
-      const [detalles] = await connection.query(
-        "SELECT id_producto, id_talle, cantidad, subtotal FROM Detalle_Pedido WHERE id_pedido = ?",
-        [id_pedido]
-      );
-
-      // 2b. Verifica stock suficiente para cada producto/talle
-      const productosSinStock = [];
-      for (const det of detalles) {
-        const [[stockRow]] = await connection.query(
-          "SELECT stock FROM Producto_Talle WHERE id_producto = ? AND id_talle = ?",
-          [det.id_producto, det.id_talle]
-        );
-        if (!stockRow || stockRow.stock < det.cantidad) {
-          productosSinStock.push({
-            id_producto: det.id_producto,
-            id_talle: det.id_talle,
-            requerido: det.cantidad,
-            disponible: stockRow ? stockRow.stock : 0,
-          });
-        }
-      }
-      if (productosSinStock.length > 0) {
-        await connection.rollback();
-        return res.status(400).json({
-          error: "No hay stock suficiente para los siguientes productos/talles",
-          productosSinStock,
-        });
-      }
-
-      // 3. Descuenta stock
-      for (const det of detalles) {
-        await connection.query(
-          "UPDATE Producto_Talle SET stock = stock - ? WHERE id_producto = ? AND id_talle = ?",
-          [det.cantidad, det.id_producto, det.id_talle]
-        );
-      }
-
-      // 4. Maneja ventas diarias
-      const fecha = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      const totalPedido = detalles.reduce(
-        (acc, d) => acc + (d.subtotal || 0),
-        0
-      );
-
-      // 4a. Busca o crea registro en Ventas_Diarias
-      const [[ventaDia]] = await connection.query(
-        "SELECT id_venta_diaria FROM Ventas_Diarias WHERE fecha = ?",
-        [fecha]
-      );
-      let id_venta_diaria;
-      if (!ventaDia) {
-        const [resVD] = await connection.query(
-          "INSERT INTO Ventas_Diarias (fecha, total) VALUES (?, ?)",
-          [fecha, totalPedido]
-        );
-        id_venta_diaria = resVD.insertId;
-      } else {
-        id_venta_diaria = ventaDia.id_venta_diaria;
-        await connection.query(
-          "UPDATE Ventas_Diarias SET total = total + ? WHERE id_venta_diaria = ?",
-          [totalPedido, id_venta_diaria]
-        );
-      }
-
-      // 4b. Inserta o actualiza detalle de ventas diarias
-      for (const det of detalles) {
-        await connection.query(
-          `INSERT INTO Detalle_Venta_Diaria (id_venta_diaria, id_producto, id_talle, cantidad, subtotal)
-           VALUES (?, ?, ?, ?, ?)
-           ON DUPLICATE KEY UPDATE
-             cantidad = cantidad + VALUES(cantidad),
-             subtotal = subtotal + VALUES(subtotal)`,
-          [
-            id_venta_diaria,
-            det.id_producto,
-            det.id_talle,
-            det.cantidad,
-            det.subtotal,
-          ]
-        );
-      }
-    }
-
     // Cambia el estado y, si es entregado, actualiza fecha_entrega
     let updateQuery, updateParams;
     if (estado === "entregado") {
@@ -137,6 +38,12 @@ export const cambiarEstadoCarrito = async (req, res) => {
     if (result.affectedRows === 0) {
       await connection.rollback();
       return res.status(404).json({ error: "Carrito no encontrado" });
+    }
+
+    // Si el nuevo estado es "entregado", llama al procedimiento
+    if (estado === "entregado") {
+      const fechaHoy = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      await connection.query("CALL generar_venta_diaria(?)", [fechaHoy]);
     }
 
     await connection.commit();
