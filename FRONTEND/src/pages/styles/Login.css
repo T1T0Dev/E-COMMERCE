@@ -242,6 +242,52 @@
 
 
 
+.login-recovery-password {
+  margin-top: 1.3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.password-recovery {
+  color: #444;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.1rem;
+}
+
+.whatssapp-recovery {
+  color: #00a13b;
+  font-size: 1.07rem;
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.2s, text-shadow 0.2s;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+}
+
+.whatssapp-recovery:hover {
+  color: #128c7e;
+  text-shadow: 0 2px 8px #25d36644;
+}
+
+/* Responsive: ajusta el espacio en móviles */
+@media (max-width: 700px) {
+  .login-recovery-password {
+    margin-top: 1rem;
+    gap: 0.15rem;
+  }
+  .password-recovery,
+  .whatssapp-recovery {
+    font-size: 0.98rem;
+  }
+}
+
+
 @media (max-width: 700px) {
   .dual-bg-login {
     flex-direction: column;

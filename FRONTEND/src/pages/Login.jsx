@@ -109,6 +109,19 @@ export default function Login() {
             CREA TU CUENTA GRATIS!
           </Link>
         </div>
+         <div className="login-recovery-password">
+          <span className="password-recovery">¿OLVIDASTE TU CONTRASEÑA? </span>
+          <a
+            className="whatssapp-recovery"
+            href="https://wa.me/543815941635?text=Me%20olvid%C3%A9%20mi%20contrase%C3%B1a%2C%20%C2%BFme%20puedes%20ayudar%3F"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ¡RECUPERA TU CONTRASEÑA POR WHATSAPP!
+          </a>
+        </div>
+
+        
       </div>
       <ToastContainer />
     </div>

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./estilosadmin/UsersCrud.css";
 import { toast, ToastContainer } from "react-toastify";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 import ModalConfirmacion from "./ModalConfirmacion";
 import "react-toastify/dist/ReactToastify.css";
 import AdminNavbar from "./AdminNavbar";
@@ -16,17 +15,18 @@ const initialForm = {
 };
 
 const UsersCrud = () => {
+  const [filtroRol, setFiltroRol] = useState("admin");
   const [usuarios, setUsuarios] = useState([]);
   const [modal, setModal] = useState({
     open: false,
     action: null,
     usuario: null,
   });
+
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const fetchUsuarios = async () => {
     setLoading(true);
@@ -43,6 +43,10 @@ const UsersCrud = () => {
   useEffect(() => {
     fetchUsuarios();
   }, []);
+
+  const usuariosFiltrados = usuarios.filter(u =>
+    filtroRol === "Todos" ? true : u.rol === filtroRol
+  );
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -134,7 +138,6 @@ const UsersCrud = () => {
     setModal({ open: false, action: null, usuario: null });
 
   return (
-    
     <div className="userscrud-bg">
       <div className="userscrud-navbar">
         <AdminNavbar />
@@ -179,6 +182,35 @@ const UsersCrud = () => {
         />
 
         <h2 className="userscrud-title">Administrar Usuarios</h2>
+
+        {/* Switch de filtro */}
+        <div className="userscrud-switch-wrapper" style={{ marginBottom: 24 }}>
+          <span
+            className={filtroRol === "admin" ? "switch-label active" : "switch-label"}
+            onClick={() => setFiltroRol("admin")}
+            style={{ cursor: "pointer" }}
+          >
+            Admins
+          </span>
+          <label className="switch-toggle">
+            <input
+              type="checkbox"
+              checked={filtroRol === "cliente"}
+              onChange={() =>
+                setFiltroRol(filtroRol === "admin" ? "cliente" : "admin")
+              }
+            />
+            <span className="slider"></span>
+          </label>
+          <span
+            className={filtroRol === "cliente" ? "switch-label active" : "switch-label"}
+            onClick={() => setFiltroRol("cliente")}
+            style={{ cursor: "pointer" }}
+          >
+            Clientes
+          </span>
+        </div>
+
         <form className="userscrud-form" onSubmit={handleSubmit}>
           <input
             className="userscrud-input"
@@ -241,6 +273,8 @@ const UsersCrud = () => {
             <thead>
               <tr>
                 <th>ID</th>
+                {/* Solo muestra la columna Cliente si el filtro NO es admin */}
+                {filtroRol !== "admin" && <th>Cliente</th>}
                 <th>Email</th>
                 <th>Contraseña</th>
                 <th>Rol</th>
@@ -248,9 +282,40 @@ const UsersCrud = () => {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((usuario) => (
+              {usuariosFiltrados.map((usuario) => (
                 <tr key={usuario.id_usuario}>
                   <td>{usuario.id_usuario}</td>
+                  {/* Solo muestra la celda Cliente si el filtro NO es admin */}
+                  {filtroRol !== "admin" && (
+                    <td>
+                      {usuario.rol === "cliente" ? (
+                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {usuario.foto_perfil ? (
+                            <img
+                              src={
+                                usuario.foto_perfil.startsWith("http")
+                                  ? usuario.foto_perfil
+                                  : `http://localhost:3000${usuario.foto_perfil}`
+                              }
+                              alt={usuario.nombre}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                                marginRight: 6,
+                              }}
+                            />
+                          ) : (
+                            <FaUserCircle size={32} style={{ marginRight: 6, color: "#ededed" }} />
+                          )}
+                          {usuario.nombre} {usuario.apellido}
+                        </span>
+                      ) : (
+                        "-"
+                      )}
+                    </td>
+                  )}
                   <td>{usuario.email}</td>
                   <td>{usuario.contraseña}</td>
                   <td>{usuario.rol}</td>
