@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
@@ -141,14 +141,7 @@ const CarritosAdmin = () => {
             <tbody>
               {carritosFiltrados.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    style={{
-                      textAlign: "center",
-                      color: "#888",
-                      padding: "2rem",
-                    }}
-                  >
+                  <td colSpan={7} className="carritos-admin-td-vacio">
                     No hay carritos para mostrar.
                   </td>
                 </tr>
