@@ -54,10 +54,20 @@ export const loginUsuario = async (req, res) => {
 };
 
 export const registerClienteYUsuario = async (req, res) => {
-  const { email, contraseña, rol, nombre, apellido, direccion, telefono } =
-    req.body;
+  const { email, contraseña, rol, nombre, apellido, direccion, telefono } = req.body;
   const conn = await db.getConnection();
   try {
+    // Validar email único
+    const [usuarios] = await conn.query("SELECT id_usuario FROM usuarios WHERE email = ?", [email]);
+    if (usuarios.length > 0) {
+      return res.status(409).json({ error: "Ya tienes un usuario creado con esta cuenta de gmail." });
+    }
+    // Validar teléfono único
+    const [clientes] = await conn.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefono]);
+    if (clientes.length > 0) {
+      return res.status(409).json({ error: `Este número de teléfono ya está vinculado a una cuenta: ${email}` });
+    }
+
     await conn.beginTransaction();
 
     // 1. Crear usuario
@@ -90,5 +100,25 @@ export const registerClienteYUsuario = async (req, res) => {
     res.status(500).json({ error: "Error al registrar cliente y usuario" });
   } finally {
     conn.release();
+  }
+};
+
+export const emailExiste = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const [rows] = await db.query("SELECT id_usuario FROM usuarios WHERE email = ?", [email]);
+    res.json({ exists: rows.length > 0 });
+  } catch (error) {
+    res.status(500).json({ error: "Error al validar email" });
+  }
+};
+
+export const telefonoExiste = async (req, res) => {
+  const { telefono } = req.params;
+  try {
+    const [rows] = await db.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefono]);
+    res.json({ exists: rows.length > 0 });
+  } catch (error) {
+    res.status(500).json({ error: "Error al validar teléfono" });
   }
 };

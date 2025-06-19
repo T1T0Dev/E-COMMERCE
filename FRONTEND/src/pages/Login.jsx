@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import useAuthStore from "../store/useAuthStore";
 import logoDrekkz from "../Resources/logo-drekkz1.png";
-import PasswordInput from "../components/clientcomponents/PasswordInput";
+import PasswordInput from "../components/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/Login.css";
 

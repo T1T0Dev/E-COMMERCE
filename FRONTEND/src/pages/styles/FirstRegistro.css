@@ -197,6 +197,42 @@
   opacity: 1;
 }
 
+/* Mejora el contraste del selector de país en react-phone-input-2 */
+.react-phone-input-2 .country-list {
+  background: #fff;
+  color: #181818;
+  font-size: 1.07rem;
+}
+
+.react-phone-input-2 .country-list .country {
+  color: #181818;
+  font-weight: 600;
+  background: #fff;
+  transition: background 0.18s, color 0.18s;
+}
+
+.react-phone-input-2 .country-list .country:hover,
+.react-phone-input-2 .country-list .country.highlight {
+  background: #181818;
+  color: #fff;
+}
+
+.react-phone-input-2 .country-list .country .country-name {
+  color: #181818;
+  font-weight: 600;
+}
+
+.react-phone-input-2 .country-list .country.highlight .country-name {
+  color: #fff;
+}
+
+.react-phone-input-2 .search-box {
+  color: #181818;
+  background: #f3f3f3;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
 /* Responsive */
 @media (max-width: 700px) {
   .dual-bg-registro {

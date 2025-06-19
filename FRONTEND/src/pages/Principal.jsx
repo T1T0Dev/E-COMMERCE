@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Header from "../components/clientcomponents/Header.jsx";
-import Footer from "../components/clientcomponents/Footer.jsx";
-import ScrollToTopButton from "../components/clientcomponents/ScrollToTopButton.jsx";
-import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+import ScrollToTopButton from "../components/ScrollToTopButton.jsx";
+import Carruselprod from "../components/Carruselprod.jsx";
 import "./styles/Principal.css";
 import useAuthStore from "../store/useAuthStore.js";
-import ModalEmprendimiento from "./ModalSaberMas.jsx";
-import WhatsAppFloatButton from "../components/clientcomponents/WhatsAppFloatButton.jsx";
+import ModalEmprendimiento from "../components/ModalSaberMas.jsx";
+import WhatsAppFloatButton from "../components/WhatsAppFloatButton.jsx";
 
 const Principal = () => {
   const user = useAuthStore((state) => state.user);

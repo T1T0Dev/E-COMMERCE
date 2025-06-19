@@ -1,0 +1,140 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./styles/TallesAdmin.css";
+import ModalConfirmacion from "../components/ModalConfirmacion";
+import AdminNavbar from "../components/AdminNavbar";
+import AdminHomeButton from "../components/AdminHomeButton";
+
+
+const TallesAdmin = () => {
+  const [talles, setTalles] = useState([]);
+  const [nombre, setNombre] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState({
+    open: false,
+    id: null,
+    nombre: "",
+  });
+  const navigate = useNavigate();
+
+  // Traer talles
+  const fetchTalles = async () => {
+    setLoading(true);
+    const res = await fetch("http://localhost:3000/api/talles");
+    const data = await res.json();
+    setTalles(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchTalles();
+  }, []);
+
+  // Agregar talle
+  const handleAgregar = async (e) => {
+    e.preventDefault();
+    if (!nombre) return;
+    const res = await fetch("http://localhost:3000/api/talles", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre }),
+    });
+    if (res.ok) {
+      toast.success("¡Talle agregado!");
+      setNombre("");
+      fetchTalles();
+    } else {
+      toast.error("Error al agregar el talle");
+    }
+  };
+
+  // Abrir modal de confirmación para eliminar
+  const handleEliminar = (id, nombre_talle) => {
+    setModalConfirm({ open: true, id, nombre: nombre_talle });
+  };
+
+  // Confirmar eliminación
+  const confirmarEliminar = async () => {
+    const id = modalConfirm.id;
+    setModalConfirm({ open: false, id: null, nombre: "" });
+    const res = await fetch(`http://localhost:3000/api/talles/${id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (data.productos && data.productos.length > 0) {
+        toast.error(
+          `No puedes eliminar el talle porque está asociado a los siguientes productos: ${data.productos.join(
+            ", "
+          )}`
+        );
+      } else {
+        toast.error(data.error || "Error al eliminar el talle");
+      }
+      return;
+    }
+    toast.success("¡Talle eliminado!");
+    fetchTalles();
+  };
+  return (
+    <div className="talles-admin-bg">
+      <AdminNavbar />
+      <ModalConfirmacion
+        isOpen={modalConfirm.open}
+        onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
+        onConfirm={confirmarEliminar}
+        mensaje={`¿Estás seguro que deseas eliminar el talle "${modalConfirm.nombre}"?`}
+        titulo="Eliminar talle"
+        textoConfirmar="Sí, eliminar"
+        textoCancelar="Cancelar"
+      />
+      <div className="talles-admin-back-btn-wrapper">
+        <AdminHomeButton />
+      </div>
+      <div className="talles-admin-container">
+        <ToastContainer position="top-right" autoClose={2000} />
+        <h2 className="talles-admin-title">Administrar Talles</h2>
+        <form onSubmit={handleAgregar} className="talles-admin-form">
+          <input
+            className="talles-admin-input"
+            placeholder="Nombre del talle"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
+          <button type="submit" className="talles-admin-btn-agregar">
+            Agregar Talle
+          </button>
+        </form>
+        <h3 className="talles-admin-subtitle">Talles existentes</h3>
+        {loading ? (
+          <p className="talles-admin-loading">Cargando...</p>
+        ) : (
+          <ul className="talles-admin-list">
+            {talles.map((talle) => (
+              <li key={talle.id_talle} className="talles-admin-item">
+                <div className="talles-admin-item-info">
+                  <span className="talles-admin-item-nombre">
+                    {talle.nombre_talle}
+                  </span>
+                </div>
+                <button
+                  onClick={() =>
+                    handleEliminar(talle.id_talle, talle.nombre_talle)
+                  }
+                  className="talles-admin-btn-eliminar"
+                >
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default TallesAdmin;

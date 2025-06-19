@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import PasswordInput from "../components/clientcomponents/PasswordInput";
+import PasswordInput from "../components/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/SecondRegistro.css";
 
@@ -34,13 +34,16 @@ const SecondRegistro = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validar()) return;
     const cliente = JSON.parse(sessionStorage.getItem("registroCliente"));
+
     if (!cliente) {
       toast.error("Completa primero los datos personales");
       navigate("/register");
       return;
     }
+    
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,

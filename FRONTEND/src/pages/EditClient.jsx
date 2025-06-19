@@ -5,7 +5,7 @@ import "./styles/EditClient.css";
 import defaultProfile from "../assets/default-profile.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PasswordInput from "../components/clientcomponents/PasswordInput";
+import PasswordInput from "../components/PasswordInput";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
