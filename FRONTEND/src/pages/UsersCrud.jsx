@@ -274,11 +274,11 @@ const UsersCrud = () => {
               <tr>
                 <th>ID</th>
                 {/* Solo muestra la columna Cliente si el filtro NO es admin */}
-                {filtroRol !== "admin" && <th>Cliente</th>}
-                <th>Email</th>
-                <th>Contraseña</th>
-                <th>Rol</th>
-                <th>Acciones</th>
+                {filtroRol !== "admin" && <th>CLIENTE</th>}
+                <th>EMAIL</th>
+                <th>CONTRASEÑA</th>
+                <th>ROL</th>
+                <th>ACCIONES</th>
               </tr>
             </thead>
             <tbody>

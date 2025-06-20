@@ -16,6 +16,8 @@
   outline: none;
   margin-bottom: 1.2rem;
   margin-left: 2rem;
+  position: relative;
+  z-index: 10;
 }
 .admin-home-btn:hover,
 .admin-home-btn:focus {

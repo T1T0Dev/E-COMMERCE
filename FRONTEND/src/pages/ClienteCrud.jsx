@@ -43,11 +43,11 @@ const ClienteCrud = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Foto</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Teléfono</th>
-              <th>Dirección</th>
+              <th>FOTO</th>
+              <th>NOMBRE</th>
+              <th>APELLIDO</th>
+              <th>TELEFONO</th>
+              <th>DIRECCION</th>
             </tr>
           </thead>
           <tbody>

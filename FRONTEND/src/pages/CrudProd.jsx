@@ -175,11 +175,6 @@ const CrudProd = () => {
               <div className="crudprod-info">
                 <div>
                   <h3 className="crudprod-title">{producto.nombre_producto}</h3>
-                  <h4 className="crudprod-category">
-                    {producto.nombre_categoria || (
-                      <span style={{ color: "red" }}>Sin categoría</span>
-                    )}
-                  </h4>
                   <h2 className="crudprod-price">${producto.precio}</h2>
                   <p className="crudprod-desc">{producto.descripcion}</p>
                   <div className="crudprod-btns">
