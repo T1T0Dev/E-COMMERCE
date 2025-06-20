@@ -14,7 +14,7 @@
 .firstreg-card {
   background: rgba(30, 30, 30, 0.93);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 #000a;
+  box-shadow: 0 8px 32px 0 rgb(255, 251, 251);
   padding: 2.8rem 2.5rem 2.2rem 2.5rem;
   width: 100%;
   max-width: 410px;

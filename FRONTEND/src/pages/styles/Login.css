@@ -13,7 +13,7 @@
 /* Logo Drekkz centrado y elegante */
 .drekkz-logo-login {
   position: absolute;
-  top: 2.5rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;
@@ -29,7 +29,7 @@
 .login-card {
   background: rgba(30, 30, 30, 0.92);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 #000a;
+  box-shadow: 0 8px 32px 0 rgb(255, 251, 251);
   backdrop-filter: blur(10px);
   border: 1.5px solid #232323;
   padding: 2.8rem 2.5rem 2.2rem 2.5rem;
