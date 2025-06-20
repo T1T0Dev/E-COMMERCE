@@ -1,15 +1,20 @@
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #0e0e0e;
   font-family: Arial, sans-serif;
   color: #e0e7ef;
   box-sizing: border-box;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  background: url("/fondo-drekkz2.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #root {

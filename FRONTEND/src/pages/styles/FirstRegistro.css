@@ -1,56 +1,20 @@
-/* Fondo mitad blanco, mitad negro */
-.dual-bg-registro {
+/* Fondo general oscuro con glass */
+.firstreg-bg {
   min-height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(120deg, #181818 0%, #232323 40%, #ededed 100%);
   position: relative;
   overflow: hidden;
-  /* Fondo degradado blanco, gris y negro bien notorio */
-  background: radial-gradient(
-      circle at 60% 40%,
-      #fff 0%,
-      #e0e0e0 30%,
-      transparent 60%
-    ),
-    linear-gradient(
-      135deg,
-      #fff 0%,
-      #e0e0e0 20%,
-      #bdbdbd 45%,
-      #444 75%,
-      #181818 100%
-    );
-}
-
-.dual-bg-left,
-.dual-bg-right {
-  position: absolute;
-  top: 0;
-  width: 50vw;
-  height: 100vh;
-  z-index: 0;
-}
-
-.dual-bg-left {
-  left: 0;
-  background: #fff;
-}
-
-.dual-bg-right {
-  right: 0;
-  background: #181818;
 }
 
 /* Card glassmorphism */
-.registro-card {
-  background: rgba(245, 245, 245, 0.82);
+.firstreg-card {
+  background: rgba(30, 30, 30, 0.93);
   border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(30, 30, 30, 0.13);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(60, 60, 60, 0.08);
+  box-shadow: 0 8px 32px 0 #000a;
   padding: 2.8rem 2.5rem 2.2rem 2.5rem;
   width: 100%;
   max-width: 410px;
@@ -60,41 +24,40 @@
   margin: auto;
   position: relative;
   z-index: 2;
+  border: 1.5px solid #232323;
+  backdrop-filter: blur(8px);
   transition: box-shadow 0.3s;
 }
 
-.registro-card:hover {
-  box-shadow: 0 12px 40px 0 rgba(30, 30, 30, 0.18);
+.firstreg-card:hover {
+  box-shadow: 0 12px 40px 0 #000c;
 }
 
-/* Título negro con sombra gris */
-.registro-title {
-  color: #181818;
+/* Título blanco con sombra */
+.firstreg-title {
+  color: #ededed;
   font-size: 2.3rem;
   font-weight: 900;
   margin-bottom: 2.2rem;
   letter-spacing: 0.01em;
   text-align: center;
-  text-shadow: 0 2px 12px #bdbdbd33;
+  text-shadow: 0 2px 12px #18181899;
 }
 
-/* Formulario vertical */
-.registro-form {
+.firstreg-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
-/* Campos del formulario */
-.registro-field {
+.firstreg-field {
   display: flex;
   flex-direction: column;
 }
 
-/* Inputs flotantes */
-.registro-label {
-  color: #222;
+.firstreg-label {
+  color: #bdbdbd;
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.2rem;
@@ -102,29 +65,29 @@
   display: block;
 }
 
-.registro-input {
+.firstreg-input {
   width: 100%;
   padding: 1.1rem 0rem 0.6rem 0.2rem;
   border: none;
   border-radius: 12px;
-  background: #f3f3f3;
-  color: #181818;
+  background: #232323;
+  color: #ededed;
   font-size: 1.08rem;
-  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.06);
+  box-shadow: 0 2px 12px #18181833;
   outline: none;
-  border-bottom: 2.5px solid #bdbdbd;
+  border-bottom: 2.5px solid #353535;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.registro-input:focus {
-  border-bottom: 2.5px solid #181818;
-  box-shadow: 0 0 8px #bdbdbd88;
-  background: #fff;
+.firstreg-input:focus {
+  border-bottom: 2.5px solid #ededed;
+  box-shadow: 0 0 8px #ededed44;
+  background: #353535;
 }
 
-.registro-error {
-  color: #b91c1c;
-  background: #f7f7fa;
+.firstreg-error {
+  color: #f87171;
+  background: #181818;
   border-radius: 6px;
   padding: 0.3rem 0.7rem;
   margin-top: 0.3rem;
@@ -132,17 +95,12 @@
   text-align: left;
   display: block;
   box-shadow: 0 1px 4px #b91c1c22;
+  border-left: 3px solid #b91c1c;
 }
 
-.password-input-wrapper {
-  position: relative;
-  margin-bottom: 0.5rem;
-}
-
-/* Botón negro con hover gris oscuro */
-.registro-btn {
-  background: linear-gradient(90deg, #181818 60%, #444 100%);
-  color: #fff;
+.firstreg-btn {
+  background: linear-gradient(90deg, #353535 60%, #181818 100%);
+  color: #ededed;
   font-weight: bold;
   text-transform: uppercase;
   padding: 14px 0;
@@ -153,132 +111,40 @@
   margin-top: 1.2rem;
   width: 100%;
   letter-spacing: 1px;
-  box-shadow: 0 2px 12px #2222;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 2px 12px #18181844;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 
-.arrow-icon {
+.firstreg-arrow-icon {
   display: inline-block;
   font-size: 1.1rem;
   transition: transform 0.3s, color 0.3s;
-  color: #fff;
+  color: #ededed;
 }
 
-.registro-btn:hover {
-  background: linear-gradient(90deg, #444 0%, #181818 100%);
-  color: #fff;
+.firstreg-btn:hover {
+  background: linear-gradient(90deg, #ededed 0%, #353535 100%);
+  color: #181818;
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 24px #2224;
+  box-shadow: 0 6px 24px #ededed33;
 }
 
-.registro-btn:hover .arrow-icon {
+.firstreg-btn:hover .firstreg-arrow-icon {
   transform: translateX(4px) rotate(45deg);
-  color: #bdbdbd;
+  color: #353535;
 }
 
-/* Ojito (icono de mostrar/ocultar password) */
-.password-input-wrapper svg {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #000000;
-  font-size: 1.3rem;
-  opacity: 0.75;
-  transition: color 0.2s, opacity 0.2s;
-}
-.password-input-wrapper svg:hover {
-  color: #181818;
-  opacity: 1;
-}
-
-/* Mejora el contraste del selector de país en react-phone-input-2 */
-.react-phone-input-2 .country-list {
-  background: #fff;
-  color: #181818;
-  font-size: 1.07rem;
-}
-
-.react-phone-input-2 .country-list .country {
-  color: #181818;
-  font-weight: 600;
-  background: #fff;
-  transition: background 0.18s, color 0.18s;
-}
-
-.react-phone-input-2 .country-list .country:hover,
-.react-phone-input-2 .country-list .country.highlight {
-  background: #181818;
-  color: #fff;
-}
-
-.react-phone-input-2 .country-list .country .country-name {
-  color: #181818;
-  font-weight: 600;
-}
-
-.react-phone-input-2 .country-list .country.highlight .country-name {
-  color: #fff;
-}
-
-.react-phone-input-2 .search-box {
-  color: #181818;
-  background: #f3f3f3;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-/* Responsive */
 @media (max-width: 700px) {
-  .dual-bg-registro {
-    flex-direction: column;
-    background: radial-gradient(
-        circle at 60% 40%,
-        #fff 0%,
-        #e0e0e0 30%,
-        transparent 60%
-      ),
-      linear-gradient(
-        180deg,
-        #fff 0%,
-        #e0e0e0 20%,
-        #bdbdbd 60%,
-        #444 85%,
-        #181818 100%
-      );
-  }
-  .dual-bg-left,
-  .dual-bg-right {
-    width: 100vw;
-    height: 50vh;
-    position: absolute;
-  }
-  .dual-bg-left {
-    top: 0;
-    left: 0;
-  }
-  .dual-bg-right {
-    bottom: 0;
-    right: 0;
-  }
-  .registro-card {
+  .firstreg-card {
     max-width: 98vw;
     margin: 0 auto;
     padding: 2rem 1rem 1.5rem 1rem;
   }
-  .registro-title {
+  .firstreg-title {
     font-size: 1.4rem;
   }
-}
-
-/* Elimina clases y reglas que ya no usás */
-.registro-card-vertical,
-.registro-form-vertical,
-.registro-grid {
-  display: none !important;
 }

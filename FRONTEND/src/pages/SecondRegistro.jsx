@@ -47,7 +47,7 @@ const SecondRegistro = () => {
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,
-        contraseña: form.password, // corregido el nombre del campo
+        contraseña: form.password,
         ...cliente,
         rol: "cliente",
       });
@@ -60,15 +60,14 @@ const SecondRegistro = () => {
   };
 
   return (
-    <div className="dual-bg-registro">
+    <div className="secondreg-bg">
       <ToastContainer position="top-right" autoClose={2000} />
-      <div className="registro-card">
-        <h2 className="registro-title">Registro - Usuario</h2>
-        <form className="registro-form" onSubmit={handleSubmit}>
-          <label className="registro-label" htmlFor="email">
-          </label>
+      <div className="secondreg-card">
+        <h2 className="secondreg-title">Registro - Usuario</h2>
+        <form className="secondreg-form" onSubmit={handleSubmit}>
+          <label className="secondreg-label" htmlFor="email"></label>
           <input
-            className="registro-input"
+            className="secondreg-input"
             id="email"
             name="email"
             placeholder="Email"
@@ -78,14 +77,13 @@ const SecondRegistro = () => {
             autoComplete="email"
           />
           {errores.email && (
-            <span className="registro-error">{errores.email}</span>
+            <span className="secondreg-error">{errores.email}</span>
           )}
 
-          <div className="password-input-wrapper">
-            <label className="registro-label" htmlFor="password">
-            </label>
+          <div className="secondreg-password-input-wrapper">
+            <label className="secondreg-label" htmlFor="password"></label>
             <PasswordInput
-              className="registro-input"
+              className="secondreg-input"
               id="password"
               name="password"
               placeholder="Contraseña"
@@ -95,8 +93,8 @@ const SecondRegistro = () => {
               error={errores.password}
             />
           </div>
-          <button className="registro-btn" type="submit">
-            Registrarme<span className="arrow-icon">↗</span>
+          <button className="secondreg-btn" type="submit">
+            Registrarme<span className="secondreg-arrow-icon">↗</span>
           </button>
         </form>
       </div>

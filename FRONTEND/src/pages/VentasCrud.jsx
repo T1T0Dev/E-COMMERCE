@@ -57,11 +57,11 @@ const VentasCrud = () => {
         <table className="ventas-crud-table">
           <thead>
             <tr>
-              <th>Fecha</th>
-              <th>Total Vendido</th>
-              <th>Cantidad Pedidos</th>
-              <th>Producto Más Vendido</th>
-              <th>Ver Detalle</th>
+              <th>FECHA</th>
+              <th>TOTAL VENDIDO</th>
+              <th>CANTIDAD PEDIDOS</th>
+              <th>PRODUCTO MÁS VENDIDO</th>
+              <th>VER DETALLE</th>
             </tr>
           </thead>
           <tbody>

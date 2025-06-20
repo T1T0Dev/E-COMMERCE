@@ -57,7 +57,7 @@ const Header = () => {
             <>
               {location.pathname !== "/catalogo" && (
                 <li>
-                  <Link to="/catalogo">🛍️ CATALOGO</Link>
+                  <Link to="/catalogo">👕  CATALOGO</Link>
                 </li>
               )}
               <li style={{ position: "relative" }}>
@@ -120,7 +120,7 @@ const Header = () => {
 
           {!user && (
             <li>
-              <Link to="/login">🔑 Iniciar sesión</Link>
+              <Link to="/login"> Iniciar sesión</Link>
             </li>
           )}
         </ul>
