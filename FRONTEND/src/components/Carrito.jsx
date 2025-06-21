@@ -16,6 +16,7 @@ const Carrito = ({ open, onClose }) => {
   const user = useAuthStore((state) => state.user);
   const [modalEnvioOpen, setModalEnvioOpen] = useState(false);
   const [modalGraciasOpen, setModalGraciasOpen] = useState(false);
+  const [cliente, setCliente] = useState(null);
 
   const total = items.reduce(
     (acc, item) => acc + item.precio * item.cantidad,
@@ -23,8 +24,15 @@ const Carrito = ({ open, onClose }) => {
   );
 
   // Paso 1: Al hacer click en "Enviar Pedido", mostrar el modal
-  const handleHacerPedido = () => {
-    setModalEnvioOpen(true);
+  const handleHacerPedido = async () => {
+    try {
+      // Trae el cliente actualizado desde el backend
+      const res = await axios.get(`http://localhost:3000/api/clientes/usuario/${user.id_usuario}`);
+      setCliente(res.data);
+      setModalEnvioOpen(true);
+    } catch (e) {
+      toast.error("No se pudo obtener la dirección del cliente.");
+    }
   };
 
   // Paso 2: Cuando el usuario confirma el modal, procesar el pedido
@@ -207,7 +215,7 @@ const Carrito = ({ open, onClose }) => {
         open={modalEnvioOpen}
         onClose={() => setModalEnvioOpen(false)}
         onConfirm={handleConfirmEnvio}
-        direccionCliente={user?.direccion || ""}
+        direccionCliente={cliente?.direccion || ""}
       />
       <ModalGracias
         open={modalGraciasOpen}

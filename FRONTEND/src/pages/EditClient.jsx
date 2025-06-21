@@ -9,6 +9,37 @@ import PasswordInput from "../components/PasswordInput";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
+const requisitos = [
+  {
+    label: "8 caracteres",
+    test: (pw) => pw.length >= 8,
+    key: "caracteres",
+  },
+  {
+    label: "Una letra mayúscula",
+    test: (pw) => /[A-Z]/.test(pw),
+    key: "mayuscula",
+  },
+  {
+    label: "Una letra minúscula",
+    test: (pw) => /[a-z]/.test(pw),
+    key: "minuscula",
+  },
+  {
+    label: "Un número",
+    test: (pw) => /\d/.test(pw),
+    key: "numero",
+  },
+];
+
+// Normaliza el teléfono (elimina todo menos números)
+const normalizePhone = (phone) => phone.replace(/\D/g, "");
+
+// Validación de teléfono: de 8 a 15 dígitos
+const validarTelefono = (telefono) => {
+  return /^\d{8,15}$/.test(normalizePhone(telefono));
+};
+
 const EditClient = () => {
   const user = useAuthStore((state) => state.user);
   const [cliente, setCliente] = useState(null);
@@ -71,7 +102,12 @@ const EditClient = () => {
   }, [foto]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    let value = e.target.value;
+    if (e.target.name === "telefono") {
+      // Permite que el usuario escriba con espacios, pero normaliza para validar y guardar
+      value = value.replace(/[^\d\s]/g, ""); // Solo números y espacios
+    }
+    setForm({ ...form, [e.target.name]: value });
     setErrores({ ...errores, [e.target.name]: "" });
   };
 
@@ -87,9 +123,7 @@ const EditClient = () => {
     if (!form.direccion.trim()) newErrors.direccion = "La dirección es obligatoria";
     if (!form.telefono.trim()) {
       newErrors.telefono = "El teléfono es obligatorio";
-    } else if (
-      !/^(\+?\d{1,4}[-\s]?)?(\d{2,4}[-\s]?){2,4}\d{2,4}$/.test(form.telefono.trim())
-    ) {
+    } else if (!validarTelefono(form.telefono)) {
       newErrors.telefono = "El teléfono no es válido";
     }
     setErrores(newErrors);
@@ -103,8 +137,11 @@ const EditClient = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "El email no es válido";
     }
-    if (form.contraseña && form.contraseña.length < 6) {
-      newErrors.contraseña = "La contraseña debe tener al menos 6 caracteres";
+    if (form.contraseña) {
+      const requisitosCumplidos = requisitos.every((r) => r.test(form.contraseña));
+      if (!requisitosCumplidos) {
+        newErrors.contraseña = "La contraseña no cumple con los requisitos";
+      }
     }
     setErrores(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -126,7 +163,7 @@ const EditClient = () => {
       );
       toast.success("Datos personales actualizados");
     } catch (error) {
-      toast.error("Error al actualizar los datos personales");
+      toast.error("Error al actualizar datos personales");
     }
   };
 
@@ -142,9 +179,9 @@ const EditClient = () => {
           contraseña: form.contraseña,
         }
       );
-      toast.success("Datos de usuario actualizados");
+      toast.success("Usuario actualizado correctamente");
     } catch (error) {
-      toast.error("Error al actualizar los datos de usuario");
+      toast.error("Error al actualizar usuario");
     }
   };
 
@@ -161,6 +198,9 @@ const EditClient = () => {
     toast.success("Foto de perfil actualizada");
     window.location.reload();
   };
+
+  // Para mostrar requisitos visuales de contraseña
+  const password = form.contraseña || "";
 
   if (!usuario) return <div>Cargando...</div>;
   if (!cliente)
@@ -279,6 +319,22 @@ const EditClient = () => {
             className="editcliente-input"
             error={errores.contraseña}
           />
+          {/* Requisitos visuales */}
+          {form.contraseña && (
+            <ul>
+              {requisitos.map((r) => {
+                const ok = r.test(password);
+                return (
+                  <li key={r.key} style={{ color: ok ? "green" : "red" }}>
+                    {ok ? "✔️" : "❌"} {r.label}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {errores.contraseña && (
+            <span className="editcliente-error">{errores.contraseña}</span>
+          )}
           <button type="submit" className="editcliente-btn">
             Guardar cambios
           </button>
