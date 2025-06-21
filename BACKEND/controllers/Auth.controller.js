@@ -57,7 +57,6 @@ export const loginUsuario = async (req, res) => {
 // Función para normalizar el teléfono (elimina todo menos números)
 const normalizePhone = (phone) => (phone ? phone.replace(/\D/g, "") : "");
 
-
 export const registerClienteYUsuario = async (req, res) => {
   const { email, contraseña, rol, nombre, apellido, direccion, telefono } = req.body;
   const telefonoNormalizado = normalizePhone(telefono);
@@ -66,7 +65,7 @@ export const registerClienteYUsuario = async (req, res) => {
     // Validar email único
     const [usuarios] = await conn.query("SELECT id_usuario FROM usuarios WHERE email = ?", [email]);
     if (usuarios.length > 0) {
-      return res.status(409).json({ error: "Ya tienes un usuario creado con esta cuenta de gmail." });
+      return res.status(409).json({ error: "Esta cuenta de correo ya está asociada a una cuenta." });
     }
     // Validar teléfono único (normalizado)
     const [clientes] = await conn.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefonoNormalizado]);
@@ -102,6 +101,15 @@ export const registerClienteYUsuario = async (req, res) => {
     });
   } catch (error) {
     await conn.rollback();
+    // Manejo de errores de clave única
+    if (error.code === "ER_DUP_ENTRY") {
+      if (error.message.includes("usuarios.email")) {
+        return res.status(409).json({ error: "Esta cuenta de correo ya está asociada a una cuenta." });
+      }
+      if (error.message.includes("clientes.telefono")) {
+        return res.status(409).json({ error: "Este número de teléfono ya está vinculado a una cuenta." });
+      }
+    }
     console.error("Error al registrar cliente y usuario:", error);
     res.status(500).json({ error: "Error al registrar cliente y usuario" });
   } finally {

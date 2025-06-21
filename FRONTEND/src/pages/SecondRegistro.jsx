@@ -46,8 +46,7 @@ const SecondRegistro = () => {
     if (!form.password) {
       newErrors.password = "La contraseña es obligatoria";
     } else if (!requisitosCumplidos) {
-      newErrors.password =
-        "La contraseña no cumple con todos los requisitos";
+      newErrors.password = "La contraseña no cumple con todos los requisitos";
     }
     setErrores(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -81,7 +80,11 @@ const SecondRegistro = () => {
       toast.success("Usuario registrado correctamente");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      toast.error("Error al registrar usuario");
+      if (err.response && err.response.data && err.response.data.error) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error("Error al registrar usuario");
+      }
     }
   };
 
@@ -119,7 +122,11 @@ const SecondRegistro = () => {
               value={form.password}
               onChange={handleChange}
               required
-              error={errores.password === "La contraseña es obligatoria" ? errores.password : ""}
+              error={
+                errores.password === "La contraseña es obligatoria"
+                  ? errores.password
+                  : ""
+              }
             />
           </div>
           <span className="secondreg-password-requisitos-title">
