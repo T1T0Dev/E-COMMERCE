@@ -87,7 +87,7 @@
 .modal-saber-desc {
   font-size: 1.08rem;
   margin-bottom: 1.1rem;
-  text-align: center;
+  text-align: left;
   color: #ededed;
 }
 
@@ -137,15 +137,39 @@
 }
 
 /* Responsive */
-@media (max-width: 600px) {
-  .modal-saber-content,
-  .modal-emprendimiento-content {
-    min-width: 90vw;
-    padding: 1.2rem 0.5rem;
-    width: 98vw;
+
+@media (max-width: 480px) {
+  .modal-saber-content {
+    width: 90vw;
+    padding: 1.5rem;
+  }
+  .modal-saber-header {
+    gap: 0.3rem;
+  }
+
+  .modal-saber-highlight{
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 1px 6px;
   }
   .modal-saber-logo {
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
+  }
+  .modal-saber-desc {
+    font-size: 1rem;
+  }
+  .modal-saber-list li {
+    font-size: 0.95rem;
+  }
+
+  .modal-saber-instagram-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .modal-saber-instagram-icon {
+    width: 22px;
+    height: 22px;
   }
 }

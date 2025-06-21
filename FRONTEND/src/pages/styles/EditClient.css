@@ -67,9 +67,9 @@
 }
 
 .editcliente-panel-der {
-  width: 60vw;
+  width: 100vw;
   min-width: 320px;
-  max-width: 900px;
+  max-width: 100%;
   background: #ffffff;
   padding: 2rem 2.5rem;
   box-shadow: 0 4px 24px #23293a33;
@@ -266,18 +266,24 @@
 }
 
 /* Mobile: reduce paddings, imagen y botón */
-@media (max-width: 600px) {
-  .editcliente-panel-izq,
-  .editcliente-panel-der {
-    padding: 1.2rem 0.5rem;
+@media (max-width: 768px) {
+  .editcliente-panel-izq {
+    padding: 1.5rem 0.8rem;
   }
   .editcliente-foto-wrapper {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
   }
-  .editcliente-volver-btn {
-    font-size: 1rem;
-    padding: 0.6rem 0;
-    max-width: 100%;
+  .editcliente-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
+  .editcliente-foto-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 18px;
+  }
+  
+  
 }

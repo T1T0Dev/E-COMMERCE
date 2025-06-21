@@ -42,15 +42,23 @@
   100% { box-shadow: 0 8px 32px #25d36644, 0 2px 12px #25d36633; }
 }
 
-@media (max-width: 700px) {
+.carrito-abierto .whatsapp-float-btn {
+  display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .whatsapp-float-btn {
-    width: 52px;
-    height: 52px;
-    bottom: 18px;
-    right: 18px;
+    width: 56px;
+    height: 56px;
+    bottom: 24px;
+    right: 24px;
   }
+  
   .whatsapp-float-img {
-    width: 28px;
-    height: 28px;
+    width: 56px;
+    height: 56px;
   }
+
+  
 }

@@ -42,8 +42,13 @@ export const cambiarEstadoCarrito = async (req, res) => {
 
     // Si el nuevo estado es "entregado", llama al procedimiento
     if (estado === "entregado") {
-      const fechaHoy = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      await connection.query("CALL generar_venta_diaria(?)", [fechaHoy]);
+      // Obtén la fecha_entrega real del carrito recién actualizado
+      const [[carrito]] = await connection.query(
+        "SELECT fecha_entrega FROM Carritos WHERE id_carrito = ?",
+        [id_carrito]
+      );
+      const fechaEntrega = carrito.fecha_entrega.toISOString().slice(0, 10);
+      await connection.query("CALL generar_venta_diaria(?)", [fechaEntrega]);
     }
 
     await connection.commit();
@@ -201,33 +206,6 @@ export const listarCarritos = async (req, res) => {
 export const eliminarCarrito = async (req, res) => {
   const { id_carrito } = req.params;
   try {
-    // 1. Busca los pedidos asociados a este carrito
-    const [pedidos] = await db.query(
-      "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
-      [id_carrito]
-    );
-
-    // 2. Elimina los detalles de esos pedidos y su historial de ventas
-    for (const pedido of pedidos) {
-      // Elimina historial de ventas asociado a este pedido
-      await db.query("DELETE FROM Historial_Ventas WHERE id_pedido = ?", [
-        pedido.id_pedido,
-      ]);
-      // Elimina los detalles del pedido
-      await db.query("DELETE FROM Detalle_Pedido WHERE id_pedido = ?", [
-        pedido.id_pedido,
-      ]);
-    }
-
-    // 3. Elimina los pedidos asociados a este carrito
-    await db.query("DELETE FROM Pedidos WHERE id_carrito = ?", [id_carrito]);
-
-    // 4. Elimina los detalles del carrito (si existen)
-    await db.query("DELETE FROM Carrito_Detalle WHERE id_carrito = ?", [
-      id_carrito,
-    ]);
-
-    // 5. Finalmente elimina el carrito
     const [result] = await db.query(
       "DELETE FROM Carritos WHERE id_carrito = ?",
       [id_carrito]

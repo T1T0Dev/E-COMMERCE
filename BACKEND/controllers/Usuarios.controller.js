@@ -33,7 +33,7 @@ export const getUsuarios = async (req, res) => {
         c.direccion,
         c.telefono,
         c.foto_perfil
-      FROM Usuarios u
+        FROM Usuarios u
         LEFT JOIN Clientes c ON u.id_usuario = c.id_usuario
     `);
         res.json(rows);

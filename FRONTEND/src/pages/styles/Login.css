@@ -255,27 +255,58 @@
   text-shadow: 0 2px 8px #22c55e44;
 }
 
-/* Responsive: ajusta el espacio en móviles */
-@media (max-width: 700px) {
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 600px) {
   .dual-bg-login {
-    flex-direction: column;
-    background: linear-gradient(120deg, #181818 0%, #232323 40%, #ededed 100%);
+    padding: 1.5rem 0.5rem;
+    min-height: 100vh;
+    width: 100vw;
   }
   .drekkz-logo-login {
-    width: 80px;
-    top: 12px;
+    width: 120px;
+    top: 0.7rem;
   }
   .login-card {
-    max-width: 98vw;
-    margin: 0 auto;
-    padding: 2rem 1rem 1.5rem 1rem;
+    padding: 1.5rem 0.8rem 1.2rem 0.8rem;
+    max-width: 100%;
+    width: 100%;
+    min-width: unset;
+    box-sizing: border-box;
   }
   .login-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .login-input,
+  .password-input-wrapper .password-input,
+  .password-input-wrapper input[type="password"],
+  .password-input-wrapper input[type="text"] {
+    padding: 0.8rem 0.2rem 0.5rem 0.2rem !important;
+    font-size: 0.98rem !important;
   }
   .login-btn {
-    font-size: 1rem;
-    padding: 12px 0;
-    border-radius: 10px;
+    padding: 10px 0;
+    font-size: 0.98rem;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+  }
+  .login-bottom-link,
+  .login-recovery-password {
+    margin-top: 1.2rem;
+    font-size: 0.95rem;
+  }
+  .error-message {
+    font-size: 0.92rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .login-card {
+    padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+  }
+  .login-title {
+    font-size: 1.05rem;
   }
 }

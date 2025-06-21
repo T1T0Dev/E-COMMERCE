@@ -54,7 +54,7 @@
   width: 320px; /* Fija el mismo ancho para todas las imágenes */
     max-width: 320px;
     min-width: 320px;
-    height: 220px;
+    height: 380px;
     object-fit: cover;
     border-radius: 1rem;
     box-shadow: 0 4px 16px rgba(99,102,241,0.13);

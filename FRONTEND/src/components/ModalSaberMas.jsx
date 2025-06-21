@@ -20,8 +20,7 @@ const ModalSaberMas = ({ open, onClose }) => {
             className="modal-saber-logo"
           />
           <h2>
-            Sobre{" "}
-            <span className="modal-saber-highlight">DREKKZ INDUMENTARIA</span>
+            <span className="modal-saber-highlight">SOBRE DREKKZ INDUMENTARIA</span>
           </h2>
         </div>
         <p className="modal-saber-desc">

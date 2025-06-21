@@ -269,25 +269,87 @@ const UsersCrud = () => {
         {loading ? (
           <div>Cargando usuarios...</div>
         ) : (
-          <table className="userscrud-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                {/* Solo muestra la columna Cliente si el filtro NO es admin */}
-                {filtroRol !== "admin" && <th>CLIENTE</th>}
-                <th>EMAIL</th>
-                <th>CONTRASEÑA</th>
-                <th>ROL</th>
-                <th>ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuariosFiltrados.map((usuario) => (
-                <tr key={usuario.id_usuario}>
-                  <td>{usuario.id_usuario}</td>
-                  {/* Solo muestra la celda Cliente si el filtro NO es admin */}
-                  {filtroRol !== "admin" && (
+          <>
+            {/* Tabla para desktop/tablet */}
+            <table className="userscrud-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  {/* Solo muestra la columna Cliente si el filtro NO es admin */}
+                  {filtroRol !== "admin" && <th>CLIENTE</th>}
+                  <th>EMAIL</th>
+                  <th>CONTRASEÑA</th>
+                  <th>ROL</th>
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuariosFiltrados.map((usuario) => (
+                  <tr key={usuario.id_usuario}>
+                    <td>{usuario.id_usuario}</td>
+                    {/* Solo muestra la celda Cliente si el filtro NO es admin */}
+                    {filtroRol !== "admin" && (
+                      <td>
+                        {usuario.rol === "cliente" ? (
+                          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            {usuario.foto_perfil ? (
+                              <img
+                                src={
+                                  usuario.foto_perfil.startsWith("http")
+                                    ? usuario.foto_perfil
+                                    : `http://localhost:3000/${usuario.foto_perfil}`
+                                }
+                                alt={usuario.nombre}
+                                style={{
+                                  width: 32,
+                                  height: 32,
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                  marginRight: 6,
+                                }}
+                              />
+                            ) : (
+                              <FaUserCircle size={32} style={{ marginRight: 6, color: "#ededed" }} />
+                            )}
+                            {usuario.nombre} {usuario.apellido}
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                    )}
+                    <td>{usuario.email}</td>
+                    <td>{usuario.contraseña}</td>
+                    <td>{usuario.rol}</td>
                     <td>
+                      <button
+                        className="userscrud-btn-editar"
+                        onClick={() => handleEdit(usuario)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="userscrud-btn-eliminar"
+                        onClick={() => handleDelete(usuario.id_usuario)}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* Tarjetas para mobile */}
+            <div className="userscrud-table-mobile">
+              {usuariosFiltrados.map((usuario) => (
+                <div className="userscrud-card" key={usuario.id_usuario}>
+                  <div className="userscrud-card-row">
+                    <span className="userscrud-card-label">ID:</span>
+                    <span>{usuario.id_usuario}</span>
+                  </div>
+                  {filtroRol !== "admin" && (
+                    <div className="userscrud-card-row">
+                      <span className="userscrud-card-label">Cliente:</span>
                       {usuario.rol === "cliente" ? (
                         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           {usuario.foto_perfil ? (
@@ -298,13 +360,7 @@ const UsersCrud = () => {
                                   : `http://localhost:3000${usuario.foto_perfil}`
                               }
                               alt={usuario.nombre}
-                              style={{
-                                width: 32,
-                                height: 32,
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                                marginRight: 6,
-                              }}
+                              className="userscrud-card-avatar"
                             />
                           ) : (
                             <FaUserCircle size={32} style={{ marginRight: 6, color: "#ededed" }} />
@@ -314,12 +370,21 @@ const UsersCrud = () => {
                       ) : (
                         "-"
                       )}
-                    </td>
+                    </div>
                   )}
-                  <td>{usuario.email}</td>
-                  <td>{usuario.contraseña}</td>
-                  <td>{usuario.rol}</td>
-                  <td>
+                  <div className="userscrud-card-row">
+                    <span className="userscrud-card-label">Email:</span>
+                    <span>{usuario.email}</span>
+                  </div>
+                  <div className="userscrud-card-row">
+                    <span className="userscrud-card-label">Contraseña:</span>
+                    <span>{usuario.contraseña}</span>
+                  </div>
+                  <div className="userscrud-card-row">
+                    <span className="userscrud-card-label">Rol:</span>
+                    <span>{usuario.rol}</span>
+                  </div>
+                  <div className="userscrud-card-actions">
                     <button
                       className="userscrud-btn-editar"
                       onClick={() => handleEdit(usuario)}
@@ -332,11 +397,11 @@ const UsersCrud = () => {
                     >
                       Eliminar
                     </button>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </>
         )}
       </div>
     </div>

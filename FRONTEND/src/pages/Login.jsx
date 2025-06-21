@@ -38,6 +38,7 @@ export default function Login() {
         { email, contraseña }
       );
       useAuthStore.getState().setUser(response.data);
+      
       if (response.data) {
         login(response.data);
         toast.success("Login exitoso");

@@ -183,15 +183,15 @@ export const getVentasPorDia = async (req, res) => {
   try {
     const [rows] = await db.query(`
      SELECT 
-  vd.fecha,
-  vd.total AS total_vendido,
-  (
+    vd.fecha,
+    vd.total AS total_vendido,
+    (
     SELECT COUNT(*) 
     FROM Pedidos p 
     JOIN Carritos c ON p.id_carrito = c.id_carrito 
     WHERE DATE(c.fecha_entrega) = vd.fecha
-  ) AS cantidad_pedidos,
-  (
+    ) AS cantidad_pedidos,
+    (
     SELECT pr.nombre_producto
     FROM Detalle_Venta_Diaria dvd
     JOIN Productos pr ON dvd.id_producto = pr.id_producto
@@ -199,9 +199,9 @@ export const getVentasPorDia = async (req, res) => {
     GROUP BY pr.nombre_producto
     ORDER BY SUM(dvd.cantidad) DESC
     LIMIT 1
-  ) AS producto_mas_vendido
-FROM Ventas_Diarias vd
-ORDER BY vd.fecha DESC
+    ) AS producto_mas_vendido
+    FROM Ventas_Diarias vd
+    ORDER BY vd.fecha DESC
     `);
     res.json(rows);
   } catch (error) {
@@ -232,21 +232,4 @@ export const getDetalleVentasPorDia = async (req, res) => {
   }
 };
 
-const verDetalle = (fecha) => {
-  console.log("Consultando detalles para:", fecha);
-  fetch(`/api/pedidos/ventas-por-dia/${fecha}`)
-    .then((res) => {
-      console.log("Respuesta fetch detalles:", res);
-      if (!res.ok) throw new Error("No hay datos para ese día");
-      return res.json();
-    })
-    .then((data) => {
-      setDetalleDia(data);
-      setModalFecha(fecha);
-    })
-    .catch((err) => {
-      setDetalleDia([]);
-      setModalFecha(fecha);
-      alert("No hay ventas para ese día.");
-    });
-};
+

@@ -171,4 +171,22 @@
   .secondreg-title {
     font-size: 1.4rem;
   }
+
+  .secondreg-input,
+  .secondreg-password-input-wrapper .password-input,
+  .secondreg-password-input-wrapper input[type="password"],
+  .secondreg-password-input-wrapper input[type="text"] {
+    font-size: 1rem;
+    padding: 0.8rem 0;
+  }
+  .secondreg-btn {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+  .secondreg-arrow-icon {
+    font-size: 1rem;
+  }
+  .secondreg-error {
+    font-size: 0.9rem;
+  }
 }

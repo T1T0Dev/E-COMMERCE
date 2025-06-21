@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
 import axios from "axios";
@@ -11,7 +11,7 @@ const CarritosAdmin = () => {
   const [filtroEstado, setFiltroEstado] = useState("");
   const [busquedaCliente, setBusquedaCliente] = useState("");
   const [carritoDetalle, setCarritoDetalle] = useState(null);
-  const navigate = useNavigate();
+  const [modalConfirm, setModalConfirm] = useState({ open: false, id: null });
 
   useEffect(() => {
     axios
@@ -50,8 +50,19 @@ const CarritosAdmin = () => {
     }
   };
 
-  const handleEliminar = async (id_carrito) => {
-    if (!window.confirm("¿Eliminar este carrito?")) return;
+  // Usar modal de confirmación para eliminar
+  const handleEliminar = (id_carrito) => {
+  const carrito = carritos.find((c) => c.id_carrito === id_carrito);
+  if (carrito && (carrito.estado === "pagado" || carrito.estado === "entregado")) {
+    toast.info("No puedes eliminar un carrito que ya fue Entregado / Pagado");
+    return;
+  }
+  setModalConfirm({ open: true, id: id_carrito });
+};
+
+  const confirmarEliminar = async () => {
+    const id_carrito = modalConfirm.id;
+    setModalConfirm({ open: false, id: null });
     try {
       await axios.delete(`http://localhost:3000/api/carrito/${id_carrito}`);
       toast.success("Carrito eliminado");
@@ -99,6 +110,15 @@ const CarritosAdmin = () => {
       </div>
       <div className="carritos-admin-content">
         <ToastContainer />
+        <ModalConfirmacion
+          isOpen={modalConfirm.open}
+          onClose={() => setModalConfirm({ open: false, id: null })}
+          onConfirm={confirmarEliminar}
+          mensaje="¿Estás seguro de eliminar este carrito? Esta acción no se puede deshacer."
+          titulo="Eliminar carrito"
+          textoConfirmar="Sí, eliminar"
+          textoCancelar="Cancelar"
+        />
         <div className="carritos-admin-header">
           <h2 className="carritos-admin-title">Gestión de Carritos</h2>
         </div>
@@ -122,6 +142,7 @@ const CarritosAdmin = () => {
             <option value="cancelado">Cancelado</option>
           </select>
         </div>
+        {/* Tabla para desktop */}
         <div className="carritos-admin-table-wrapper">
           <table className="carritos-admin-table">
             <thead>
@@ -163,12 +184,12 @@ const CarritosAdmin = () => {
                         }
                       >
                         {c.estado === "entregado"
-                          ? "✅ Entregado"
+                          ? " Entregado"
                           : c.estado === "pagado"
-                          ? "💲 Pagado"
+                          ? " Pagado"
                           : c.estado === "activo"
-                          ? "🕒 Activo"
-                          : "❌ Cancelado"}
+                          ? " Activo"
+                          : " Cancelado"}
                       </span>
                     </td>
                     <td>
@@ -229,6 +250,107 @@ const CarritosAdmin = () => {
               )}
             </tbody>
           </table>
+        </div>
+        {/* Cards para mobile */}
+        <div className="carritos-admin-cards-mobile">
+          {carritosFiltrados.length === 0 ? (
+            <div className="carritos-admin-card-vacio">
+              No hay carritos para mostrar.
+            </div>
+          ) : (
+            carritosFiltrados.map((c) => (
+              <div className="carritos-admin-card" key={c.id_carrito}>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">#</span>
+                  <span>{c.id_carrito}</span>
+                </div>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">Cliente</span>
+                  <span>
+                    <b>{c.cliente || c.cliente_nombre || "-"}</b>
+                    <br />
+                    <span style={{ color: "#aaa", fontSize: "0.95em" }}>
+                      {c.telefono ? `📱 ${c.telefono}` : ""}
+                    </span>
+                  </span>
+                </div>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">Estado</span>
+                  <span
+                    className={`carritos-admin-estado carritos-admin-estado-${c.estado}`}
+                  >
+                    {c.estado === "entregado"
+                      ? " Entregado"
+                      : c.estado === "pagado"
+                      ? " Pagado"
+                      : c.estado === "activo"
+                      ? " Activo"
+                      : " Cancelado"}
+                  </span>
+                </div>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">Creado</span>
+                  <span>
+                    {c.fecha_creacion
+                      ? c.fecha_creacion.slice(0, 16).replace("T", " ")
+                      : "-"}
+                  </span>
+                </div>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">N° Pedido</span>
+                  <span>{c.id_pedido || "-"}</span>
+                </div>
+                <div className="carritos-admin-card-row">
+                  <span className="carritos-admin-card-label">Envío / Retiro</span>
+                  <span>
+                    {c.requiere_envio
+                      ? c.direccion_envio || "Usar dirección registrada"
+                      : "Punto de Encuentro"}
+                  </span>
+                </div>
+                <div className="carritos-admin-card-actions">
+                  <button
+                    className="carritos-admin-btn-detalle"
+                    title="Ver detalle"
+                    onClick={() => handleVerDetalle(c.id_carrito)}
+                  >
+                    👁️
+                  </button>
+                  <button
+                    className="carritos-admin-btn-contactar"
+                    title="Contactar cliente"
+                    onClick={() => handleContactarCliente(c.telefono)}
+                    disabled={!c.telefono}
+                  >
+                    📞
+                  </button>
+                  <button
+                    className="carritos-admin-btn-pagado"
+                    title="Marcar como pagado"
+                    onClick={() => handleMarcarPagado(c.id_carrito)}
+                    disabled={c.estado === "pagado"}
+                  >
+                    💲
+                  </button>
+                  <button
+                    className="carritos-admin-btn-estado"
+                    title="Marcar como entregado"
+                    onClick={() => handleCambiarEstado(c.id_carrito)}
+                    disabled={c.estado !== "pagado"}
+                  >
+                    ✅
+                  </button>
+                  <button
+                    className="carritos-admin-btn-eliminar"
+                    title="Eliminar carrito"
+                    onClick={() => handleEliminar(c.id_carrito)}
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
         {carritoDetalle && (
           <div className="carritos-admin-detalle-modal">

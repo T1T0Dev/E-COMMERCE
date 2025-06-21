@@ -102,6 +102,7 @@ const CrudProd = () => {
   return (
     <div className="crudprod-container-father">
       <AdminNavbar />
+      <AdminHomeButton / >
       {/* Switch para mostrar activos/inactivos */}
       <div className="crudprod-switch-wrapper">
         <span
@@ -135,7 +136,6 @@ const CrudProd = () => {
         textoCancelar="Cancelar"
       />
       
-      <AdminHomeButton / >
 
       <div className={addBtnWrapperClass}>
         <button onClick={handleNuevo} className="crudprod-add-btn">

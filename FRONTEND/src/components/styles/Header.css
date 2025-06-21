@@ -2,11 +2,11 @@ header {
   position: sticky;
   top: 0;
   z-index: 4000;
-  background: #181820;
-  box-shadow: 0 2px 16px #000a;
+  width: 100vw;
+  background: #000;
+  margin: 0;
+  padding: 0;
 }
-
-
 
 .navbar-flex,
 .navbar-flex * {
@@ -18,8 +18,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000; /* Fondo negro para navbar */
-  padding: 16px 24px;
+  background-color: #000;
+  padding: 0 18px;
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
 }
 
 .navbar-left,
@@ -31,8 +34,17 @@ header {
   list-style: none;
 }
 
+.navbar-left {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-start;
+}
 
-
+.navbar-right {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
 
 .navbar-left li,
 .navbar-right li {
@@ -42,6 +54,34 @@ header {
 .navbar-left li:last-child,
 .navbar-right li:last-child {
   margin-right: 0;
+}
+
+/* Logo Drekkz siempre a la izquierda */
+.home-logo-img {
+  max-height: 40px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botón Iniciar Sesión siempre a la derecha */
+.iniciar-sesion-btn {
+  background: none;
+  color: #fff;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 12px 22px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-left: 10px;
+}
+.iniciar-sesion-btn:hover {
+  background: #fff;
+  color: #000;
 }
 
 /* Botón home */
@@ -83,20 +123,25 @@ nav ul li.logo {
   margin-right: auto;
 }
 
+.span-edit-perfil,.span-cerrar-sesion {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
 .cerrar-sesion-btn {
   background: #000000;
   color: #fff;
   border: none;
   border-radius: 18px;
   padding: 10px 20px;
-  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 8px #00000033;
   transition: background 0.2s, transform 0.2s;
 }
+
 .cerrar-sesion-btn:hover {
-  background: #ffffff;
-  color: #000000;
   transform: scale(1.05);
 }
 
@@ -159,6 +204,7 @@ nav ul li.logo {
   box-shadow: 0 2px 8px #00000033;
   transition: background 0.18s, color 0.18s, transform 0.18s;
   cursor: pointer;
+  position: relative;
 }
 .cart-section:hover {
   background: #111;
@@ -195,35 +241,136 @@ nav ul li.logo {
   100% { transform: scale(1);}
 }
 
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-  }
-  nav ul li {
-    margin: 10px 0;
-  }
-  header {
-    padding: 10px 20px;
-  }
-  .dropdown-menu {
-    right: 10px;
-    min-width: 160px;
-    padding: 16px 14px;
-  }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px);}
   to { opacity: 1; transform: translateY(0);}
 }
 
-.home-logo-img {
-  max-height: 40px;         /* controla la altura real visible */
-  width: auto;
-  display: block;           /* elimina espacio debajo */
-  object-fit: contain;      /* ajusta sin deformar */
-  margin: 0;
-  padding: 0; /* Zoom visual si querés más fuerza aún */
+/* --- Responsive Hamburger Menu --- */
+.hamburger-menu-btn {
+  display: none;
+}
+
+/* Agrupador de acciones mobile */
+.navbar-actions-mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .navbar-flex {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw;
+    min-height: 60px;
+    position: relative;
+  }
+  .navbar-left {
+    flex: none;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar-right {
+    display: none;
+  }
+  .navbar-actions-mobile {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .hamburger-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-left: 0;
+    z-index: 2000;
+    padding: 0 0 0 4px;
+    height: 48px;
+  }
+  .cart-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-right: 1.2rem;
+    padding: 0 4px 0 0;
+    position: relative;
+    height: 48px;
+  }
+  .navbar-right .cart-section:not(.cart-mobile) {
+    display: none;
+  }
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 82vw;
+    max-width: 340px;
+    height: 100vh;
+    background: #181820;
+    box-shadow: -2px 0 16px #000a;
+    z-index: 5000;
+    padding: 32px 18px 18px 18px;
+    gap: 18px;
+    animation: slideInMenu 0.25s;
+  }
+  .mobile-menu .close-btn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-bottom: 18px;
+  }
+  .mobile-menu a,
+  .mobile-menu button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 12px 0;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    transition: background 0.18s, color 0.18s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .mobile-menu a:hover,
+  .mobile-menu button:hover {
+    background: #232323;
+    color: #22d3ee;
+    text-decoration: none;
+  }
+  .carrito-overlay {
+    z-index: 4000;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-menu {
+    width: 98vw;
+    max-width: 99vw;
+    padding: 24px 8px 8px 8px;
+  }
+}
+
+/* Animación del menú */
+@keyframes slideInMenu {
+  from { right: -100vw; opacity: 0; }
+  to { right: 0; opacity: 1; }
 }

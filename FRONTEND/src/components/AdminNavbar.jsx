@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { FaUserShield } from "react-icons/fa";
+import { FaUserShield, FaBars } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import useAdminNavbarStore from "../store/useAdminNavbarStore";
 import "./styles/AdminNavbar.css";
@@ -19,6 +19,14 @@ const AdminNavbar = () => {
   const [closing, setClosing] = useState(false);
   const location = useLocation();
   const navRef = useRef();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+
+  // Responsive: detecta si es mobile
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 900);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Cierra el menú si se hace click fuera, con animación
   useEffect(() => {
@@ -29,14 +37,13 @@ const AdminNavbar = () => {
         setTimeout(() => {
           setOpen(false);
           setClosing(false);
-        }, 280); // Debe coincidir con el tiempo de la transición CSS
+        }, 280);
       }
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open, setOpen]);
 
-  // Si el menú se cierra por otro motivo, resetea closing
   useEffect(() => {
     if (open) setClosing(false);
   }, [open]);
@@ -63,16 +70,15 @@ const AdminNavbar = () => {
         style={{ cursor: "pointer" }}
         aria-label="Abrir menú de administración"
       >
-        <FaUserShield size={32} />
+        {isMobile ? <FaBars size={32} /> : <FaUserShield size={32} />}
       </div>
       <nav className={`admin-navbar-menu${open ? " show" : ""}`}>
         {adminLinks.map((link) => (
           <Link
             key={link.to}
             to={link.to}
-            className={`admin-navbar-link${
-              location.pathname === link.to ? " active" : ""
-            }`}
+            className={`admin-navbar-link${location.pathname === link.to ? " active" : ""}`}
+            onClick={() => isMobile && setOpen(false)}
           >
             <span className="admin-navbar-emoji">{link.emoji}</span>
             <span className="admin-navbar-label">{link.label}</span>

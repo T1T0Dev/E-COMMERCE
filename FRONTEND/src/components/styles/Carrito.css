@@ -136,3 +136,31 @@
   background: rgba(0, 0, 0, 0.2);
   z-index: 2000;
 }
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 768px) {
+  .carrito-drawer {
+    width: 70vw;
+    max-width: 100%;
+    z-index: 10000;
+  }
+  
+  .carrito-title {
+    font-size: 1.3rem;
+  }
+  
+  .carrito-productos-lista {
+    padding: 0 10px;
+  }
+  
+  .carrito-item {
+    padding-bottom: 0.8rem;
+  }
+  
+  .carrito-cantidad-btn,
+  .carrito-eliminar-btn {
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+  }
+}

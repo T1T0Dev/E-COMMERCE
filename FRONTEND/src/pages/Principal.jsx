@@ -115,10 +115,10 @@ const Principal = () => {
             
           />
         </div>
+        {user && user.rol === "cliente" && <WhatsAppFloatButton />}
       </main>
       <Footer />
       <ScrollToTopButton />
-      <WhatsAppFloatButton />
     </div>
   );
 };
