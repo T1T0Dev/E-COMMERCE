@@ -6,6 +6,29 @@ import PasswordInput from "../components/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/SecondRegistro.css";
 
+const requisitos = [
+  {
+    label: "8 caracteres",
+    test: (pw) => pw.length >= 8,
+    key: "caracteres",
+  },
+  {
+    label: "Una letra mayúscula",
+    test: (pw) => /[A-Z]/.test(pw),
+    key: "mayuscula",
+  },
+  {
+    label: "Una letra minúscula",
+    test: (pw) => /[a-z]/.test(pw),
+    key: "minuscula",
+  },
+  {
+    label: "Un número",
+    test: (pw) => /\d/.test(pw),
+    key: "numero",
+  },
+];
+
 const SecondRegistro = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [errores, setErrores] = useState({});
@@ -18,10 +41,13 @@ const SecondRegistro = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "El email no es válido";
     }
+    // Validación de requisitos
+    const requisitosCumplidos = requisitos.every((r) => r.test(form.password));
     if (!form.password) {
       newErrors.password = "La contraseña es obligatoria";
-    } else if (form.password.length < 6) {
-      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+    } else if (!requisitosCumplidos) {
+      newErrors.password =
+        "La contraseña no cumple con todos los requisitos";
     }
     setErrores(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -43,7 +69,7 @@ const SecondRegistro = () => {
       navigate("/register");
       return;
     }
-    
+
     try {
       await axios.post("http://localhost:3000/api/auth/register-full", {
         ...form,
@@ -58,6 +84,9 @@ const SecondRegistro = () => {
       toast.error("Error al registrar usuario");
     }
   };
+
+  // Requisitos visuales
+  const password = form.password || "";
 
   return (
     <div className="secondreg-bg">
@@ -93,6 +122,32 @@ const SecondRegistro = () => {
               error={errores.password}
             />
           </div>
+          <span className="secondreg-password-requisitos-title">
+            La contraseña al menos debe contener:
+          </span>
+          {/* Requisitos de contraseña */}
+          <ul className="secondreg-password-requisitos">
+            {requisitos.map((r, i) => {
+              const ok = r.test(password);
+              return (
+                <li
+                  key={r.key}
+                  className={
+                    "secondreg-password-requisito" +
+                    (ok ? " secondreg-password-requisito-ok" : "")
+                  }
+                >
+                  <span className="secondreg-password-requisito-icon">
+                    {ok ? "✔️" : "❌"}
+                  </span>
+                  {r.label}
+                </li>
+              );
+            })}
+          </ul>
+          {errores.password && (
+            <span className="secondreg-error">{errores.password}</span>
+          )}
           <button className="secondreg-btn" type="submit">
             Registrarme<span className="secondreg-arrow-icon">↗</span>
           </button>

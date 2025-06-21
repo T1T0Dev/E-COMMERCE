@@ -4,9 +4,10 @@ import './styles/WhatsAppFloatButton.css';
 const whatsappNumber = "543815941635"; // Cambia por tu número si lo deseas
 
 const WhatsAppFloatButton = () => {
+
   const handleClick = () => {
     window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("¡Hola! 👋 Quiero hacer una consulta.")}`,
+      `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent("¡Hola Jorge! Quiero hacer una consulta.")}`,
       "_blank"
     );
   };

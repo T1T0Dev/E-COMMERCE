@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles/FirstRegistro.css";
 
+// Función para normalizar el teléfono (elimina todo menos números)
+const normalizePhone = (phone) => phone.replace(/\D/g, "");
+
 const FirstRegistro = () => {
   const [form, setForm] = useState({
     nombre: "",
@@ -20,9 +23,7 @@ const FirstRegistro = () => {
     if (!form.direccion.trim()) newErrors.direccion = "La dirección es obligatoria";
     if (!form.telefono.trim()) {
       newErrors.telefono = "El teléfono es obligatorio";
-    } else if (
-      !/^(\+?\d{1,4}[-\s]?)?(\d{2,4}[-\s]?){2,4}\d{2,4}$/.test(form.telefono.trim())
-    ) {
+    } else if (!/^\d{8,15}$/.test(normalizePhone(form.telefono))) {
       newErrors.telefono = "El teléfono no es válido";
     }
     setErrores(newErrors);
@@ -30,15 +31,21 @@ const FirstRegistro = () => {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    let value = e.target.value;
+    if (e.target.name === "telefono") {
+      // Permite que el usuario escriba con espacios, pero normaliza para validar y guardar
+      value = value.replace(/[^\d\s]/g, ""); // Solo números y espacios
+    }
+    setForm({ ...form, [e.target.name]: value });
     setErrores({ ...errores, [e.target.name]: "" });
   };
 
   const validarTelefonoExiste = async (telefono) => {
-    if (!telefono.trim()) return;
+    const normalizado = normalizePhone(telefono);
+    if (!normalizado) return;
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/auth/telefono-existe/${encodeURIComponent(telefono.trim())}`
+        `http://localhost:3000/api/auth/telefono-existe/${encodeURIComponent(normalizado)}`
       );
       if (res.data.exists) {
         setErrores((prev) => ({
@@ -66,7 +73,11 @@ const FirstRegistro = () => {
     if (!validar()) return;
     const telefonoOk = await validarTelefonoExiste(form.telefono);
     if (!telefonoOk) return;
-    sessionStorage.setItem("registroCliente", JSON.stringify(form));
+    // Guarda el teléfono normalizado en sessionStorage
+    sessionStorage.setItem(
+      "registroCliente",
+      JSON.stringify({ ...form, telefono: normalizePhone(form.telefono) })
+    );
     navigate("/second-registro");
   };
 
@@ -134,11 +145,12 @@ const FirstRegistro = () => {
               className="firstreg-input"
               id="telefono"
               name="telefono"
-              placeholder="Teléfono"
+              placeholder="Ej: 3815674692"
               value={form.telefono}
               onChange={handleChange}
               onBlur={handleBlurTelefono}
               required
+              maxLength={15}
             />
             {errores.telefono && (
               <span className="firstreg-error">{errores.telefono}</span>

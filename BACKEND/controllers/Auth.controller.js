@@ -53,8 +53,14 @@ export const loginUsuario = async (req, res) => {
   }
 };
 
+
+// Función para normalizar el teléfono (elimina todo menos números)
+const normalizePhone = (phone) => (phone ? phone.replace(/\D/g, "") : "");
+
+
 export const registerClienteYUsuario = async (req, res) => {
   const { email, contraseña, rol, nombre, apellido, direccion, telefono } = req.body;
+  const telefonoNormalizado = normalizePhone(telefono);
   const conn = await db.getConnection();
   try {
     // Validar email único
@@ -62,10 +68,10 @@ export const registerClienteYUsuario = async (req, res) => {
     if (usuarios.length > 0) {
       return res.status(409).json({ error: "Ya tienes un usuario creado con esta cuenta de gmail." });
     }
-    // Validar teléfono único
-    const [clientes] = await conn.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefono]);
+    // Validar teléfono único (normalizado)
+    const [clientes] = await conn.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefonoNormalizado]);
     if (clientes.length > 0) {
-      return res.status(409).json({ error: `Este número de teléfono ya está vinculado a una cuenta: ${email}` });
+      return res.status(409).json({ error: `Este número de teléfono ya está vinculado a una cuenta.` });
     }
 
     await conn.beginTransaction();
@@ -77,10 +83,10 @@ export const registerClienteYUsuario = async (req, res) => {
     );
     const id_usuario = usuarioResult.insertId;
 
-    // 2. Crear cliente con id_usuario
+    // 2. Crear cliente con id_usuario y teléfono normalizado
     const [clienteResult] = await conn.query(
       "INSERT INTO clientes (nombre, apellido, direccion, telefono, id_usuario) VALUES (?, ?, ?, ?, ?)",
-      [nombre, apellido, direccion, telefono, id_usuario]
+      [nombre, apellido, direccion, telefonoNormalizado, id_usuario]
     );
 
     await conn.commit();
@@ -92,7 +98,7 @@ export const registerClienteYUsuario = async (req, res) => {
       nombre,
       apellido,
       direccion,
-      telefono,
+      telefono: telefonoNormalizado,
     });
   } catch (error) {
     await conn.rollback();
@@ -102,6 +108,18 @@ export const registerClienteYUsuario = async (req, res) => {
     conn.release();
   }
 };
+
+export const telefonoExiste = async (req, res) => {
+  const { telefono } = req.params;
+  const telefonoNormalizado = normalizePhone(telefono);
+  try {
+    const [rows] = await db.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefonoNormalizado]);
+    res.json({ exists: rows.length > 0 });
+  } catch (error) {
+    res.status(500).json({ error: "Error al validar teléfono" });
+  }
+};
+
 
 export const emailExiste = async (req, res) => {
   const { email } = req.params;
@@ -113,12 +131,3 @@ export const emailExiste = async (req, res) => {
   }
 };
 
-export const telefonoExiste = async (req, res) => {
-  const { telefono } = req.params;
-  try {
-    const [rows] = await db.query("SELECT id_cliente FROM clientes WHERE telefono = ?", [telefono]);
-    res.json({ exists: rows.length > 0 });
-  } catch (error) {
-    res.status(500).json({ error: "Error al validar teléfono" });
-  }
-};

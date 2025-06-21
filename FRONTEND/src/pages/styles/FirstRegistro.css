@@ -138,9 +138,22 @@
   color: #353535;
 }
 
+@media (max-width: 1400px) {
+  .firstreg-card {
+    max-width: 80vw;
+    padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+  }
+  .firstreg-title {
+    font-size: 1.5rem;
+  }
+  .firstreg-form {
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 700px) {
   .firstreg-card {
-    max-width: 98vw;
+    max-width: 85%;
     margin: 0 auto;
     padding: 2rem 1rem 1.5rem 1rem;
   }
