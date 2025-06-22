@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles/UsersCrud.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import "react-toastify/dist/ReactToastify.css";
@@ -146,7 +146,6 @@ const UsersCrud = () => {
         <AdminHomeButton />
       </div>
       <div className="userscrud-content">
-        <ToastContainer position="top-right" autoClose={2000} />
         <ModalConfirmacion
           isOpen={modal.open}
           onClose={closeModal}

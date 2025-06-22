@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles/CategoriasAdmin.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import PasswordInput from "../components/PasswordInput";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/SecondRegistro.css";
@@ -93,7 +93,6 @@ const SecondRegistro = () => {
 
   return (
     <div className="secondreg-bg">
-      <ToastContainer position="top-right" autoClose={2000} />
       <div className="secondreg-card">
         <h2 className="secondreg-title">Registro - Usuario</h2>
         <form className="secondreg-form" onSubmit={handleSubmit}>

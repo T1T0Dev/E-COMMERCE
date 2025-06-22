@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import useAuthStore from "../store/useAuthStore";
 import logoDrekkz from "../Resources/logo-drekkz1.png";
 import PasswordInput from "../components/PasswordInput";
@@ -124,7 +124,6 @@ export default function Login() {
 
         
       </div>
-      <ToastContainer />
     </div>
   );
 }

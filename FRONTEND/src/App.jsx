@@ -20,6 +20,20 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 const App = () => {
   return (
     <BrowserRouter>
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    
+
       <Routes>
         {/* Landing page SIEMPRE accesible */}
         <Route path="/" element={<Principal />} />
@@ -103,7 +117,6 @@ const App = () => {
           }
         />
       </Routes>
-      <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
   )
 }

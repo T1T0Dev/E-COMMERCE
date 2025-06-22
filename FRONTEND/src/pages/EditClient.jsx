@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuthStore from "../store/useAuthStore";
 import "./styles/EditClient.css";
 import defaultProfile from "../assets/default-profile.jpg";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PasswordInput from "../components/PasswordInput";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -340,7 +340,6 @@ const EditClient = () => {
           </button>
         </form>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

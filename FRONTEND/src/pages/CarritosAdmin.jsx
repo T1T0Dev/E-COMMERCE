@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
@@ -110,7 +110,6 @@ const CarritosAdmin = () => {
         <AdminHomeButton />
       </div>
       <div className="carritos-admin-content">
-        <ToastContainer />
         <ModalConfirmacion
           isOpen={modalConfirm.open}
           onClose={() => setModalConfirm({ open: false, id: null })}
