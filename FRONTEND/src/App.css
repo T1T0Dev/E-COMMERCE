@@ -10,11 +10,8 @@ body {
   box-sizing: border-box;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background: url("/fondo-drekkz2.jpg") no-repeat center center fixed;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: linear-gradient(120deg, #181818 0%, #353535 100%);
+
 }
 
 #root {

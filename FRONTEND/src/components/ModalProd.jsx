@@ -14,7 +14,7 @@ const ModalProd = ({
   if (!isOpen) return null;
 
   // Opciones para React Select
-  const categoriaOptions = categorias.map(cat => ({
+  const categoriaOptions = categorias.map((cat) => ({
     value: String(cat.id_categoria),
     label: cat.nombre_categoria,
   }));
@@ -46,7 +46,9 @@ const ModalProd = ({
         nombre_producto: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        id_categoria: producto.id_categoria ? String(producto.id_categoria) : "",
+        id_categoria: producto.id_categoria
+          ? String(producto.id_categoria)
+          : "",
       });
       setImagen(null);
 
@@ -102,107 +104,119 @@ const ModalProd = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "precio") {
+      // Solo acepta números enteros positivos
+      if (/^\d*$/.test(value)) {
+        setFormData({ ...formData, [name]: value });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleCategoriaChange = (selectedOption) => {
-    setFormData({ ...formData, id_categoria: selectedOption ? selectedOption.value : "" });
+    setFormData({
+      ...formData,
+      id_categoria: selectedOption ? selectedOption.value : "",
+    });
   };
 
   const handleFileChange = (e) => {
     setImagen(e.target.files[0]);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  // Validaciones antes de enviar
-  if (!formData.nombre_producto.trim()) {
-    toast.error("El nombre del producto es obligatorio");
-    return;
-  }
-  if (!formData.descripcion.trim()) {
-    toast.error("La descripción es obligatoria");
-    return;
-  }
-  if (!formData.precio || isNaN(Number(formData.precio)) || Number(formData.precio) <= 0) {
-    toast.error("El precio debe ser un número mayor a 0");
-    return;
-  }
-  if (!formData.id_categoria) {
-    toast.error("Selecciona una categoría");
-    return;
-  }
-  if (!producto && !imagen) {
-    toast.error("Selecciona una imagen");
-    return;
-  }
-  if (Object.keys(tallesSeleccionados).length === 0) {
-    toast.error("Selecciona al menos un talle y su stock");
-    return;
-  }
-  for (const [id_talle, stock] of Object.entries(tallesSeleccionados)) {
-    if (!stock || isNaN(Number(stock)) || Number(stock) < 1) {
-      toast.error("El stock de cada talle debe ser mayor a 0");
+    // Validaciones antes de enviar
+    if (!formData.nombre_producto.trim()) {
+      toast.error("El nombre del producto es obligatorio");
       return;
     }
-  }
-
-  setLoading(true);
-
-  const data = new FormData();
-  data.append("nombre_producto", formData.nombre_producto);
-  data.append("descripcion", formData.descripcion);
-  data.append("precio", formData.precio);
-  data.append("id_categoria", formData.id_categoria);
-  if (imagen) data.append("imagen_producto", imagen);
-
-  data.append(
-    "talles",
-    JSON.stringify(
-      Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
-        id_talle: Number(id_talle),
-        stock: Number(stock),
-      }))
-    )
-  );
-
-  try {
-    const url = producto?.id_producto
-      ? `http://localhost:3000/api/productos/${producto.id_producto}`
-      : "http://localhost:3000/api/productos/con-talles";
-    const method = producto?.id_producto ? "PUT" : "POST";
-    const res = await fetch(url, {
-      method,
-      body: data,
-    });
-
-    const result = await res.json();
-
-    if (res.ok) {
-      // PASA EL MENSAJE AL PADRE Y LUEGO CIERRA EL MODAL
-      if (onProductCreated) onProductCreated(
-        producto?.id_producto
-          ? "Producto actualizado correctamente"
-          : "Producto creado correctamente"
-      );
-      onClose();
-    } else {
-      toast.error(result.error || "Error");
+    if (!formData.descripcion.trim()) {
+      toast.error("La descripción es obligatoria");
+      return;
     }
-  } catch (err) {
-    toast.error("Error al conectar con el servidor");
-  } finally {
-    setLoading(false);
-  }
-};
+    if (
+      !formData.precio ||
+      isNaN(Number(formData.precio)) ||
+      Number(formData.precio) <= 0
+    ) {
+      toast.error("El precio debe ser un número mayor a 0");
+      return;
+    }
+    if (!formData.id_categoria) {
+      toast.error("Selecciona una categoría");
+      return;
+    }
+    if (!producto && !imagen) {
+      toast.error("Selecciona una imagen");
+      return;
+    }
+    if (Object.keys(tallesSeleccionados).length === 0) {
+      toast.error("Selecciona al menos un talle y su stock");
+      return;
+    }
+    for (const [id_talle, stock] of Object.entries(tallesSeleccionados)) {
+      if (!stock || isNaN(Number(stock)) || Number(stock) < 1) {
+        toast.error("El stock de cada talle debe ser mayor a 0");
+        return;
+      }
+    }
 
+    setLoading(true);
+
+    const data = new FormData();
+    data.append("nombre_producto", formData.nombre_producto);
+    data.append("descripcion", formData.descripcion);
+    data.append("precio", formData.precio);
+    data.append("id_categoria", formData.id_categoria);
+    if (imagen) data.append("imagen_producto", imagen);
+
+    data.append(
+      "talles",
+      JSON.stringify(
+        Object.entries(tallesSeleccionados).map(([id_talle, stock]) => ({
+          id_talle: Number(id_talle),
+          stock: Number(stock),
+        }))
+      )
+    );
+
+    try {
+      const url = producto?.id_producto
+        ? `http://localhost:3000/api/productos/${producto.id_producto}`
+        : "http://localhost:3000/api/productos/con-talles";
+      const method = producto?.id_producto ? "PUT" : "POST";
+      const res = await fetch(url, {
+        method,
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        // PASA EL MENSAJE AL PADRE Y LUEGO CIERRA EL MODAL
+        if (onProductCreated)
+          onProductCreated(
+            producto?.id_producto
+              ? "Producto actualizado correctamente"
+              : "Producto creado correctamente"
+          );
+        onClose();
+      } else {
+        toast.error(result.error || "Error");
+      }
+    } catch (err) {
+      toast.error("Error al conectar con el servidor");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Para React Select: encontrar la opción seleccionada
-  const selectedCategoria = categoriaOptions.find(
-    opt => opt.value === formData.id_categoria
-  ) || null;
+  const selectedCategoria =
+    categoriaOptions.find((opt) => opt.value === formData.id_categoria) || null;
 
   return (
     <div className="modal-overlay">
@@ -241,9 +255,9 @@ const handleSubmit = async (e) => {
                   onChange={handleChange}
                   required
                   min="0"
-                  step="0.01"
+                  step="1"
                   max="999999"
-                  inputMode="decimal"
+                  inputMode="numeric"
                   pattern="[0-9]*"
                 />
               </div>
@@ -264,7 +278,9 @@ const handleSubmit = async (e) => {
                       color: "#ededed",
                       borderRadius: "12px",
                       minHeight: "48px",
-                      boxShadow: state.isFocused ? "0 2px 12px #23232333" : "none",
+                      boxShadow: state.isFocused
+                        ? "0 2px 12px #23232333"
+                        : "none",
                     }),
                     singleValue: (base) => ({
                       ...base,
@@ -338,8 +354,10 @@ const handleSubmit = async (e) => {
                   <label key={talle.id_talle} className="modal-talle-item">
                     <input
                       type="checkbox"
-                      checked={tallesSeleccionados[talle.id_talle] !== undefined}
-                      onChange={e =>
+                      checked={
+                        tallesSeleccionados[talle.id_talle] !== undefined
+                      }
+                      onChange={(e) =>
                         handleTalleChange(talle.id_talle, e.target.checked)
                       }
                     />
@@ -349,7 +367,7 @@ const handleSubmit = async (e) => {
                         type="number"
                         min={1}
                         value={tallesSeleccionados[talle.id_talle]}
-                        onChange={e =>
+                        onChange={(e) =>
                           handleCantidadChange(talle.id_talle, e.target.value)
                         }
                         placeholder="Stock"

@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "./styles/Carruselprod.css";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "../utils/formatPrice";
 
 const Carruselprod = () => {
   const [productos, setProductos] = useState([]);
@@ -65,7 +66,7 @@ const Carruselprod = () => {
               </div>
               <div className="carruselprod-info">
                 <div className="carruselprod-price glass-price">
-                  ${producto.precio}
+                  ${formatPrice(producto.precio)}
                 </div>
                 <p className="carruselprod-desc">{producto.descripcion}</p>
                 <button

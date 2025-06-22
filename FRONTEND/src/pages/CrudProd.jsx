@@ -9,6 +9,7 @@ import ModalConfirmacion from "../components/ModalConfirmacion";
 import axios from "axios";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
+import {formatPrice} from "../utils/formatPrice"; // Asegúrate de tener esta función para formatear precios
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -176,7 +177,7 @@ const CrudProd = () => {
               <div className="crudprod-info">
                 <div>
                   <h3 className="crudprod-title">{producto.nombre_producto}</h3>
-                  <h2 className="crudprod-price">${producto.precio}</h2>
+                  <h2 className="crudprod-price">${formatPrice(producto.precio)}</h2>
                   <p className="crudprod-desc">{producto.descripcion}</p>
                   <div className="crudprod-btns">
                     <button
