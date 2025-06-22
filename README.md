@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 🛒 DREKKZ INDUMENTARIA — Proyecto Full Stack
 
 Bienvenido al repositorio privado de **DREKKZ INDUMENTARIA**.<br>
@@ -126,3 +127,6 @@ DREKKZ INDUMENTARIA es una plataforma web para la gestión de productos, carrito
 
 ## Estructura del Proyecto
 >>>>>>> 6312ef8df8499343cb5ccecb3aa2200e7c38a882
+=======
+
+>>>>>>> f42987820b3d02fbccbb2d984573e8af1bd20c92
