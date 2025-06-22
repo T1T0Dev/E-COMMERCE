@@ -419,10 +419,12 @@ const CarritosAdmin = () => {
               <h4 className="carritos-admin-detalle-total">
                 Total:{" "}
                 {carritoDetalle.total_venta != null
-                  ? `$${carritoDetalle.total_venta}`
-                  : `$${(carritoDetalle.productos || []).reduce(
-                      (acc, p) => acc + (p.subtotal || 0),
-                      0
+                  ? `$${formatPrice(carritoDetalle.total_venta)}`
+                  : `$${formatPrice(
+                      (carritoDetalle.productos || []).reduce(
+                        (acc, p) => acc + (p.subtotal || 0),
+                        0
+                      )
                     )}`}
               </h4>
               <button
