@@ -16,7 +16,6 @@ const CategoriasAdmin = () => {
     nombre: "",
   });
 
-
   // Traer categorías
   const fetchCategorias = async () => {
     setLoading(true);
@@ -34,24 +33,22 @@ const CategoriasAdmin = () => {
   const handleAgregar = async (e) => {
     e.preventDefault();
     if (!nombre) return;
-    try{
-    const res = await axios.post("http://localhost:3000/api/categorias", {
-     nombre,
-    });
-    if (res.status === 201) {
-      toast.success("¡Categoría agregada!");
-      setNombre("");
-      fetchCategorias();
+    try {
+      const res = await axios.post("http://localhost:3000/api/categorias", {
+        nombre,
+      });
+      if (res.status === 201) {
+        toast.success("¡Categoría agregada!");
+        setNombre("");
+        fetchCategorias();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("Esta categoria ya existe.");
+      } else {
+        toast.error("Error al agregar la categoria");
+      }
     }
-  
-  }
-  catch(error){
-       if (error.response && error.response.status === 409) {
-            toast.error("Esta categoria ya existe.");
-          } else {
-            toast.error("Error al agregar la categoria");
-          }
-  }
   };
 
   // Abrir modal de confirmación para eliminar

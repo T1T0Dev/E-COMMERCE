@@ -23,8 +23,8 @@ export default function Login() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       newErrors.email = "Email inválido";
     if (!contraseña) newErrors.contraseña = "La contraseña es obligatoria";
-    else if (contraseña.length < 6)
-      newErrors.contraseña = "Mínimo 6 caracteres";
+    else if (contraseña.length < 8)
+      newErrors.contraseña = "Mínimo 8 caracteres";
     setErrores(newErrors);
     return Object.keys(newErrors).length === 0;
   };

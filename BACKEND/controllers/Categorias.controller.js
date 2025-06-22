@@ -15,7 +15,7 @@ export const createCategoria = async (req, res) => {
     try {
 
         const [existe] = await db.query(
-             'SELECT id_categoria FROM categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
+             'SELECT id_categoria FROM Categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
             [nombre]
         );
 
@@ -25,7 +25,7 @@ export const createCategoria = async (req, res) => {
 
 
         const [result] = await db.query(
-            'INSERT INTO categorias (nombre_categoria) VALUES (?)',
+            'INSERT INTO Categorias (nombre_categoria) VALUES (?)',
             [nombre]
         );
         res.status(201).json({ id_categoria: result.insertId, nombre });

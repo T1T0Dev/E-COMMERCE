@@ -88,7 +88,7 @@ const FirstRegistro = () => {
         <form className="firstreg-form" onSubmit={handleSubmit}>
           <div className="firstreg-field">
             <label className="firstreg-label" htmlFor="nombre">
-              Nombre
+              Nombre/s
             </label>
             <input
               className="firstreg-input"
@@ -105,7 +105,7 @@ const FirstRegistro = () => {
           </div>
           <div className="firstreg-field">
             <label className="firstreg-label" htmlFor="apellido">
-              Apellido
+              Apellido/s
             </label>
             <input
               className="firstreg-input"
