@@ -184,31 +184,59 @@
 }
 
 /* Responsive */
-@media (max-width: 700px) {
-  .ventascrud-back-btn-wrapper {
-    margin-top: 1.2rem;
+/* ...existing code... */
+
+@media (max-width: 900px) {
+  .ventas-crud-table,
+  .ventas-crud-detalle-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1.5px solid #353535;
+    border-radius: 8px;
+    background: #232323;
+    margin-bottom: 8px;
+    /* Opcional: agrega una sombra para resaltar */
+    box-shadow: 0 2px 8px #0002;
   }
-  .cta-button {
-    margin-left: 0.5rem;
-    padding: 0.6rem 1.1rem;
-    font-size: 1rem;
+  .ventas-crud-table::-webkit-scrollbar,
+  .ventas-crud-detalle-table::-webkit-scrollbar {
+    height: 6px;
+    background: #181818;
   }
-  .ventas-crud-content {
-    padding: 0 2px 18px 2px;
+  .ventas-crud-table::-webkit-scrollbar-thumb,
+  .ventas-crud-detalle-table::-webkit-scrollbar-thumb {
+    background: #353535;
+    border-radius: 4px;
   }
-  .ventas-crud-modal-content {
-    min-width: unset;
-    padding: 14px 2px;
+  .ventas-crud-table thead,
+  .ventas-crud-detalle-table thead {
+    background: #181818;
+    position: sticky;
+    top: 0;
+    z-index: 2;
   }
+  /* Opcional: mensaje de scroll */
+  .ventas-crud-table::after {
+    content: "← Desliza para ver más →";
+    display: block;
+    text-align: center;
+    color: #bdbdbd;
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+  }
+}
+
+@media (max-width: 600px) {
   .ventas-crud-table th,
-  .ventas-crud-table td,
-  .ventas-crud-detalle-table th,
-  .ventas-crud-detalle-table td {
-    font-size: 0.95rem;
-    padding: 8px 4px;
+  .ventas-crud-detalle-table th {
+    font-size: 0.85rem;
+    padding: 6px 2px;
   }
-  .ventas-crud-content h2 {
-    font-size: 1.3rem;
-    margin-top: 18px;
+  .ventas-crud-table td,
+  .ventas-crud-detalle-table td {
+    font-size: 0.85rem;
+    padding: 6px 2px;
   }
 }

@@ -199,16 +199,25 @@
 
 /* RESPONSIVE */
 
-@media (max-width: 1400px) {
+@media (max-width: 1360px) {
+
   .secondreg-card {
-    max-width: 80vw;
-    padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+    max-width: 420px;
+    padding: 2.5rem 2rem 2rem 2rem;
   }
   .secondreg-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
-  .secondreg-form {
-    gap: 1rem;
+  .secondreg-input,
+  .secondreg-password-input-wrapper .password-input,
+  .secondreg-password-input-wrapper input[type="password"],
+  .secondreg-password-input-wrapper input[type="text"] {
+    font-size: 1rem;
+    padding: 0.8rem 0;
+  }
+  .secondreg-btn {
+    font-size: 1rem;
+    padding: 12px 0;
   }
 
 }

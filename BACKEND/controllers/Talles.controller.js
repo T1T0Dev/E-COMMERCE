@@ -13,6 +13,14 @@ export const getTalles = async (req, res) => {
 export const createTalle = async (req, res) => {
     const { nombre } = req.body;
     try {
+        // Validar si ya existe un talle con ese nombre (case-insensitive)
+        const [existe] = await db.query(
+            'SELECT id_talle FROM talles WHERE LOWER(nombre_talle) = LOWER(?)',
+            [nombre]
+        );
+        if (existe.length > 0) {
+            return res.status(409).json({ error: 'El talle ya existe.' });
+        }
         const [result] = await db.query(
             'INSERT INTO talles (nombre_talle) VALUES (?)',
             [nombre]

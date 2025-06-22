@@ -6,7 +6,7 @@ import "./styles/TallesAdmin.css";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
-
+import axios from "axios";
 
 const TallesAdmin = () => {
   const [talles, setTalles] = useState([]);
@@ -17,14 +17,16 @@ const TallesAdmin = () => {
     id: null,
     nombre: "",
   });
-  const navigate = useNavigate();
 
   // Traer talles
   const fetchTalles = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:3000/api/talles");
-    const data = await res.json();
-    setTalles(data);
+    try {
+      const res = await axios.get("http://localhost:3000/api/talles");
+      setTalles(res.data);
+    } catch (error) {
+      toast.error("Error al cargar los talles");
+    }
     setLoading(false);
   };
 
@@ -36,17 +38,21 @@ const TallesAdmin = () => {
   const handleAgregar = async (e) => {
     e.preventDefault();
     if (!nombre) return;
-    const res = await fetch("http://localhost:3000/api/talles", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre }),
-    });
-    if (res.ok) {
-      toast.success("¡Talle agregado!");
-      setNombre("");
-      fetchTalles();
-    } else {
-      toast.error("Error al agregar el talle");
+    try {
+      const res = await axios.post("http://localhost:3000/api/talles", {
+        nombre,
+      });
+      if (res.status === 201) {
+        toast.success("¡Talle agregado!");
+        setNombre("");
+        fetchTalles();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("Este talle ya existe.");
+      } else {
+        toast.error("Error al agregar el talle");
+      }
     }
   };
 
@@ -59,12 +65,13 @@ const TallesAdmin = () => {
   const confirmarEliminar = async () => {
     const id = modalConfirm.id;
     setModalConfirm({ open: false, id: null, nombre: "" });
-    const res = await fetch(`http://localhost:3000/api/talles/${id}`, {
-      method: "DELETE",
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      if (data.productos && data.productos.length > 0) {
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/talles/${id}`);
+      toast.success("¡Talle eliminado!");
+      fetchTalles();
+    } catch (error) {
+      const data = error.response?.data;
+      if (data?.productos && data.productos.length > 0) {
         toast.error(
           `No puedes eliminar el talle porque está asociado a los siguientes productos: ${data.productos.join(
             ", "

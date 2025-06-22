@@ -257,40 +257,37 @@
 
 /* RESPONSIVE DESIGN */
 
+@media (max-width: 1360px){
 
-@media (max-width: 1400px) {
+  .drekkz-logo-login {
+    width: 25vh;
+    top: 2px;
+  }
+
+
+}
+
+
+
+@media (max-width: 900px) {
   .login-card {
     padding: 2.5rem 2rem 2rem 2rem;
     max-width: 90%;
     width: 100%;
-    min-width: unset;
+    box-sizing: border-box;
   }
   .login-title {
     font-size: 1.8rem;
     margin-bottom: 1.8rem;
   }
-
   .login-input,
   .password-input-wrapper .password-input,
   .password-input-wrapper input[type="password"],
   .password-input-wrapper input[type="text"] {
     padding: 1rem 0.2rem 0.5rem 0.2rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
   }
-  .login-btn {
-    padding: 12px 0;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    margin-top: 1.2rem;
-  }
-
-  .drekkz-logo-login {
-    width: 180px;
-    top: 0.1rem;
-  }
-
-
-
+  
 }
 
 @media (max-width: 600px) {

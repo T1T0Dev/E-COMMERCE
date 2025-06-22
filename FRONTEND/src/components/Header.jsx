@@ -23,7 +23,6 @@ const Header = () => {
     } else {
       document.body.classList.remove("carrito-abierto");
     }
-    // Limpieza por si el componente se desmonta
     return () => document.body.classList.remove("carrito-abierto");
   }, [mostrarCarrito]);
 
@@ -35,6 +34,14 @@ const Header = () => {
     setAdminMenuOpen(false);
     setPerfilMenuOpen(false);
   };
+
+  // Detecta si es mobile (para mostrar iniciar sesión fuera del menú hamburguesa si no hay user)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 900);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <header>
@@ -70,13 +77,16 @@ const Header = () => {
               )}
             </button>
           )}
-          <button
-            className="hamburger-menu-btn"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Abrir menú"
-          >
-            <FaBars />
-          </button>
+          {/* Solo muestra el menú hamburguesa si hay usuario logueado */}
+          {user && (
+            <button
+              className="hamburger-menu-btn"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Abrir menú"
+            >
+              <FaBars />
+            </button>
+          )}
         </div>
 
         {/* DERECHA (solo desktop) */}
@@ -171,16 +181,25 @@ const Header = () => {
               )}
             </>
           )}
+          {/* Si NO hay usuario, muestra iniciar sesión siempre (desktop y mobile) */}
           {!user && (
             <li>
               <Link to="/login"> Iniciar sesión</Link>
             </li>
           )}
         </ul>
+        {/* Si NO hay usuario y es mobile, muestra iniciar sesión fuera del menú hamburguesa */}
+        {!user && isMobile && (
+          <div className="navbar-actions-mobile" style={{ marginLeft: "auto" }}>
+            <Link to="/login" className="iniciar-sesion-btn">
+              Iniciar sesión
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Menú móvil */}
-      {menuOpen && (
+      {menuOpen && user && (
         <div className="mobile-menu">
           <button
             className="close-btn"
@@ -189,62 +208,53 @@ const Header = () => {
           >
             ×
           </button>
-          {user && (
-            <>
-              {user.rol === "cliente" && location.pathname !== "/catalogo" && (
-                <Link to="/catalogo" onClick={() => setMenuOpen(false)}>
-                  👖 Catalogo
-                </Link>
-              )}
-              {user.rol === "cliente" && (
-                <Link to="/perfil" onClick={() => setMenuOpen(false)}>
-                  👤 Editar Perfil
-                </Link>
-              )}
-              <button className="cerrar-sesion-btn" onClick={handleLogout}>
-                👋 Cerrar sesión
-              </button>
-
-              {user.rol === "admin" && (
-                <>
-                  <Link to="/admin/usuarios" onClick={() => setMenuOpen(false)}>
-                    👤 Usuarios
-                  </Link>
-                  <Link
-                    to="/admin/crud-clientes"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    👥 Clientes
-                  </Link>
-                  <Link
-                    to="/admin/productos"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    📦 Productos
-                  </Link>
-                  <Link
-                    to="/admin/categorias"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    📂 Categorías
-                  </Link>
-                  <Link to="/admin/talles" onClick={() => setMenuOpen(false)}>
-                    📏 Talles
-                  </Link>
-                  <Link to="/admin/carritos" onClick={() => setMenuOpen(false)}>
-                    🛒 Carritos
-                  </Link>
-                  <Link to="/admin/ventas" onClick={() => setMenuOpen(false)}>
-                    💰 Ventas
-                  </Link>
-                </>
-              )}
-            </>
-          )}
-          {!user && (
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
-              Iniciar sesión
+          {user.rol === "cliente" && location.pathname !== "/catalogo" && (
+            <Link to="/catalogo" onClick={() => setMenuOpen(false)}>
+              👖 Catalogo
             </Link>
+          )}
+          {user.rol === "cliente" && (
+            <Link to="/perfil" onClick={() => setMenuOpen(false)}>
+              👤 Editar Perfil
+            </Link>
+          )}
+          <button className="cerrar-sesion-btn" onClick={handleLogout}>
+            👋 Cerrar sesión
+          </button>
+
+          {user.rol === "admin" && (
+            <>
+              <Link to="/admin/usuarios" onClick={() => setMenuOpen(false)}>
+                👤 Usuarios
+              </Link>
+              <Link
+                to="/admin/crud-clientes"
+                onClick={() => setMenuOpen(false)}
+              >
+                👥 Clientes
+              </Link>
+              <Link
+                to="/admin/productos"
+                onClick={() => setMenuOpen(false)}
+              >
+                📦 Productos
+              </Link>
+              <Link
+                to="/admin/categorias"
+                onClick={() => setMenuOpen(false)}
+              >
+                📂 Categorías
+              </Link>
+              <Link to="/admin/talles" onClick={() => setMenuOpen(false)}>
+                📏 Talles
+              </Link>
+              <Link to="/admin/carritos" onClick={() => setMenuOpen(false)}>
+                🛒 Carritos
+              </Link>
+              <Link to="/admin/ventas" onClick={() => setMenuOpen(false)}>
+                💰 Ventas
+              </Link>
+            </>
           )}
         </div>
       )}

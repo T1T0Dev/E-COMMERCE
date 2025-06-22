@@ -138,16 +138,23 @@
   color: #353535;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1360px) {
   .firstreg-card {
-    max-width: 80vw;
-    padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+    max-width: 420px;
+    height: 500px;
   }
   .firstreg-title {
     font-size: 1.5rem;
   }
-  .firstreg-form {
-    gap: 1rem;
+  .firstreg-input {
+    font-size: 1rem;
+  }
+  .firstreg-btn {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+  .firstreg-input{
+    height: 0.7rem;
   }
 }
 
