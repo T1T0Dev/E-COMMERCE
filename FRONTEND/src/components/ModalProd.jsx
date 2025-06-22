@@ -181,12 +181,12 @@ const handleSubmit = async (e) => {
     const result = await res.json();
 
     if (res.ok) {
-      toast.success(
+      // PASA EL MENSAJE AL PADRE Y LUEGO CIERRA EL MODAL
+      if (onProductCreated) onProductCreated(
         producto?.id_producto
-          ? "Producto actualizado"
+          ? "Producto actualizado correctamente"
           : "Producto creado correctamente"
       );
-      if (onProductCreated) onProductCreated();
       onClose();
     } else {
       toast.error(result.error || "Error");

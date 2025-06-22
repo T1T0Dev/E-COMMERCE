@@ -83,8 +83,6 @@ const TallesAdmin = () => {
       }
       return;
     }
-    toast.success("¡Talle eliminado!");
-    fetchTalles();
   };
   return (
     <div className="talles-admin-bg">
@@ -102,7 +100,7 @@ const TallesAdmin = () => {
         <AdminHomeButton />
       </div>
       <div className="talles-admin-container">
-        <ToastContainer position="top-right" autoClose={2000} />
+        
         <h2 className="talles-admin-title">Administrar Talles</h2>
         <form onSubmit={handleAgregar} className="talles-admin-form">
           <input

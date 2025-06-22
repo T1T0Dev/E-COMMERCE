@@ -12,7 +12,7 @@ import AdminHomeButton from "../components/AdminHomeButton";
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
-  const [productoEdit, setProductoEdit] = useState(null);
+  const [productoEdit, setProductoEdit] = useState(null); //guarda todos los atributos del producto a editar
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,8 +90,9 @@ const CrudProd = () => {
   };
 
   // Cuando se agrega o edita un producto desde el modal
-  const handleProductCreated = () => {
+  const handleProductCreated = (mensaje) => {
     fetchProductos();
+    if (mensaje) toast.success(mensaje);
   };
 
   const addBtnWrapperClass =

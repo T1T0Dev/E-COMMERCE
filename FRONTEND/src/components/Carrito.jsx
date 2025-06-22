@@ -225,7 +225,7 @@ const Carrito = ({ open, onClose }) => {
         }}
         mensaje="¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
       />
-      <ToastContainer position="top-center" autoClose={3000}/>
+      
     </>
   );
 };

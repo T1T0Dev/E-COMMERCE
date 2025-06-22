@@ -100,7 +100,6 @@ const CategoriasAdmin = () => {
         <AdminHomeButton />
       </div>
       <div className="categorias-admin-container">
-        <ToastContainer position="top-right" autoClose={2000} />
         <h2 className="categorias-admin-title">Administrar Categorías</h2>
         <form onSubmit={handleAgregar} className="categorias-admin-form">
           <input
