@@ -8,7 +8,7 @@ import ModalGracias from "./ModalGracias.jsx";
 import "./styles/Carrito.css";
 import useAuthStore from "../store/useAuthStore.js";
 import useCarritoStore from "../store/useCarritoStore.js";
-
+import {formatPrice} from "../utils/formatPrice.js";
 
 const Carrito = ({ open, onClose }) => {
   const { items, limpiarCarrito, eliminarProducto, cambiarCantidad } =
@@ -168,7 +168,7 @@ const Carrito = ({ open, onClose }) => {
                     +
                   </button>
                   <br />
-                  Precio: ${item.precio}
+                  Precio: ${formatPrice(item.precio)}
                   <br />
                   <button
                     className="carrito-eliminar-btn"
@@ -225,7 +225,7 @@ const Carrito = ({ open, onClose }) => {
         }}
         mensaje="¡Gracias por realizar tu pedido en Drekkz! En breve nos estaremos comunicando contigo para coordinar la entrega."
       />
-      <ToastContainer position="top-center" autoClose={3000}/>
+      
     </>
   );
 };

@@ -67,7 +67,6 @@ const AdminNavbar = () => {
           }
         }}
         tabIndex={0}
-        style={{ cursor: "pointer" }}
         aria-label="Abrir menú de administración"
       >
         {isMobile ? <FaBars size={32} /> : <FaUserShield size={32} />}

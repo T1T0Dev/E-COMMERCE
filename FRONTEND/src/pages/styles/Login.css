@@ -257,13 +257,19 @@
 
 /* RESPONSIVE DESIGN */
 
+@media (max-width: 1400px){
+  .drekkz-logo-login {
+    width: 120px;
+  }
+  
+}
+
 @media (max-width: 1360px){
 
   .drekkz-logo-login {
     width: 25vh;
     top: 2px;
   }
-
 
 }
 

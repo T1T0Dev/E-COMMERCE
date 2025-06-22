@@ -7,11 +7,13 @@ import "swiper/css/pagination";
 import "./styles/Carruselprod.css";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "../utils/formatPrice";
 
 const Carruselprod = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -25,6 +27,10 @@ const Carruselprod = () => {
       }
     };
     fetchProductos();
+
+    // Verifica el rol del usuario (ajusta según cómo guardes el usuario)
+    const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user") || "null");
+    if (user && user.rol === "admin") setIsAdmin(true);
   }, []);
 
   if (loading)
@@ -65,11 +71,17 @@ const Carruselprod = () => {
               </div>
               <div className="carruselprod-info">
                 <div className="carruselprod-price glass-price">
-                  ${producto.precio}
+                  ${formatPrice(producto.precio)}
                 </div>
                 <p className="carruselprod-desc">{producto.descripcion}</p>
                 <button
-                  onClick={() => navigate("catalogo")}
+                  onClick={() => {
+                    if (isAdmin) {
+                      window.location.reload();
+                    } else {
+                      navigate("catalogo");
+                    }
+                  }}
                   className="carruselprod-btn glass-btn"
                 >
                   ¡LO QUIERO YA!{" "}

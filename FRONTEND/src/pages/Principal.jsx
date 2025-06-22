@@ -19,17 +19,26 @@ const Principal = () => {
   const enviarWhatsApp = (e) => {
     e.preventDefault();
 
-    const texto = `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n
-      ------------------------------------\n
-      %20%F0%9F%91%A4 Nombre: ${nombre}\n
-      📧 Correo: ${correo}\n
-      📝 Asunto: ${asunto}\n
-      💬 Mensaje:\n${mensaje}\n
-      ------------------------------------\n
-      ¡Espero su respuesta! 👏🏻`;
+    const texto =
+      "¡Hola! Me gustaría ponerme en contacto con ustedes.%0A" +
+      "------------------------------------%0A" +
+      "👤 Nombre: " +
+      nombre +
+      "%0A" +
+      "📧 Correo: " +
+      correo +
+      "%0A" +
+      "📝 Asunto: " +
+      asunto +
+      "%0A" +
+      "💬 Mensaje: " +
+      mensaje +
+      "%0A" +
+      "------------------------------------%0A" +
+      "¡Espero su respuesta! 👏🏻";
 
     const telefono = "543815941635";
-    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+    const url = `https://wa.me/${telefono}?text=${texto}`;
 
     window.open(url, "_blank");
   };
@@ -41,8 +50,9 @@ const Principal = () => {
         <div className="landing-content" id="services">
           <section className="hero-section">
             <h1>
-              BIENVENID@<span className="landing-nombre-cliente">{user?.nombre}</span>A
-              DREKKZ INDUMENTARIA 
+              BIENVENID@
+              <span className="landing-nombre-cliente">{user?.nombre}</span>A
+              DREKKZ INDUMENTARIA
             </h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
 
@@ -111,7 +121,6 @@ const Principal = () => {
           <ModalEmprendimiento
             open={modalOpen}
             onClose={() => setModalOpen(false)}
-            
           />
         </div>
         {user && user.rol === "cliente" && <WhatsAppFloatButton />}

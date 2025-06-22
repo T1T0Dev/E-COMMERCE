@@ -157,8 +157,13 @@ nav ul li.logo {
   box-shadow: 0 2px 8px #00000033;
   transition: background 0.2s, color 0.2s, transform 0.2s;
 }
-.admin-btn:hover, .menu-btn:hover {
+.menu-btn:hover {
   background: #ffffff;
+  color: #000000;
+  transform: scale(1.08);
+}
+
+.admin-btn:hover {
   color: #000000;
   transform: scale(1.08);
 }

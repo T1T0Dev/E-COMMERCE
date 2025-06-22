@@ -4,6 +4,7 @@ import "./styles/VentasCrud.css";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
+import { formatPrice } from "../utils/formatPrice";
 
 const VentasCrud = () => {
   const [ventasPorDia, setVentasPorDia] = useState([]);
@@ -73,7 +74,7 @@ const VentasCrud = () => {
               ventasPorDia.map((venta, idx) => (
                 <tr key={idx}>
                   <td>{formatearFecha(venta.fecha)}</td>
-                  <td>${venta.total_vendido}</td>
+                  <td>${formatPrice(venta.total_vendido)}</td>
                   <td>{venta.cantidad_pedidos}</td>
                   <td>{venta.producto_mas_vendido || "-"}</td>
                   <td>

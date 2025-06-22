@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
+import {formatPrice} from "../utils/formatPrice"; 
 import axios from "axios";
 import "./styles/CarritosAdmin.css";
 
@@ -405,7 +406,7 @@ const CarritosAdmin = () => {
                         </td>
                         <td>{item.nombre_talle}</td>
                         <td>{item.cantidad}</td>
-                        <td>${item.subtotal ?? 0}</td>
+                        <td>${formatPrice(item.subtotal ?? 0)}</td>
                       </tr>
                     ))
                   ) : (

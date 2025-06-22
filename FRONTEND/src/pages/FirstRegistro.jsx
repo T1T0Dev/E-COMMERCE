@@ -3,8 +3,25 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles/FirstRegistro.css";
 
-// Función para normalizar el teléfono (elimina todo menos números)
-const normalizePhone = (phone) => phone.replace(/\D/g, "");
+// Solo deja el número en formato 381xxxxxxx (10 dígitos)
+const normalizePhone = (phone) => {
+  if (!phone) return "";
+  let num = phone.replace(/\D/g, "");
+  // Elimina prefijo internacional +54 o 54
+  if (num.startsWith("54")) num = num.slice(2);
+  // Elimina prefijo 0
+  if (num.startsWith("0")) num = num.slice(1);
+  // Elimina prefijo 15 después del código de área (opcional, avanzado)
+  // Si tiene 11 dígitos y un 15 después del código de área, lo elimina
+  if (num.length === 11 && num[3] === "1" && num[4] === "5") {
+    num = num.slice(0, 3) + num.slice(5);
+  }
+  // Si tiene 10 dígitos, lo acepta
+  if (num.length === 10) return num;
+  // Si tiene más de 10, recorta
+  if (num.length > 10) return num.slice(0, 10);
+  return "";
+};
 
 const FirstRegistro = () => {
   const [form, setForm] = useState({
@@ -18,14 +35,19 @@ const FirstRegistro = () => {
 
   const validar = () => {
     const newErrors = {};
+    const telefonoNormalizado = normalizePhone(form.telefono);
     if (!form.nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
-    if (!form.apellido.trim()) newErrors.apellido = "El apellido es obligatorio";
-    if (!form.direccion.trim()) newErrors.direccion = "La dirección es obligatoria";
+    if (!form.apellido.trim())
+      newErrors.apellido = "El apellido es obligatorio";
+    if (!form.direccion.trim())
+      newErrors.direccion = "La dirección es obligatoria";
     if (!form.telefono.trim()) {
       newErrors.telefono = "El teléfono es obligatorio";
-    } else if (!/^\d{8,15}$/.test(normalizePhone(form.telefono))) {
-      newErrors.telefono = "El teléfono no es válido";
+    } else if (!telefonoNormalizado) {
+      newErrors.telefono =
+        "Debe ingresar un número argentino válido (10 dígitos, sin 0 ni 15)";
     }
+
     setErrores(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -45,7 +67,9 @@ const FirstRegistro = () => {
     if (!normalizado) return;
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/auth/telefono-existe/${encodeURIComponent(normalizado)}`
+        `http://localhost:3000/api/auth/telefono-existe/${encodeURIComponent(
+          normalizado
+        )}`
       );
       if (res.data.exists) {
         setErrores((prev) => ({
@@ -73,6 +97,7 @@ const FirstRegistro = () => {
     if (!validar()) return;
     const telefonoOk = await validarTelefonoExiste(form.telefono);
     if (!telefonoOk) return;
+
     // Guarda el teléfono normalizado en sessionStorage
     sessionStorage.setItem(
       "registroCliente",
@@ -139,7 +164,7 @@ const FirstRegistro = () => {
           </div>
           <div className="firstreg-field">
             <label className="firstreg-label" htmlFor="telefono">
-              Teléfono
+              Teléfono (+54)
             </label>
             <input
               className="firstreg-input"

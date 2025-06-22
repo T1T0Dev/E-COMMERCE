@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
+import axios from "axios";
 
 const CategoriasAdmin = () => {
   const [categorias, setCategorias] = useState([]);
@@ -96,7 +97,6 @@ const CategoriasAdmin = () => {
         <AdminHomeButton />
       </div>
       <div className="categorias-admin-container">
-        <ToastContainer position="top-right" autoClose={2000} />
         <h2 className="categorias-admin-title">Administrar Categorías</h2>
         <form onSubmit={handleAgregar} className="categorias-admin-form">
           <input

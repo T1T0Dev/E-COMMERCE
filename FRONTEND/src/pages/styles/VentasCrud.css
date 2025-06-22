@@ -186,6 +186,35 @@
 /* Responsive */
 /* ...existing code... */
 
+@media (max-width: 1600px)
+{
+  .ventas-crud-table th,
+  .ventas-crud-detalle-table th {
+    font-size: 1rem;
+    padding: 14px 8px;
+  }
+  .ventas-crud-table td,
+  .ventas-crud-detalle-table td {
+    font-size: 0.95rem;
+    padding: 12px 8px;
+  }
+}
+
+@media (max-width: 1360px){
+  .ventas-crud-table th,
+  .ventas-crud-detalle-table th {
+    font-size: 0.95rem;
+    padding: 12px 6px;
+  }
+  .ventas-crud-table td,
+  .ventas-crud-detalle-table td {
+    font-size: 0.9rem;
+    padding: 10px 6px;
+  }
+  
+
+}
+
 @media (max-width: 900px) {
   .ventas-crud-table,
   .ventas-crud-detalle-table {

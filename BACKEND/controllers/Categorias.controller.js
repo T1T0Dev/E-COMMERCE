@@ -13,9 +13,8 @@ export const getCategorias = async (req, res) => {
 export const createCategoria = async (req, res) => {
     const { nombre } = req.body;
     try {
-
         const [existe] = await db.query(
-             'SELECT id_categoria FROM Categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
+            'SELECT id_categoria FROM categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
             [nombre]
         );
 
@@ -23,18 +22,16 @@ export const createCategoria = async (req, res) => {
             return res.status(409).json({error: 'La categoria ya existe.'})
         }
 
-
         const [result] = await db.query(
             'INSERT INTO Categorias (nombre_categoria) VALUES (?)',
             [nombre]
         );
-        res.status(201).json({ id_categoria: result.insertId, nombre });
+        res.status(201).json({ id_categoria: result.insertId, nombre_categoria: nombre });
     } catch (error) {
         console.error('Error al crear la categoría:', error);
         res.status(500).json({ error: 'Error al crear la categoría' });
     }
 }
-
 
 export const updateCategoria = async (req, res) => {
     const { id } = req.params;
