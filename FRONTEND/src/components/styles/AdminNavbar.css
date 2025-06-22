@@ -132,7 +132,7 @@
 }
 
 /* Responsive: menú sigue horizontal, icono centrado */
-@media (max-width: 900px) {
+@media (max-width: 1300px) {
   .admin-navbar-container {
     position: absolute;
     top: 10px;
