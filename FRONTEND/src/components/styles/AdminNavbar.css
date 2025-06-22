@@ -131,6 +131,19 @@
 
 }
 
+
+@media (max-width: 1600px) {
+  .admin-navbar-container {
+    left: 85%;
+    top: 24px;
+    transform: translateX(-50%);
+  }
+  .admin-navbar-menu {
+    gap: 8px;
+    padding: 6px 8px;
+  }
+}
+
 /* Responsive: menú sigue horizontal, icono centrado */
 @media (max-width: 1300px) {
   .admin-navbar-container {
