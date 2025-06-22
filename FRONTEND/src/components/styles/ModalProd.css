@@ -21,6 +21,8 @@
   border: 1.5px solid #353535;
   position: relative;
   animation: modalconfir-pop 0.35s cubic-bezier(.23,1.02,.32,1) both;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 @keyframes modalconfir-pop {
   0% { transform: scale(0.92) translateY(30px); opacity: 0; }
@@ -242,6 +244,8 @@ textarea.modal-input {
     max-width: 50vw;
     height: 90vh;
     padding: 1.5rem 1.2rem;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .modal-title {
     font-size: 1rem;
@@ -258,11 +262,7 @@ textarea.modal-input {
 
   .modal-img-preview{
     display: none;
-
-
-    
   }
-  
 }
 
 @media (max-width: 1600px) {
@@ -270,6 +270,8 @@ textarea.modal-input {
     max-width: 80vw;
     height: auto;
     padding: 1.5rem 1.2rem;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .modal-title {
     font-size: 1.25rem;
@@ -283,13 +285,14 @@ textarea.modal-input {
     padding: 0.85rem 0;
   }
 }
-
 
 @media (max-width: 300px) {
   .modal-container {
     max-width: 60vw;
     height: auto;
     padding: 1.5rem 1.2rem;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .modal-title {
     font-size: 1.25rem;
@@ -303,13 +306,14 @@ textarea.modal-input {
     padding: 0.85rem 0;
   }
 }
-
 
 @media (max-width: 900px) {
   .modal-container {
     max-width: 90vw;
     height: auto;
     padding: 1.2rem 0.7rem;
+    max-height: 95vh;
+    overflow-y: auto;
   }
   .modal-title {
     font-size: 1.25rem;
@@ -324,11 +328,12 @@ textarea.modal-input {
   }
 }
 
-
 @media (max-width: 600px) {
   .modal-container {
     padding: 1.2rem 0.7rem;
     width: 90vw;
+    max-height: 97vh;
+    overflow-y: auto;
   }
   .modal-title {
     font-size: 1.25rem;
