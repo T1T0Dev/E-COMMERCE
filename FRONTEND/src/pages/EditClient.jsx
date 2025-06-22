@@ -42,6 +42,7 @@ const validarTelefono = (telefono) => {
 
 const EditClient = () => {
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser); // <--- agregar
   const [cliente, setCliente] = useState(null);
   const [usuario, setUsuario] = useState(null);
   const [form, setForm] = useState({
@@ -161,6 +162,14 @@ const EditClient = () => {
           telefono: form.telefono,
         }
       );
+      // Actualizar el usuario global (zustand y sessionStorage)
+      setUser({
+        ...user,
+        nombre: form.nombre,
+        apellido: form.apellido,
+        direccion: form.direccion,
+        telefono: form.telefono,
+      });
       toast.success("Datos personales actualizados");
     } catch (error) {
       toast.error("Error al actualizar datos personales");

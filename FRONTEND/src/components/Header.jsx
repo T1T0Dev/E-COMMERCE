@@ -201,6 +201,8 @@ const Header = () => {
       {/* Menú móvil */}
       {menuOpen && user && (
         <div className="mobile-menu">
+
+          
           <button
             className="close-btn"
             onClick={() => setMenuOpen(false)}
@@ -208,6 +210,11 @@ const Header = () => {
           >
             ×
           </button>
+
+           <button className="cerrar-sesion-btn" onClick={handleLogout}>
+            👋 Cerrar sesion
+          </button>
+          
           {user.rol === "cliente" && location.pathname !== "/catalogo" && (
             <Link to="/catalogo" onClick={() => setMenuOpen(false)}>
               👖 Catalogo
@@ -218,9 +225,7 @@ const Header = () => {
               👤 Editar Perfil
             </Link>
           )}
-          <button className="cerrar-sesion-btn" onClick={handleLogout}>
-            👋 Cerrar sesión
-          </button>
+         
 
           {user.rol === "admin" && (
             <>
