@@ -48,6 +48,7 @@ const TallesAdmin = () => {
         fetchTalles();
       }
     } catch (error) {
+      console.log(error.response);
       if (error.response && error.response.status === 409) {
         toast.error("Este talle ya existe.");
       } else {

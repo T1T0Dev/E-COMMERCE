@@ -40,7 +40,7 @@ export const getClienteByUsuarioId = async (req, res) => {
     console.log("Buscando cliente con id_usuario:", id_usuario);
     try {
         const [rows] = await db.query('SELECT * FROM clientes WHERE id_usuario = ?', [Number(id_usuario)]);
-        console.log("Resultado de la consulta:", rows);
+        
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
         }

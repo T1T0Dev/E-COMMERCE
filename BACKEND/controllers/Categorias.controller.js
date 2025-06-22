@@ -13,6 +13,17 @@ export const getCategorias = async (req, res) => {
 export const createCategoria = async (req, res) => {
     const { nombre } = req.body;
     try {
+
+        const [existe] = await db.query(
+             'SELECT id_categoria FROM categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
+            [nombre]
+        );
+
+        if (existe.length > 0){
+            return res.status(409).json({error: 'La categoria ya existe.'})
+        }
+
+
         const [result] = await db.query(
             'INSERT INTO categorias (nombre_categoria) VALUES (?)',
             [nombre]
