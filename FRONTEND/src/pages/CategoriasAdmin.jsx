@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ModalConfirmacion from "../components/ModalConfirmacion";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
+import axios from "axios";
 
 const CategoriasAdmin = () => {
   const [categorias, setCategorias] = useState([]);
