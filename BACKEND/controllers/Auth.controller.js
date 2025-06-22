@@ -55,7 +55,24 @@ export const loginUsuario = async (req, res) => {
 
 
 // Función para normalizar el teléfono (elimina todo menos números)
-const normalizePhone = (phone) => (phone ? phone.replace(/\D/g, "") : "");
+const normalizePhone = (phone) => {
+  if (!phone) return "";
+  let num = phone.replace(/\D/g, "");
+  // Elimina prefijo internacional +54 o 54
+  if (num.startsWith("54")) num = num.slice(2);
+  // Elimina prefijo 0
+  if (num.startsWith("0")) num = num.slice(1);
+  // Elimina prefijo 15 después del código de área (opcional, avanzado)
+  // Si tiene 11 dígitos y un 15 después del código de área, lo elimina
+  if (num.length === 11 && num[3] === "1" && num[4] === "5") {
+    num = num.slice(0, 3) + num.slice(5);
+  }
+  // Si tiene 10 dígitos, lo acepta
+  if (num.length === 10) return num;
+  // Si tiene más de 10, recorta
+  if (num.length > 10) return num.slice(0, 10);
+  return "";
+};
 
 export const registerClienteYUsuario = async (req, res) => {
   const { email, contraseña, rol, nombre, apellido, direccion, telefono } = req.body;
