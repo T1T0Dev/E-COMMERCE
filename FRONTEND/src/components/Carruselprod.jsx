@@ -8,12 +8,14 @@ import "./styles/Carruselprod.css";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { formatPrice } from "../utils/formatPrice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Carruselprod = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -28,13 +30,35 @@ const Carruselprod = () => {
     };
     fetchProductos();
 
-    // Verifica el rol del usuario (ajusta según cómo guardes el usuario)
-    const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user") || "null");
-    if (user && user.rol === "admin") setIsAdmin(true);
+    // Obtiene el usuario desde sessionStorage primero, luego localStorage
+    let storedUser = null;
+    try {
+      storedUser = sessionStorage.getItem("user")
+        ? JSON.parse(sessionStorage.getItem("user"))
+        : localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : null;
+    } catch (e) {
+      storedUser = null;
+    }
+    setUser(storedUser);
   }, []);
 
   if (loading)
     return <div className="carruselprod-loading">Cargando productos...</div>;
+
+  const handleClick = () => {
+    if (!user) {
+      toast.info("Debes iniciar sesión para comprar.");
+      navigate("/login");
+    } else if (user.rol === "cliente") {
+      navigate("/catalogo");
+    } else if (user.rol === "admin") {
+      toast.error("Los administradores no pueden comprar productos.");
+    } else {
+      toast.error("No se pudo determinar el rol del usuario.");
+    }
+  };
 
   return (
     <div className="carruselprod-outer">
@@ -75,13 +99,7 @@ const Carruselprod = () => {
                 </div>
                 <p className="carruselprod-desc">{producto.descripcion}</p>
                 <button
-                  onClick={() => {
-                    if (isAdmin) {
-                      window.location.reload();
-                    } else {
-                      navigate("catalogo");
-                    }
-                  }}
+                  onClick={handleClick}
                   className="carruselprod-btn glass-btn"
                 >
                   ¡LO QUIERO YA!{" "}
