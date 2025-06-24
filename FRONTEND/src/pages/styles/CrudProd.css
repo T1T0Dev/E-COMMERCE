@@ -76,7 +76,7 @@
     flex-direction: column;
     overflow: hidden;
     height: 480px;
-    width: 320px;
+    width: 400px;
     margin: 0 auto;
     transition: transform 0.2s, box-shadow 0.2s;
     border: 1.5px solid #ededed;
@@ -183,6 +183,31 @@
     background: #181818;
     color: #fff;
 }
+
+.crudprod-delete-physic-btn {
+  background: #fff;
+  border: 2px solid #e53935;
+  color: #e53935;
+  font-size: 1rem;
+  margin-left: 0.3rem;
+  cursor: pointer;
+  padding: 0.25rem 0.7rem;
+  border-radius: 0.5rem;
+  transition: background 0.15s, color 0.15s, border 0.15s, transform 0.15s;
+  outline: none;
+  box-shadow: 0 2px 8px #e5393522;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.crudprod-delete-physic-btn:hover,
+.crudprod-delete-physic-btn:focus {
+  background: #ffeaea;
+  color: #b71c1c;
+  border-color: #b71c1c;
+  transform: scale(1.08);
+}
+
 
 /* SwitchToggle.css */
 .crudprod-switch-wrapper {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles/CrudProd.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { AiOutlinePlusCircle} from "react-icons/ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import ModalProd from "../components/ModalProd";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,11 @@ import ModalConfirmacion from "../components/ModalConfirmacion";
 import axios from "axios";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminHomeButton from "../components/AdminHomeButton";
-import {formatPrice} from "../utils/formatPrice"; // Asegúrate de tener esta función para formatear precios
+import { formatPrice } from "../utils/formatPrice";
 
 const CrudProd = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
-  const [productoEdit, setProductoEdit] = useState(null); //guarda todos los atributos del producto a editar
+  const [productoEdit, setProductoEdit] = useState(null);
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ const CrudProd = () => {
     open: false,
     id: null,
     nombre: "",
+    tipo: null, // "baja" o "fisico"
   });
   const [mostrarInactivos, setMostrarInactivos] = useState(false);
   const navigate = useNavigate();
@@ -69,24 +70,44 @@ const CrudProd = () => {
     setIsModelOpen(true);
   };
 
-  // Abrir modal de confirmación para eliminar
+  // Abrir modal de confirmación para baja lógica
   const handleEliminar = (id_producto, nombre_producto) => {
-    setModalConfirm({ open: true, id: id_producto, nombre: nombre_producto });
+    setModalConfirm({
+      open: true,
+      id: id_producto,
+      nombre: nombre_producto,
+      tipo: "baja",
+    });
   };
 
-  // Confirmar eliminación (baja lógica)
+  // Abrir modal de confirmación para borrado físico
+  const handleEliminarFisico = (id_producto, nombre_producto) => {
+    setModalConfirm({
+      open: true,
+      id: id_producto,
+      nombre: nombre_producto,
+      tipo: "fisico",
+    });
+  };
+
+  // Confirmar acción (baja lógica o borrado físico)
   const confirmarEliminar = async () => {
-    const id_producto = modalConfirm.id;
+    const { id, tipo } = modalConfirm;
     try {
-      await axios.delete(`http://localhost:3000/api/productos/${id_producto}`);
-      toast.success("Producto dado de baja correctamente");
+      if (tipo === "fisico") {
+        await axios.delete(`http://localhost:3000/api/productos/fisico/${id}`);
+        toast.success("Producto eliminado definitivamente");
+      } else {
+        await axios.put(`http://localhost:3000/api/productos/baja/${id}`);
+        toast.success("Producto dado de baja correctamente");
+      }
       fetchProductos();
     } catch (err) {
       toast.error(
-        err.response?.data?.error || "Error al dar de baja el producto"
+        err.response?.data?.error || "Error al eliminar el producto"
       );
     } finally {
-      setModalConfirm({ open: false, id: null, nombre: "" });
+      setModalConfirm({ open: false, id: null, nombre: "", tipo: null });
     }
   };
 
@@ -104,7 +125,7 @@ const CrudProd = () => {
   return (
     <div className="crudprod-container-father">
       <AdminNavbar />
-      <AdminHomeButton / >
+      <AdminHomeButton />
       {/* Switch para mostrar activos/inactivos */}
       <div className="crudprod-switch-wrapper">
         <span
@@ -130,14 +151,27 @@ const CrudProd = () => {
       {/* Modal de confirmación */}
       <ModalConfirmacion
         isOpen={modalConfirm.open}
-        onClose={() => setModalConfirm({ open: false, id: null, nombre: "" })}
+        onClose={() =>
+          setModalConfirm({ open: false, id: null, nombre: "", tipo: null })
+        }
         onConfirm={confirmarEliminar}
-        mensaje={`¿Estás seguro que deseas dar de baja "${modalConfirm.nombre}"?`}
-        titulo="Dar de baja producto"
-        textoConfirmar="Sí, dar de baja"
+        mensaje={
+          modalConfirm.tipo === "fisico"
+            ? `¿Seguro que deseas eliminar definitivamente "${modalConfirm.nombre}"? Esta acción es irreversible.`
+            : `¿Estás seguro que deseas dar de baja "${modalConfirm.nombre}"?`
+        }
+        titulo={
+          modalConfirm.tipo === "fisico"
+            ? "Eliminar producto"
+            : "Dar de baja producto"
+        }
+        textoConfirmar={
+          modalConfirm.tipo === "fisico"
+            ? "Sí, eliminar"
+            : "Sí, dar de baja"
+        }
         textoCancelar="Cancelar"
       />
-      
 
       <div className={addBtnWrapperClass}>
         <button onClick={handleNuevo} className="crudprod-add-btn">
@@ -177,7 +211,9 @@ const CrudProd = () => {
               <div className="crudprod-info">
                 <div>
                   <h3 className="crudprod-title">{producto.nombre_producto}</h3>
-                  <h2 className="crudprod-price">${formatPrice(producto.precio)}</h2>
+                  <h2 className="crudprod-price">
+                    ${formatPrice(producto.precio)}
+                  </h2>
                   <p className="crudprod-desc">{producto.descripcion}</p>
                   <div className="crudprod-btns">
                     <button
@@ -187,41 +223,50 @@ const CrudProd = () => {
                     >
                       Editar <FaEdit />
                     </button>
-
-                    {/* Mostrar solo el botón correspondiente según el filtro */}
                     {!mostrarInactivos ? (
-                      // Vista de activos: mostrar "Dar de baja"
-                      <button
-                        className="crudprod-delete-btn"
-                        onClick={() =>
-                          handleEliminar(
-                            producto.id_producto,
-                            producto.nombre_producto
-                          )
-                        }
-                      >
-                        Dar de baja <FaTrash />
-                      </button>
+                      <>
+                        <button
+                          className="crudprod-delete-btn"
+                          onClick={() =>
+                            handleEliminar(
+                              producto.id_producto,
+                              producto.nombre_producto
+                            )
+                          }
+                        >
+                          Dar de baja <FaTrash />
+                        </button>
+                        <button
+                          className="crudprod-delete-physic-btn"
+                          title="Eliminar producto definitivamente"
+                          onClick={() =>
+                            handleEliminarFisico(
+                              producto.id_producto,
+                              producto.nombre_producto
+                            )
+                          }
+                        >
+                          Eliminar <FaTrash />
+                        </button>
+                      </>
                     ) : (
-                      // Vista de inactivos: mostrar "Dar de alta"
                       <button
                         className="crudprod-activar-btn"
                         onClick={async () => {
-                          // Validación antes de activar
-                          if (!producto.id_categoria || !producto.nombre_categoria) {
+                          if (
+                            !producto.id_categoria ||
+                            !producto.nombre_categoria
+                          ) {
                             toast.error(
                               "No puedes dar de alta este producto porque no tiene categoría asignada. Edita el producto y selecciona una categoría."
                             );
                             return;
                           }
-                          // Puedes agregar más validaciones aquí si lo necesitas
                           try {
                             await axios.put(
                               `http://localhost:3000/api/productos/activar/${producto.id_producto}`
                             );
-                            toast.success(
-                              "Producto dado de alta correctamente"
-                            );
+                            toast.success("Producto dado de alta correctamente");
                             fetchProductos();
                           } catch (err) {
                             toast.error("Error al dar de alta el producto");
