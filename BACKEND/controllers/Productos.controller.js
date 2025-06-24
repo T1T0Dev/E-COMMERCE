@@ -155,7 +155,9 @@ export const createProductoConTalles = async (req, res) => {
   }
 };
 
-export const deleteProducto = async (req, res) => {
+
+
+export const deleteProductoLogico = async (req, res) => {
   try {
     const { id_producto } = req.params;
     // Baja lógica: marcar como inactivo
@@ -171,6 +173,47 @@ export const deleteProducto = async (req, res) => {
   } catch (error) {
     console.error("Error al dar de baja el producto:", error);
     res.status(500).json({ error: "Error al dar de baja el producto" });
+  }
+};
+
+
+export const deleteProductoFisico = async (req, res) => {
+  const { id_producto } = req.params;
+  try {
+    // Verifica si el producto está relacionado con ventas o carritos
+    const [ventas] = await db.query(
+      "SELECT 1 FROM Detalle_Pedido WHERE id_producto = ? LIMIT 1",
+      [id_producto]
+    );
+    const [carritos] = await db.query(
+      "SELECT 1 FROM Carrito_Detalle WHERE id_producto = ? LIMIT 1",
+      [id_producto]
+    );
+    if (ventas.length > 0 || carritos.length > 0) {
+      return res.status(400).json({
+        error:
+          "No puedes eliminar este producto, tienes que darlo de baja porque está relacionado con otra entidad.",
+      });
+    }
+
+    // Borra talles asociados
+    await db.query("DELETE FROM Producto_Talle WHERE id_producto = ?", [
+      id_producto,
+    ]);
+    // Borra el producto
+    const [result] = await db.query(
+      "DELETE FROM Productos WHERE id_producto = ?",
+      [id_producto]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Producto no encontrado." });
+    }
+    res.json({ message: "Producto eliminado definitivamente." });
+  } catch (error) {
+    console.error("Error al eliminar el producto:", error);
+    res
+      .status(500)
+      .json({ error: "Error al eliminar el producto.", detalle: error.message });
   }
 };
 

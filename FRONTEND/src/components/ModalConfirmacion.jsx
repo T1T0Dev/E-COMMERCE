@@ -2,10 +2,10 @@ import React from "react";
 import "./styles/ModalConfirmacion.css";
 
 const ModalConfirmacion = ({
-  isOpen, // <-- Cambiado de 'open'
+  isOpen,
   mensaje,
   onConfirm,
-  onClose, // <-- Cambiado de 'onCancel'
+  onClose,
   titulo = "Confirmar acción",
   textoConfirmar = "Sí",
   textoCancelar = "No"
