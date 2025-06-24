@@ -15,11 +15,8 @@ export const getProductos = async (req, res) => {
       FROM Productos p
       LEFT JOIN Categorias c ON p.id_categoria = c.id_categoria
     `);
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ebe17461e6c48666855c41da9e4a5f3a280a7568
 
     const productos = rows.map((row) => ({
       id_producto: row.id_producto,
@@ -57,40 +54,20 @@ export const getStockProductoTalle = async (req, res) => {
 
 export const getProductosConTalles = async (req, res) => {
   try {
-    // Lee el parámetro de query
     const { activo } = req.query;
     let where = "";
     let params = [];
 
     if (activo === "1" || activo === "0") {
-      where = "WHERE p.activo = ?";
+      where = "WHERE activo = ?";
       params.push(Number(activo));
     }
 
     const [rows] = await db.query(
-      `
-      SELECT 
-        p.id_producto,
-        p.nombre_producto,
-        p.descripcion,          
-        p.precio,
-        p.imagen_producto,
-        p.id_categoria,           
-        c.nombre_categoria,
-        t.id_talle,
-        t.nombre_talle,
-        pt.stock,
-        p.activo
-      FROM Productos p
-      LEFT JOIN Categorias c ON p.id_categoria = c.id_categoria
-      LEFT JOIN Producto_Talle pt ON p.id_producto = pt.id_producto
-      LEFT JOIN Talles t ON pt.id_talle = t.id_talle
-      ${where}
-    `,
+      `SELECT * FROM vista_productos_talles ${where}`,
       params
     );
 
-    // Agrupar por producto
     const productos = {};
 
     for (const row of rows) {
@@ -98,11 +75,7 @@ export const getProductosConTalles = async (req, res) => {
         productos[row.id_producto] = {
           id_producto: row.id_producto,
           nombre_producto: row.nombre_producto,
-<<<<<<< HEAD
           descripcion: row.descripcion,  
-=======
-          descripcion: row.descripcion,
->>>>>>> ebe17461e6c48666855c41da9e4a5f3a280a7568
           precio: row.precio,
           imagen_producto: row.imagen_producto,
           id_categoria: row.id_categoria,
@@ -121,11 +94,10 @@ export const getProductosConTalles = async (req, res) => {
 
     res.json(Object.values(productos));
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error al obtener productos.", detalle: error.message });
+    res.status(500).json({ error: "Error al obtener productos", detalle: error.message });
   }
 };
+
 
 export const createProductoConTalles = async (req, res) => {
   let conn;
