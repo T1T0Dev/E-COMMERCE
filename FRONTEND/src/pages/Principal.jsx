@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import Header from "../components/clientcomponents/Header.jsx";
-import Footer from "../components/clientcomponents/Footer.jsx";
-import ScrollToTopButton from "../components/clientcomponents/ScrollToTopButton.jsx";
-import Carruselprod from "../components/clientcomponents/Carruselprod.jsx";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+import ScrollToTopButton from "../components/ScrollToTopButton.jsx";
+import Carruselprod from "../components/Carruselprod.jsx";
 import "./styles/Principal.css";
-import useAuthStore from '../store/useAuthStore.js'
-import ModalEmprendimiento from "./ModalSaberMas.jsx";
+import useAuthStore from "../store/useAuthStore.js";
+import ModalEmprendimiento from "../components/ModalSaberMas.jsx";
+import WhatsAppFloatButton from "../components/WhatsAppFloatButton.jsx";
 
 const Principal = () => {
   const user = useAuthStore((state) => state.user);
@@ -19,17 +20,25 @@ const Principal = () => {
     e.preventDefault();
 
     const texto =
-      `¡Hola! 👋 Me gustaría ponerme en contacto con ustedes.\n
-      ------------------------------------\n
-      %20%F0%9F%91%A4 Nombre: ${nombre}\n
-      📧 Correo: ${correo}\n
-      📝 Asunto: ${asunto}\n
-      💬 Mensaje:\n${mensaje}\n
-      ------------------------------------\n
-      ¡Espero su respuesta! 👏🏻`;
+      "¡Hola! Me gustaría ponerme en contacto con ustedes.%0A" +
+      "------------------------------------%0A" +
+      "👤 Nombre: " +
+      nombre +
+      "%0A" +
+      "📧 Correo: " +
+      correo +
+      "%0A" +
+      "📝 Asunto: " +
+      asunto +
+      "%0A" +
+      "💬 Mensaje: " +
+      mensaje +
+      "%0A" +
+      "------------------------------------%0A" +
+      "¡Espero su respuesta! 👏🏻";
 
     const telefono = "543815941635";
-    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+    const url = `https://wa.me/${telefono}?text=${texto}`;
 
     window.open(url, "_blank");
   };
@@ -41,15 +50,14 @@ const Principal = () => {
         <div className="landing-content" id="services">
           <section className="hero-section">
             <h1>
-              BIENVENID@ <span className="landing-nombre-cliente">{user?.nombre}</span> A DREKKZ INDUMENTARIA
+              BIENVENID@
+              <span className="landing-nombre-cliente">{user?.nombre}</span>A
+              DREKKZ INDUMENTARIA
             </h1>
             <h2>DONDE EL ESTILO ROMPE LAS REGLAS</h2>
-          
+
             <p>Descubre más sobre nuestros servicios y productos.</p>
-            <button
-              className="cta-button3"
-              onClick={() => setModalOpen(true)}
-            >
+            <button className="cta-button3" onClick={() => setModalOpen(true)}>
               SABER MAS <span className="arrow-icon">↗</span>
             </button>
           </section>
@@ -73,45 +81,49 @@ const Principal = () => {
           </section>
 
           <Carruselprod />
-<section className="contact-section" id="contact-section">
-  <div className="contact-wrapper">
-    <div className="contact-form">
-      <h2>Contáctanos</h2>
-      <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
-      <form onSubmit={enviarWhatsApp}>
-        <input
-          type="text"
-          placeholder="Tu Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Tu Correo Electrónico"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Asunto"
-          value={asunto}
-          onChange={(e) => setAsunto(e.target.value)}
-        />
-        <textarea
-          placeholder="Tu Mensaje"
-          value={mensaje}
-          onChange={(e) => setMensaje(e.target.value)}
-        />
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-    <div className="contact-logo">
-      <img src="src/Resources/logo-drekkz1.png" alt="Logo DREKKZ" />
-    </div>
-  </div>
-</section>
-          <ModalEmprendimiento open={modalOpen} onClose={() => setModalOpen(false)} />
+          <section className="contact-section" id="contact-section">
+            <div className="contact-wrapper">
+              <div className="contact-form">
+                <h2>Contáctanos</h2>
+                <p>¿Tienes preguntas? ¡Estamos aquí para ayudarte!</p>
+                <form onSubmit={enviarWhatsApp}>
+                  <input
+                    type="text"
+                    placeholder="Tu Nombre"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Tu Correo Electrónico"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Asunto"
+                    value={asunto}
+                    onChange={(e) => setAsunto(e.target.value)}
+                  />
+                  <textarea
+                    placeholder="Tu Mensaje"
+                    value={mensaje}
+                    onChange={(e) => setMensaje(e.target.value)}
+                  />
+                  <button type="submit">Enviar</button>
+                </form>
+              </div>
+              <div className="contact-logo">
+                <img src="src/Resources/logo-drekkz1.png" alt="Logo DREKKZ" />
+              </div>
+            </div>
+          </section>
+          <ModalEmprendimiento
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+          />
         </div>
+        {user && user.rol === "cliente" && <WhatsAppFloatButton />}
       </main>
       <Footer />
       <ScrollToTopButton />

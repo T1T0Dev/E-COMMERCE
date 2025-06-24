@@ -18,19 +18,47 @@ export const crearCarrito = async (req, res) => {
 export const cambiarEstadoCarrito = async (req, res) => {
   const { id_carrito } = req.params;
   const { estado } = req.body;
+  const connection = await db.getConnection();
+
   try {
-    const [result] = await db.query(
-      "UPDATE Carritos SET estado = ? WHERE id_carrito = ?",
-      [estado, id_carrito]
-    );
+    await connection.beginTransaction();
+
+    // Cambia el estado y, si es entregado, actualiza fecha_entrega
+    let updateQuery, updateParams;
+    if (estado === "entregado") {
+      updateQuery =
+        "UPDATE Carritos SET estado = ?, fecha_entrega = NOW() WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    } else {
+      updateQuery = "UPDATE Carritos SET estado = ? WHERE id_carrito = ?";
+      updateParams = [estado, id_carrito];
+    }
+
+    const [result] = await connection.query(updateQuery, updateParams);
     if (result.affectedRows === 0) {
+      await connection.rollback();
       return res.status(404).json({ error: "Carrito no encontrado" });
     }
-    res.json({ message: "Estado del carrito actualizado" });
+
+    // Si el nuevo estado es "entregado", llama al procedimiento
+    if (estado === "entregado") {
+      // Obtén la fecha_entrega real del carrito recién actualizado
+      const [[carrito]] = await connection.query(
+        "SELECT fecha_entrega FROM Carritos WHERE id_carrito = ?",
+        [id_carrito]
+      );
+      const fechaEntrega = carrito.fecha_entrega.toISOString().slice(0, 10);
+      await connection.query("CALL generar_venta_diaria(?)", [fechaEntrega]);
+    }
+
+    await connection.commit();
+    res.json({ message: "Estado actualizado correctamente" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error al actualizar el estado del carrito" });
+    await connection.rollback();
+    console.error("Error al cambiar estado del carrito:", error);
+    res.status(500).json({ error: "Error al cambiar estado del carrito" });
+  } finally {
+    connection.release();
   }
 };
 
@@ -178,37 +206,6 @@ export const listarCarritos = async (req, res) => {
 export const eliminarCarrito = async (req, res) => {
   const { id_carrito } = req.params;
   try {
-    // 1. Busca los pedidos asociados a este carrito
-    const [pedidos] = await db.query(
-      "SELECT id_pedido FROM Pedidos WHERE id_carrito = ?",
-      [id_carrito]
-    );
-
-    // 2. Elimina los detalles de esos pedidos y su historial de ventas
-    for (const pedido of pedidos) {
-      // Elimina historial de ventas asociado a este pedido
-      await db.query(
-        "DELETE FROM Historial_Ventas WHERE id_pedido = ?",
-        [pedido.id_pedido]
-      );
-      // Elimina los detalles del pedido
-      await db.query(
-        "DELETE FROM Detalle_Pedido WHERE id_pedido = ?",
-        [pedido.id_pedido]
-      );
-    }
-
-    // 3. Elimina los pedidos asociados a este carrito
-    await db.query("DELETE FROM Pedidos WHERE id_carrito = ?", [
-      id_carrito,
-    ]);
-
-    // 4. Elimina los detalles del carrito (si existen)
-    await db.query("DELETE FROM Carrito_Detalle WHERE id_carrito = ?", [
-      id_carrito,
-    ]);
-
-    // 5. Finalmente elimina el carrito
     const [result] = await db.query(
       "DELETE FROM Carritos WHERE id_carrito = ?",
       [id_carrito]
@@ -226,31 +223,7 @@ export const eliminarCarrito = async (req, res) => {
 export const getCarritosPedidosFusion = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        ca.id_carrito,
-        ca.estado AS estado_carrito,
-        ca.fecha_creacion,
-        cl.nombre AS cliente_nombre,
-        cl.apellido AS cliente_apellido,
-        cl.telefono,
-        p.id_pedido,
-        p.fecha_pedido,
-        hv.fecha AS fecha_venta,
-        hv.total AS total_venta,
-        dp.id_detalle,
-        pr.nombre_producto,
-        pr.imagen_producto,
-        t.nombre_talle,
-        dp.cantidad,
-        dp.subtotal
-      FROM Carritos ca
-      JOIN Clientes cl ON ca.id_cliente = cl.id_cliente
-      LEFT JOIN Pedidos p ON ca.id_carrito = p.id_carrito
-      LEFT JOIN Historial_Ventas hv ON p.id_pedido = hv.id_pedido
-      LEFT JOIN Detalle_Pedido dp ON p.id_pedido = dp.id_pedido
-      LEFT JOIN Productos pr ON dp.id_producto = pr.id_producto
-      LEFT JOIN Talles t ON dp.id_talle = t.id_talle
-      ORDER BY ca.fecha_creacion DESC, p.fecha_pedido DESC
+  SELECT * FROM vista_carritos_pedidos_fusion
     `);
 
     // Agrupa por carrito
@@ -260,15 +233,15 @@ export const getCarritosPedidosFusion = async (req, res) => {
         carritosMap[row.id_carrito] = {
           id_carrito: row.id_carrito,
           estado: row.estado_carrito,
+          direccion_envio: row.direccion_envio,
+          requiere_envio: row.requiere_envio,
           fecha_creacion: row.fecha_creacion,
           cliente: [row.cliente_nombre, row.cliente_apellido]
             .filter(Boolean)
             .join(" "),
-          telefono: row.telefono, // <--- AGREGA ESTA LÍNEA
+          telefono: row.telefono,
           id_pedido: row.id_pedido,
           fecha_pedido: row.fecha_pedido,
-          fecha_venta: row.fecha_venta,
-          total_venta: row.total_venta,
           productos: [],
         };
       }

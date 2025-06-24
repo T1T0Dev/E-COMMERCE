@@ -22,13 +22,26 @@ export const createUsuario = async (req, res) => {
 
 export const getUsuarios = async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM usuarios');
+        const [rows] = await db.query(`
+      SELECT 
+        u.id_usuario,
+        u.email,
+        u.contraseña,
+        u.rol,
+        c.nombre,
+        c.apellido,
+        c.direccion,
+        c.telefono,
+        c.foto_perfil
+        FROM Usuarios u
+        LEFT JOIN Clientes c ON u.id_usuario = c.id_usuario
+    `);
         res.json(rows);
     } catch (error) {
         console.error('Error al obtener los usuarios:', error);
         res.status(500).json({ error: 'Error al obtener los usuarios' });
     }
-    }
+}
 
 export const getUsuarioById = async (req, res) => {
     const { id } = req.params; // <-- así coincide con la ruta
@@ -46,7 +59,7 @@ export const getUsuarioById = async (req, res) => {
 
 export const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { email,contraseña } = req.body;
+    const { email, contraseña } = req.body;
 
     try {
         const [result] = await db.query('UPDATE usuarios SET email = ?, contraseña = ? WHERE id_usuario = ?', [email, contraseña, id]);

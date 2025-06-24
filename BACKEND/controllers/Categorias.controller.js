@@ -13,17 +13,25 @@ export const getCategorias = async (req, res) => {
 export const createCategoria = async (req, res) => {
     const { nombre } = req.body;
     try {
-        const [result] = await db.query(
-            'INSERT INTO categorias (nombre_categoria) VALUES (?)',
+        const [existe] = await db.query(
+            'SELECT id_categoria FROM categorias WHERE LOWER(nombre_categoria) = LOWER(?)',
             [nombre]
         );
-        res.status(201).json({ id_categoria: result.insertId, nombre });
+
+        if (existe.length > 0){
+            return res.status(409).json({error: 'La categoria ya existe.'})
+        }
+
+        const [result] = await db.query(
+            'INSERT INTO Categorias (nombre_categoria) VALUES (?)',
+            [nombre]
+        );
+        res.status(201).json({ id_categoria: result.insertId, nombre_categoria: nombre });
     } catch (error) {
         console.error('Error al crear la categoría:', error);
         res.status(500).json({ error: 'Error al crear la categoría' });
     }
 }
-
 
 export const updateCategoria = async (req, res) => {
     const { id } = req.params;
@@ -45,6 +53,13 @@ export const deleteCategoria = async (req, res) => {
     const { id } = req.params;
 
     try {
+        // Poner en NULL la categoría de todos los productos que la usen
+        await db.query(
+            `UPDATE productos SET id_categoria = NULL WHERE id_categoria = ?`,
+            [id]
+        );
+
+        // Ahora sí puedes eliminar la categoría
         const [result] = await db.query('DELETE FROM categorias WHERE id_categoria = ?', [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Categoría no encontrada' });
@@ -55,4 +70,3 @@ export const deleteCategoria = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar la categoría' });
     }
 }
-

@@ -1,0 +1,359 @@
+/* Fondo general */
+.userscrud-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #181818 0%, #353535 100%);
+  overflow-x: hidden;
+}
+
+/* Switch */
+.userscrud-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.switch-label {
+  color: #ededed;
+  font-weight: 600;
+  font-size: 1.08rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.switch-label.active {
+  opacity: 1;
+  text-shadow: 0 2px 8px #18181833;
+}
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch-toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #353535;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+.switch-toggle input:checked + .slider {
+  background: #ededed;
+}
+.switch-toggle .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #ededed;
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+.switch-toggle input:checked + .slider:before {
+  transform: translateX(24px);
+  background: #353535;
+}
+
+/* Botón volver atrás */
+.userscrud-back-btn-wrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #232323;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 1.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-left: 2rem;
+  box-shadow: 0 4px 16px #0003;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.cta-button:hover {
+  background: #353535;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Contenido centrado y limitado */
+.userscrud-content {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 0 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título */
+.userscrud-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 8px #18181833;
+}
+
+.userscrud-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 38px;
+  justify-content: center;
+  width: 100%;
+}
+
+.userscrud-input,
+.userscrud-form select {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1.5px solid #353535;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  background: #181818;
+  color: #ededed;
+  outline: none;
+  min-width: 160px;
+  transition: border 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 2px #18181822;
+}
+.userscrud-input:focus,
+.userscrud-form select:focus {
+  border: 2px solid #ededed;
+  background: #232323;
+  box-shadow: 0 0 0 2px #35353544;
+}
+
+.userscrud-btn-agregar,
+.userscrud-btn-editar,
+.userscrud-btn-eliminar,
+.userscrud-btn-cancelar {
+  border: none;
+  width: 10vw;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1.08rem;
+  margin-top: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  margin-right: 8px;
+  box-shadow: 0 2px 8px #18181822;
+}
+
+.userscrud-btn-agregar,
+.userscrud-btn-editar {
+  background: linear-gradient(90deg, #181818 60%, #353535 100%);
+  color: #fff;
+}
+.userscrud-btn-agregar:hover,
+.userscrud-btn-editar:hover {
+  background: linear-gradient(90deg, #353535 60%, #181818 100%);
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.userscrud-btn-eliminar {
+  background: #b91c1c;
+  color: #fff;
+}
+.userscrud-btn-eliminar:hover {
+  background: #181818;
+  color: #fff;
+}
+
+.userscrud-btn-cancelar {
+  background: #353535;
+  color: #ededed;
+}
+.userscrud-btn-cancelar:hover {
+  background: #181818;
+  color: #fff;
+}
+
+.userscrud-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #232323;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0002;
+  margin-top: 18px;
+  font-size: 1rem;
+}
+
+.userscrud-table th,
+.userscrud-table td {
+  padding: 16px 12px;
+  text-align: left;
+}
+
+.userscrud-table th {
+  background: #181818;
+  color: #ededed;
+  font-size: 1.08rem;
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.userscrud-table tr {
+  border-bottom: 1.5px solid #353535;
+  transition: background 0.18s;
+}
+
+.userscrud-table tr:nth-child(even) {
+  background: #232335;
+}
+
+.userscrud-table tr:hover {
+  background: #353545;
+}
+
+.userscrud-table td {
+  font-size: 1rem;
+  color: #ededed;
+}
+
+.userscrud-subtitle {
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #ededed;
+  text-align: center;
+}
+
+
+.userscrud-table-mobile {
+  display: none;
+}
+
+
+
+
+/* ------------------- RESPONSIVE DESIGN ------------------- */
+@media (max-width: 900px) {
+  .userscrud-content {
+    max-width: 100%;
+    padding: 0 8px 24px 8px;
+  }
+  .userscrud-title {
+    font-size: 1.6rem;
+  }
+  .userscrud-form {
+    gap: 12px;
+  }
+  .userscrud-table th,
+  .userscrud-table td {
+    padding: 12px 8px;
+  }
+}
+
+@media (max-width: 700px) {
+  .userscrud-back-btn-wrapper {
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .cta-button {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+  .userscrud-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .userscrud-form {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .userscrud-input,
+  .userscrud-form select {
+    min-width: 0;
+    width: 90%;
+    font-size: 1rem;
+    padding: 10px 12px;
+  }
+  .userscrud-btn-agregar,
+  .userscrud-btn-editar,
+  .userscrud-btn-eliminar,
+  .userscrud-btn-cancelar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+  .userscrud-table {
+    display: none;
+  }
+  .userscrud-table-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .userscrud-card {
+    background: #232323;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0002;
+    padding: 12px 10px;
+    color: #ededed;
+    font-size: 0.98rem;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .userscrud-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .userscrud-card-label {
+    font-weight: 600;
+    color: #ededed;
+    opacity: 0.8;
+    font-size: 0.97rem;
+    min-width: 80px;
+  }
+  .userscrud-card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .userscrud-card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 6px;
+    background: #ededed;
+  }
+}

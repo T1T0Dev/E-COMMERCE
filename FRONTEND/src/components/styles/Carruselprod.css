@@ -1,0 +1,319 @@
+/* Carruselprod.css mejorado */
+
+/* Fondo general transparente para dejar ver el fondo global */
+.carruselprod-outer {
+  width: 100vw;
+  max-width: 100vw;
+  padding: 3rem 0 4rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  min-height: 60vh;
+  /* max-height: 60vh;
+  overflow-y: auto; */
+  scrollbar-width: thin;
+  scrollbar-color: #353535 #181818;
+  background: linear-gradient(120deg, #181818 0%, #232323 40%, #ededed 100%);
+
+
+}
+
+/* Swiper */
+.carruselprod-swiper {
+  width: 100%;
+  max-width: 1800px;
+  padding-bottom: 2.5rem;
+}
+
+
+
+/* Slide */
+.carruselprod-slide {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Cambia el color de las flechas */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ffffff; /* Negro o el gris que prefieras */
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  transition: background 0.2s, color 0.2s;
+}
+
+
+
+/* Bullets inactivos */
+.swiper-pagination-bullet {
+  background: #bdbdbd;
+  opacity: 1;
+  border: 2px solid #ededed;
+  width: 12px;
+  height: 12px;
+  margin: 0 6px !important;
+  transition: background 0.2s, border 0.2s;
+}
+
+/* Bullet activo */
+.swiper-pagination-bullet-active {
+  background: #000000;
+  border: 2px solid #353535;
+}
+
+.swiper-slide:active,
+.swiper-slide:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.carruselprod-card.glass-modern {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 #23232322, 0 2px 12px #23232311;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 360px;
+  min-height: 500px;
+  max-width: 98vw;
+  margin: 0 auto;
+  border: 1.5px solid #ededed;
+  position: relative;
+  transition: transform 0.22s, box-shadow 0.22s;
+  animation: cardFadeIn 0.7s cubic-bezier(.23,1.12,.64,1.01);
+}
+
+.carruselprod-card.glass-modern:hover {
+  box-shadow: 0 16px 48px 0 #23232333, 0 8px 32px #23232322;
+  border: 1.5px solid #353535;
+}
+
+.carruselprod-img-wrapper.glass-modern-img {
+  width: 100%;
+  height: 250px;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1.5px solid #bdbdbd;
+  position: relative;
+}
+
+.carruselprod-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #fff;
+  border-radius: 0;
+  transition: transform 0.4s, filter 0.3s;
+  box-shadow: none;
+  display: block;
+  filter: brightness(0.98) contrast(1.04);
+}
+
+.carruselprod-card.glass-modern:hover .carruselprod-img {
+  transform: scale(1.04);
+  filter: brightness(1.05) contrast(1.09);
+}
+
+.carruselprod-info {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  background: transparent;
+}
+
+.carruselprod-title-overlay.glass-title {
+  position: static;
+  background: none;
+  color: #181818;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-align: left;
+  padding: 0;
+  margin: 0 1rem;
+  border-radius: 0;
+  text-shadow: none;
+  box-shadow: none;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1.1;
+}
+
+.carruselprod-price.glass-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #353535;
+  background: #ededed;
+  border-radius: 8px;
+  padding: 0.2rem 1rem;
+  margin-bottom: 0.7rem;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px #23232311;
+  text-align: left;
+  display: inline-block;
+  border: 1.5px solid #ededed;
+}
+
+.carruselprod-desc {
+  font-size:1.05rem;
+  color: #888c99;
+  margin-bottom: 1.2rem;
+  margin-top: 2rem;
+  text-align: left;
+  font-weight: 400;
+  min-height: 36px;
+  max-height: 48px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.carruselprod-btn.glass-btn {
+  background: linear-gradient(90deg, #353535 60%, #181818 100%);
+  color: #ededed;
+  font-weight: 700;
+  font-size: 1.08rem;
+  text-transform: uppercase;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  letter-spacing: 1.5px;
+  box-shadow: 0 2px 12px #18181822;
+  margin-top: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: background 0.18s, color 0.18s, transform 0.18s, box-shadow 0.18s;
+  outline: none;
+  border: 1.5px solid #353535;
+}
+
+.carruselprod-btn.glass-btn:hover {
+  background: linear-gradient(90deg, #ededed 0%, #353535 100%);
+  color: #181818;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px #2228;
+}
+
+.carruselprod-btn-icon {
+  font-size: 1.3rem;
+  margin-left: 8px;
+  transition: transform 0.22s;
+}
+.carruselprod-btn.glass-btn:hover .carruselprod-btn-icon {
+  transform: translateX(8px) scale(1.12) rotate(8deg);
+}
+
+
+
+
+/* Swiper arrows and bullets always visible and usable */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #181818;
+  background: #edededcc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 2px 8px #23232322;
+  transition: background 0.2s, color 0.2s;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: #181818;
+  color: #ededed;
+}
+
+.swiper-pagination-bullet {
+  background: #bdbdbd;
+  opacity: 1;
+  border: 2px solid #ededed;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px !important;
+  transition: background 0.2s, border 0.2s;
+}
+.swiper-pagination-bullet-active {
+  background: #181818;
+  border: 2px solid #353535;
+}
+
+
+@media (max-width: 1600px) {
+  .carruselprod-card.glass-modern {
+    margin-top:2rem;
+    width: 90vw;
+    max-width: 400px;
+  }
+ 
+  .carruselprod-price.glass-price {
+    font-size: 1.8rem;
+    padding: 0.2rem 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+}
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .carruselprod-outer {
+    padding: 2rem 0;
+    min-height: 90vh;
+    /* max-height: 90vh; */
+  }
+
+
+
+  .carruselprod-card.glass-modern {
+    width: 95vw;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .swiper-button-prev,.swiper-button-next{
+    display: none; /* Oculta las flechas en pantallas pequeñas */
+  }
+  
+  .carruselprod-img-wrapper.glass-modern-img {
+    height: 220px;
+    
+  }
+
+  .carruselprod-title-overlay.glass-title {
+    font-size: 1.3rem;
+    margin : 0 1.5rem 0 1.5rem;
+  }
+
+  .carruselprod-price.glass-price {
+    font-size: 2rem;
+    padding: 0.2rem 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .carruselprod-desc {
+    font-size: 0.95rem;
+    max-height: none; /* Sin límite de altura */
+    -webkit-line-clamp: unset; /* Sin límite de líneas */
+  }
+}

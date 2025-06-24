@@ -1,0 +1,46 @@
+.admin-home-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: linear-gradient(90deg, #fff 60%, #ededed 100%);
+  color: #181818;
+  border: none;
+  border-radius: 1.7rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.13rem;
+  font-weight: 800;
+  box-shadow: 0 4px 16px #0002, 0 1.5px 8px #35353522;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
+  letter-spacing: 0.5px;
+  outline: none;
+  margin-bottom: 1.2rem;
+  margin-left: 2rem;
+  position: relative;
+  z-index: 10;
+}
+.admin-home-btn:hover,
+.admin-home-btn:focus {
+  background: linear-gradient(90deg, #ededed 0%, #fff 100%);
+  color: #232323;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 32px #0003;
+}
+.admin-home-icon {
+  filter: drop-shadow(0 1px 2px #bdbdbd88);
+}
+.admin-home-label {
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 700px) {
+  .admin-home-btn {
+    padding: 0.6rem 1.1rem;
+    font-size: 1rem;
+  }
+  .admin-home-label {
+    font-size: 0.98rem;
+  }
+}

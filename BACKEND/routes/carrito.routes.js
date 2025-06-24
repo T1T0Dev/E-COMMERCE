@@ -18,7 +18,7 @@ router.post('/', crearCarrito);
 router.put('/:id_carrito/estado', cambiarEstadoCarrito);
 router.post('/item', agregarProductoACarrito);
 router.delete('/item/:id_carrito_detalle', quitarProductoDelCarrito);
-router.get('/fusion', getCarritosPedidosFusion); // <-- PON ESTA ANTES DE LAS RUTAS CON PARAMS
+router.get('/fusion', getCarritosPedidosFusion); 
 router.get('/:id_carrito', verCarrito);
 router.delete('/:id_carrito', eliminarCarrito);
 router.put('/confirmar/:id_carrito', confirmarCarrito);

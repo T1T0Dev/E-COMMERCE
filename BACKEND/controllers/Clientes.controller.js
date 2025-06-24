@@ -10,7 +10,8 @@ export const getClientes = async (req, res) => {
                 nombre,
                 apellido,
                 telefono,
-                direccion
+                direccion,
+                foto_perfil
             FROM clientes
         `);
         res.json(rows);
@@ -36,10 +37,9 @@ export const getClienteById = async (req, res) => {
 
 export const getClienteByUsuarioId = async (req, res) => {
     const { id_usuario } = req.params;
-    console.log("Buscando cliente con id_usuario:", id_usuario);
     try {
         const [rows] = await db.query('SELECT * FROM clientes WHERE id_usuario = ?', [Number(id_usuario)]);
-        console.log("Resultado de la consulta:", rows);
+        
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Cliente no encontrado' });
         }
