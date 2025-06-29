@@ -1,12 +1,49 @@
+<h1 align="center">
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 22 14 11_6d8cfb57](https://github.com/user-attachments/assets/9a252a35-c144-4c33-9912-4216619157de)
+" alt="DREKKZ Logo" width="200"/>
+</h1>
 
-# 🛒 DREKKZ INDUMENTARIA — Proyecto Full Stack
+<h2 align="center">🛍️ DREKKZ INDUMENTARIA — Proyecto Full Stack</h2>
 
-Bienvenido al repositorio privado de **DREKKZ INDUMENTARIA**.
-Este proyecto es una solución integral para la gestión de un e-commerce de indumentaria, desarrollado con **React + Vite** en el frontend y **Node.js + Express + MySQL** en el backend.
+<p align="center">
+  E-commerce de indumentaria con gestión completa de productos, usuarios, pedidos y ventas.
+</p>
+
+<p align="center">
+  <b>React + Vite</b> ⚡ | <b>Node.js + Express</b> 🔗 | <b>MySQL</b> 🛢️
+</p>
 
 ---
 
-## Tabla de Contenidos
+## 📸 Capturas del sistema
+
+<p align="center">
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 41 23_0ee6bb29](https://github.com/user-attachments/assets/5cc3a87b-b104-4b6d-8ec5-be6315cd6b98)" width="700" alt="Landing Page"/>
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 34 45_39a5ad3b](https://github.com/user-attachments/assets/071e84b6-3482-489d-8d1b-dc323cb6b14f)" width="700" alt="Landing Page 2"/>
+  <br><em>Landing page moderna y responsive</em>
+</p>
+
+<p align="center">
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 32 05_df184e0e](https://github.com/user-attachments/assets/3ee760a8-6f4e-49b9-b574-ea99ca9702d1)
+" width="700" alt="Panel Admin"/>
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 31 41_8def6090](https://github.com/user-attachments/assets/eeb95c08-41dc-47e6-af57-699982049c5d)
+" width="700" alt="Panel Admin"/>
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 42 07_78a7774d](https://github.com/user-attachments/assets/8ace6ac1-48dc-49f8-9290-e88e4d62b8c6)
+" width="700" alt="Panel Admin"/>
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 41 50_4d00f3d3](https://github.com/user-attachments/assets/df8ff02a-fd0e-46f1-8779-f91b94cb17ae)
+" width="700" alt="Panel Admin"/>
+  <br><em>Panel de administración con gestión CRUD</em>
+</p>
+
+<p align="center">
+  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 35 47_367d9ca7](https://github.com/user-attachments/assets/1e7f3497-5a30-410c-a008-d42a5ee22594)
+"/>
+  <br><em>Carrito de compras persistente por cliente</em>
+</p>
+
+---
+
+## 📦 Tabla de Contenidos
 - [Descripción General](#descripción-general)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Estructura del Proyecto](#estructura-del-proyecto)
@@ -21,197 +58,40 @@ Este proyecto es una solución integral para la gestión de un e-commerce de ind
 
 ---
 
-## Descripción General
-DREKKZ INDUMENTARIA es una plataforma web para la gestión de productos, carritos, ventas, clientes y administración de un e-commerce de ropa. Incluye un panel de administración, gestión de usuarios, integración con WhatsApp y email, sistema de pedidos y ventas, y una landing page moderna y responsive.
+## 🧾 Descripción General
+
+**DREKKZ INDUMENTARIA** es una plataforma integral para la gestión de un e-commerce de ropa, con funcionalidades avanzadas tanto para el cliente como para el administrador.
+
+Incluye:
+- Un catálogo con categorías y talles.
+- Gestión de carritos, pedidos y ventas.
+- Panel admin seguro con CRUD completo.
+- Landing moderna con contacto vía WhatsApp y email.
+- Diseño responsive y modular.
 
 ---
 
-## Tecnologías Utilizadas
-- **Frontend:** React, Vite, React Router, React Toastify, Swiper, CSS Modules
-- **Backend:** Node.js, Express, MySQL2, CORS, Multer.
-- **Base de Datos:** MySQL
-- **Otros:** Axios, dotenv.
+## ⚙️ Tecnologías Utilizadas
+
+| Capa        | Tecnologías |
+|-------------|-------------|
+| **Frontend** | React, Vite, React Router, Toastify, Swiper, CSS Modules |
+| **Backend**  | Node.js, Express, Multer, CORS, JWT, Bcrypt |
+| **Base de Datos** | MySQL + MySQL2 |
+| **Utilidades** | Axios, dotenv |
 
 ---
 
-## Estructura del Proyecto
-```
+## 🗂️ Estructura del Proyecto
+
+```bash
 TRABAJO-FINAL-PROGRAMACION-III/
 ├── BACKEND/
 │   ├── app.js
-│   ├── index.js
-│   ├── package.json
-│   ├── config/
-│   ├── controllers/
-│   ├── middlewares/
 │   ├── routes/
-│   └── uploads/
+│   ├── controllers/
+│   └── ...
 ├── FRONTEND/
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── public/
-│   └── src/
+│   ├── src/
+│   └── ...
 └── README.md
-```
-
----
-
-## Instalación y Puesta en Marcha
-
-### 1. Clona el repositorio
-```bash
-git clone https://github.com/tuusuario/drekkz-private.git
-cd drekkz-private
-```
-
-### 2. Configura la base de datos
-- Crea una base de datos MySQL llamada `drekkz_db`.
-- Si tienes un archivo `.sql`, impórtalo para cargar el esquema y los datos iniciales.
-
-### 3. Configura el Backend
-```bash
-cd BACKEND
-cp .env.example .env
-npm install
-```
-Edita `.env` con tus credenciales y variables:
-
-| Variable      | Valor de ejemplo      |
-|--------------|----------------------|
-| DB_HOST      | localhost            |
-| DB_USER      | tu_usuario           |
-| DB_PASSWORD  | tu_contraseña        |
-| DB_NAME      | drekkz_db            |
-| PORT         | 3000                 |
-| JWT_SECRET   | tu_clave_secreta     |
-
-Inicia el servidor:
-```bash
-npm run dev
-```
-
-### 4. Configura el Frontend
-```bash
-cd ../FRONTEND
-npm install
-npm run dev
-```
-
----
-
-## Variables de Entorno
-Asegúrate de definir correctamente las variables en el archivo `.env` del backend. No compartas este archivo públicamente.
-
----
-
-## Principales Funcionalidades
-- **Gestión de Productos:** ABM de productos con imágenes, talles y stock (baja lógica activa/inactiva).
-- **Categorías y Talles:** CRUD completo.
-- **Clientes y Usuarios:** Registro, edición y autenticación.
-- **Carrito de Compras:** Carrito persistente, selección de talles/cantidades.
-- **Pedidos y Ventas:** Generación y seguimiento de pedidos, historial de ventas.
-- **Panel de Administración:** Gestión centralizada de recursos (acceso protegido).
-- **Envíos:** Registro y administración de envíos asociados a pedidos.
-- **Notificaciones:** Feedback visual con Toasts.
-- **Responsive:** Interfaz adaptable a móviles y escritorio.
-- **Integración WhatsApp y Email:** Contacto directo vía formulario.
-
----
-
-## Rutas Backend
-| Ruta                | Descripción                        |
-|---------------------|------------------------------------|
-| /api/auth/          | Registro y login de usuarios       |
-| /api/usuarios/      | CRUD usuarios administradores      |
-| /api/clientes/      | CRUD clientes                      |
-| /api/productos/     | CRUD productos                     |
-| /api/categorias/    | CRUD categorías                    |
-| /api/talles/        | CRUD talles                        |
-| /api/carrito/       | Gestión de carritos                |
-| /api/pedidos/       | Gestión de pedidos y ventas        |
-| /api/envios/        | Gestión de envíos                  |
-
----
-
-## Componentes Frontend Destacados
-- **CarritosAdmin.jsx** — Panel de administración de carritos y pedidos
-- **CrudProd.jsx** — Gestión de productos
-- **CategoriasAdmin.jsx** — Gestión de categorías
-- **TallesAdmin.jsx** — Gestión de talles
-- **UsersCrud.jsx** — Gestión de administradores
-- **ClienteCrud.jsx** — Gestión de clientes
-- **VentasCrud.jsx** — Historial y detalle de ventas
-- **Principal.jsx** — Landing page, hero, carrusel de productos, contacto
-- **Carruselprod.jsx** — Carrusel de productos destacados
-- **ModalProd.jsx, ModalSaberMas.jsx, ModalEnvio.jsx** — Modales reutilizables
-
----
-
-## Notas y Recomendaciones
-- Cambia las claves secretas y credenciales en `.env` antes de producción.
-- Usa HTTPS en producción.
-- Sube imágenes/productos a un bucket/CDN si esperas mucho tráfico.
-- Haz backup regular de la base de datos.
-- Ante errores de integridad referencial al eliminar carritos/pedidos, elimina primero los registros hijos (detalle_pedido, historial_ventas, etc.).
-
----
-
-## Equipo de Desarrollo
-| Nombre            | Rol                                 |
-|-------------------|-------------------------------------|
-| Thiago Robles     | Product Owner / Desarrollador       |
-| Jorge Villagra    | Scrum Master / Desarrollador        |
-| Nicolas Gonzalez  | Desarrollador                       |
-| Tomas Jerez       | Desarrollador                       |
-
----
-
-## Licencia
-Proyecto privado y para uso exclusivo de DREKKZ INDUMENTARIA.
-Para uso comercial, educativo o distribución, contacta al autor.
-
-<<<<<<< HEAD
-<p align="center"> <b>¡Gracias por visitar este repositorio!</b><br> <em>¿Dudas o sugerencias? No dudes en contactarnos.</em> </p> ```
-=======
-# DREKKZ INDUMENTARIA
-
-Sistema integral para la gestión y venta de indumentaria, desarrollado en **React** (frontend) y **Node.js/Express** (backend) con base de datos **MySQL**.
-
----
-
-## Tabla de Contenidos
-
-- [Descripción General](#descripción-general)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalación y Puesta en Marcha](#instalación-y-puesta-en-marcha)
-- [Variables de Entorno](#variables-de-entorno)
-- [Principales Funcionalidades](#principales-funcionalidades)
-- [Rutas Backend](#rutas-backend)
-- [Componentes Frontend Destacados](#componentes-frontend-destacados)
-- [Notas y Recomendaciones](#notas-y-recomendaciones)
-- [Licencia](#licencia)
-
----
-
-## Descripción General
-
-DREKKZ INDUMENTARIA es una plataforma web para la gestión de productos, carritos, ventas, clientes y administración de un e-commerce de ropa. Incluye un panel de administración, gestión de usuarios, integración con WhatsApp, sistema de pedidos y ventas, y una landing page moderna y responsive.
-
----
-
-## Tecnologías Utilizadas
-
-- **Frontend:** React, Vite, React Router, React Toastify, Swiper, CSS Modules
-- **Backend:** Node.js, Express, MySQL2, CORS, Multer
-- **Base de Datos:** MySQL
-- **Otros:** Axios, dotenv, bcryptjs, jsonwebtoken
-
----
-
-## Estructura del Proyecto
->>>>>>> 6312ef8df8499343cb5ccecb3aa2200e7c38a882
-=======
-<p align="center"> <b>¡Gracias por visitar este repositorio!</b><br> <em>¿Dudas o sugerencias? No dudes en contactarnos.</em> </p>
->>>>>>> ebe17461e6c48666855c41da9e4a5f3a280a7568
