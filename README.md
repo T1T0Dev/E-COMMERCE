@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 22 14 11_6d8cfb57](https://github.com/user-attachments/assets/9a252a35-c144-4c33-9912-4216619157de)
+  <img src="![Logo](https://github.com/user-attachments/assets/73d3ed12-aa8b-4631-9758-7aeb96a3e160)
 " alt="DREKKZ Logo" width="200"/>
 </h1>
 
@@ -18,25 +18,29 @@
 ## 📸 Capturas del sistema
 
 <p align="center">
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 41 23_0ee6bb29](https://github.com/user-attachments/assets/5cc3a87b-b104-4b6d-8ec5-be6315cd6b98)" width="700" alt="Landing Page"/>
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 34 45_39a5ad3b](https://github.com/user-attachments/assets/071e84b6-3482-489d-8d1b-dc323cb6b14f)" width="700" alt="Landing Page 2"/>
+  <img src="![Landing](https://github.com/user-attachments/assets/7f96bb2f-463c-4f92-8234-3b8972c64dd0)
+" width="700" alt="Landing Page"/>
+  <img src="![Carrusel](https://github.com/user-attachments/assets/649a3a2b-abc3-4c86-aef3-26c2c654ec43)
+" width="700" alt="Landing Page 2"/>
   <br><em>Landing page moderna y responsive</em>
 </p>
 
 <p align="center">
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 32 05_df184e0e](https://github.com/user-attachments/assets/3ee760a8-6f4e-49b9-b574-ea99ca9702d1)
+
+  <img src="![Crud_Productos](https://github.com/user-attachments/assets/6558480c-9ccb-44a2-862c-50c55d0ecc27)
 " width="700" alt="Panel Admin"/>
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 31 41_8def6090](https://github.com/user-attachments/assets/eeb95c08-41dc-47e6-af57-699982049c5d)
+  <img src="![Crud_Productos2](https://github.com/user-attachments/assets/f2e7acb4-b7e4-404c-8fbe-9319101da6b5)
 " width="700" alt="Panel Admin"/>
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 42 07_78a7774d](https://github.com/user-attachments/assets/8ace6ac1-48dc-49f8-9290-e88e4d62b8c6)
+  <img src="![Cruds_Admin](https://github.com/user-attachments/assets/1c2d322a-60e6-4ad1-a69c-9ce25e43ca1d)
 " width="700" alt="Panel Admin"/>
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 41 50_4d00f3d3](https://github.com/user-attachments/assets/df8ff02a-fd0e-46f1-8779-f91b94cb17ae)
-" width="700" alt="Panel Admin"/>
+
+
   <br><em>Panel de administración con gestión CRUD</em>
 </p>
 
 <p align="center">
-  <img src="![Imagen de WhatsApp 2025-06-28 a las 21 35 47_367d9ca7](https://github.com/user-attachments/assets/1e7f3497-5a30-410c-a008-d42a5ee22594)
+  <img src="![Catalogo_Carrito](https://github.com/user-attachments/assets/276129a6-4fee-4546-a722-facfe3e89ac7)
+
 "/>
   <br><em>Carrito de compras persistente por cliente</em>
 </p>
