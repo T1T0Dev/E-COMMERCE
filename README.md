@@ -1,6 +1,6 @@
 <h1 align="center">
-  <img src="![Logo](https://github.com/user-attachments/assets/73d3ed12-aa8b-4631-9758-7aeb96a3e160)
-" alt="DREKKZ Logo" width="200"/>
+ ![Logo](https://github.com/user-attachments/assets/42cb50d1-d5a1-40e4-a4dc-c62d306f92c4)
+
 </h1>
 
 <h2 align="center">🛍️ DREKKZ INDUMENTARIA — Proyecto Full Stack</h2>
@@ -18,28 +18,20 @@
 ## 📸 Capturas del sistema
 
 <p align="center">
-  <img src="![Landing](https://github.com/user-attachments/assets/7f96bb2f-463c-4f92-8234-3b8972c64dd0)
-" width="700" alt="Landing Page"/>
-  <img src="![Carrusel](https://github.com/user-attachments/assets/649a3a2b-abc3-4c86-aef3-26c2c654ec43)
-" width="700" alt="Landing Page 2"/>
+ 
   <br><em>Landing page moderna y responsive</em>
 </p>
 
 <p align="center">
 
-  <img src="![Crud_Productos](https://github.com/user-attachments/assets/6558480c-9ccb-44a2-862c-50c55d0ecc27)
-" width="700" alt="Panel Admin"/>
-  <img src="![Crud_Productos2](https://github.com/user-attachments/assets/f2e7acb4-b7e4-404c-8fbe-9319101da6b5)
-" width="700" alt="Panel Admin"/>
-  <img src="![Cruds_Admin](https://github.com/user-attachments/assets/1c2d322a-60e6-4ad1-a69c-9ce25e43ca1d)
-" width="700" alt="Panel Admin"/>
+
 
 
   <br><em>Panel de administración con gestión CRUD</em>
 </p>
 
 <p align="center">
-  <img src="![Catalogo_Carrito](https://github.com/user-attachments/assets/276129a6-4fee-4546-a722-facfe3e89ac7)
+
 
 "/>
   <br><em>Carrito de compras persistente por cliente</em>
