@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ebe17461e6c48666855c41da9e4a5f3a280a7568
+
 # 🛒 DREKKZ INDUMENTARIA — Proyecto Full Stack
 
 Bienvenido al repositorio privado de **DREKKZ INDUMENTARIA**.
