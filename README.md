@@ -1,6 +1,5 @@
 <h1 align="center">
- ![Logo](https://github.com/user-attachments/assets/42cb50d1-d5a1-40e4-a4dc-c62d306f92c4)
-
+  <img src="https://github.com/user-attachments/assets/42cb50d1-d5a1-40e4-a4dc-c62d306f92c4" alt="Logo DREKKZ" width="200"/>
 </h1>
 
 <h2 align="center">🛍️ DREKKZ INDUMENTARIA — Proyecto Full Stack</h2>
@@ -17,40 +16,37 @@
 
 ## 📸 Capturas del sistema
 
-<p align="center">
- 
-  <br><em>Landing page moderna y responsive</em>
-</p>
+### 🧷 Landing y catálogo
 
-<p align="center">
+![Landing Page](https://github.com/user-attachments/assets/55faeec4-6815-450f-8040-89a6a91689d6)
+![Login](https://github.com/user-attachments/assets/2cd31cb2-be5e-4c53-bfd9-af81bd87c354)
+![Carrusel de Productos](https://github.com/user-attachments/assets/a1967ce3-5d3a-42c8-8550-32b706e0a381)
+![Catálogo y Carrito](https://github.com/user-attachments/assets/0753e8b5-a897-4cd9-979a-b4ad75492279)
 
+---
 
+### 🔧 Panel de Administración y CRUDs
 
-
-  <br><em>Panel de administración con gestión CRUD</em>
-</p>
-
-<p align="center">
-
-
-"/>
-  <br><em>Carrito de compras persistente por cliente</em>
-</p>
+![CRUDs Admin](https://github.com/user-attachments/assets/b4bd10ee-6b33-4f29-82d7-ea1d9982dc42)
+![Carrito Admin](https://github.com/user-attachments/assets/465c9bb5-9958-47f5-897f-624dd87b8f21)
+![Ver Carrito Detalle](https://github.com/user-attachments/assets/8ad29da8-be50-4e72-9c9e-d461cd81a13c)
+![CRUD Productos](https://github.com/user-attachments/assets/ea45517b-7c6c-45ed-8530-f266f29d8dd8)
+![CRUD Productos 2](https://github.com/user-attachments/assets/e2f18723-b691-4812-9455-f005f1c93bc9)
 
 ---
 
 ## 📦 Tabla de Contenidos
-- [Descripción General](#descripción-general)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalación y Puesta en Marcha](#instalación-y-puesta-en-marcha)
-- [Variables de Entorno](#variables-de-entorno)
-- [Principales Funcionalidades](#principales-funcionalidades)
-- [Rutas Backend](#rutas-backend)
-- [Componentes Frontend Destacados](#componentes-frontend-destacados)
-- [Notas y Recomendaciones](#notas-y-recomendaciones)
-- [Equipo de Desarrollo](#equipo-de-desarrollo)
-- [Licencia](#licencia)
+- [Descripción General](#🧾-descripción-general)
+- [Tecnologías Utilizadas](#⚙️-tecnologías-utilizadas)
+- [Estructura del Proyecto](#🗂️-estructura-del-proyecto)
+- [Instalación y Puesta en Marcha](#🚀-instalación-y-puesta-en-marcha)
+- [Variables de Entorno](#🔐-variables-de-entorno)
+- [Principales Funcionalidades](#🧩-principales-funcionalidades)
+- [Rutas Backend](#🔁-rutas-backend)
+- [Componentes Frontend Destacados](#🧱-componentes-frontend-destacados)
+- [Notas y Recomendaciones](#📎-notas-y-recomendaciones)
+- [Equipo de Desarrollo](#👨‍💻-equipo-de-desarrollo)
+- [Licencia](#📄-licencia)
 
 ---
 
